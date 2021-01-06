@@ -177,6 +177,12 @@ int mouse_enter(int x, int y, void *params)
     printf("Position: [X: %i, Y: %i]\n", x, y);
 }
 
+int render_next_frame(t_data *img)
+{
+    static int count = 0;
+    printf("Frame number: %i\n", ++count);
+}
+
 int             main(int argc, char *argv[])
 {
     (void)argc;
