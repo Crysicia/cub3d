@@ -1,5 +1,5 @@
 CC			= gcc
-CFLAGS 		= -g
+CFLAGS 		= -g -Wall #-Werror -Wextra
 RM 			= rm -f
 NAME 		= test
 HEADERS 	= includes

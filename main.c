@@ -23,6 +23,13 @@
 #define RED 0x00FF0000
 
 #define TILE_SIZE 40
+#define NUM_RAYS 320
+#define FOV 60 * (M_PI / 180)
+
+typedef struct s_ray
+{
+	double angle;
+}				t_ray;
 
 typedef struct s_player
 {
@@ -56,7 +63,7 @@ typedef struct	s_game
 	t_data		img;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
-	int			current_key;
+	t_ray rays[NUM_RAYS];
 }				t_game;
 
 int max(int a, int b)
@@ -198,7 +205,6 @@ void init(t_game *game)
 		&game->img.line_length, &game->img.endian);
 	game->player.x = SCREEN_WIDTH / 2;
 	game->player.y = SCREEN_WIDTH / 2;
-	game->current_key = 0;
 	init_map(game);
 	init_player(game);
 }
@@ -232,6 +238,40 @@ int draw_player(t_game *game)
 		game->player.y + sin(game->player.facing_angle) * 20);
 }
 
+void cast_rays(t_game *game)
+{
+	int i;
+	float angle;
+
+	i = 0;
+	angle = game->player.facing_angle - (FOV / 2);
+	while (i < NUM_RAYS)
+	{
+		game->rays[i].angle = angle;
+		angle += FOV / NUM_RAYS;
+		i++;
+	}
+}
+
+void render_rays(t_game *game)
+{
+	int i;
+
+	i = 0;
+	while (i < NUM_RAYS)
+	{
+		draw_line(
+			&game->img,
+			0x000000FF,
+			game->player.x,
+			game->player.y,
+			game->player.x + cos(game->rays[i].angle) * 30,
+			game->player.y + sin(game->rays[i].angle) * 30
+		);
+		i++;
+	}
+}
+
 int will_collide(t_game *game)
 {
 	int x;
@@ -257,7 +297,9 @@ int main_loop(t_game *game)
 		game->player.x += cos(game->player.facing_angle) * hypotenus;
 		game->player.y += sin(game->player.facing_angle) * hypotenus;
 	}
+	cast_rays(game);
 	draw_map(game);
+	render_rays(game);
 	draw_player(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 }
