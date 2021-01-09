@@ -17,6 +17,24 @@
 #define MAP_WIDTH 10
 #define MAP_HEIGHT 10
 
+#define WHITE 0x00FFFFFF
+#define BLACK 0x00000000
+#define GREEN 0x0000FF00
+#define RED 0x00FF0000
+
+#define TILE_SIZE 40
+
+typedef struct s_player
+{
+	float x;
+	float y;
+	int current_direction;
+	int current_rotation;
+	double facing_angle;
+	double move_speed;
+	double rotate_speed;
+}			t_player;
+
 typedef struct  s_pos
 {
 	int x;
@@ -37,7 +55,7 @@ typedef struct	s_game
 	void		*win;
 	t_data		img;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
-	t_pos		player;
+	t_player	player;
 	int			current_key;
 }				t_game;
 
@@ -59,6 +77,42 @@ void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
+void draw_octants(t_data *img, int xc, int yc, int x, int y)
+{
+	my_mlx_pixel_put(img, xc+x, yc+y, RED); 
+    my_mlx_pixel_put(img, xc-x, yc+y, RED); 
+    my_mlx_pixel_put(img, xc+x, yc-y, RED); 
+    my_mlx_pixel_put(img, xc-x, yc-y, RED); 
+    my_mlx_pixel_put(img, xc+y, yc+x, RED); 
+    my_mlx_pixel_put(img, xc-y, yc+x, RED);
+    my_mlx_pixel_put(img, xc+y, yc-x, RED);
+    my_mlx_pixel_put(img, xc-y, yc-x, RED);
+}
+
+void draw_circle(t_data *img, int radius, int xc, int yc)
+{
+	int x;
+	int y;
+	int delta;
+
+	x = 0;
+	y = radius;
+	delta = 3 - 2 * radius; 
+	draw_octants(img, xc, yc, x, y); 
+	while (y >= x) 
+	{
+		x++; 
+		if (delta > 0) 
+		{ 
+			y--;  
+			delta = delta + 4 * (x - y) + 10; 
+		} 
+		else
+			delta = delta + 4 * x + 6; 
+		draw_octants(img, xc, yc, x, y); 
+	}
+}
+
 void draw_square(t_data *img, int color, int size, int x, int y)
 {
 	int i = 0;
@@ -68,7 +122,10 @@ void draw_square(t_data *img, int color, int size, int x, int y)
 		j = 0;
 		while (j <= size)
 		{
-			my_mlx_pixel_put(img, x + i, y + j, color);
+			if (i == 0 || i == size || j== 0 || j == size)
+				my_mlx_pixel_put(img, x + i, y + j, BLACK);
+			else
+				my_mlx_pixel_put(img, x + i, y + j, color);
 			j++;
 		}
 		i++;
@@ -76,7 +133,7 @@ void draw_square(t_data *img, int color, int size, int x, int y)
 }
 
 
-void draw_line(t_data *img, int x0, int y0, int x1, int y1)
+void draw_line(t_data *img, int color, int x0, int y0, int x1, int y1)
 {
 	int dx;
 	int dy;
@@ -97,7 +154,7 @@ void draw_line(t_data *img, int x0, int y0, int x1, int y1)
 	i = 0;
 	while (i <= steps)
 	{
-		my_mlx_pixel_put(img, x, y, 0x00FFFFFF);
+		my_mlx_pixel_put(img, x, y, color);
 		x += x_inc;
 		y += y_inc;
 		i++;
@@ -110,15 +167,26 @@ void init_map(t_game *game)
 		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
 		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '1', '0', '0', '1', '0', '1', '0', '1'},
-		{'1', '0', '1', '0', '0', '1', '0', '1', '0', '1'},
-		{'1', '0', '1', '0', '0', '1', '0', '1', '0', '1'},
-		{'1', '0', '1', '0', '0', '1', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '1', '1'},
 		{'1', '0', '1', '1', '0', '1', '1', '1', '0', '1'},
 		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
 	};
 	memcpy(game->map, map, sizeof(char) * MAP_WIDTH * MAP_HEIGHT);
+}
+
+void init_player(t_game *game)
+{
+	game->player.x = 200;
+	game->player.y = 200;
+	game->player.current_direction = 0;
+	game->player.current_rotation = 0;
+	game->player.facing_angle = M_PI / 2;
+	game->player.move_speed = 2.0;
+	game->player.rotate_speed = 2 * (M_PI / 180); 
 }
 
 void init(t_game *game)
@@ -132,6 +200,7 @@ void init(t_game *game)
 	game->player.y = SCREEN_WIDTH / 2;
 	game->current_key = 0;
 	init_map(game);
+	init_player(game);
 }
 
 int draw_map(t_game *game)
@@ -146,8 +215,8 @@ int draw_map(t_game *game)
 		y = 0;
 		while (y < 10)
 		{
-			color = (game->map[x][y] == '1') ? 0x00FFFFFF : 0x00000000;
-			draw_square(&game->img, color, SCREEN_WIDTH / MAP_WIDTH, y * (SCREEN_WIDTH / MAP_WIDTH), x * (SCREEN_HEIGHT / MAP_HEIGHT));
+			color = (game->map[x][y] == '1') ? BLACK : WHITE;
+			draw_square(&game->img, color, TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE);
 			y++;
 		}
 		x++;
@@ -156,28 +225,38 @@ int draw_map(t_game *game)
 
 int draw_player(t_game *game)
 {
-	draw_square(&game->img, 0x00FF0000, 15, game->player.x, game->player.y);
+	draw_circle(&game->img, 10, game->player.x, game->player.y);
+	draw_line(&game->img, 0x0000FF00, game->player.x,
+		game->player.y,
+		game->player.x + cos(game->player.facing_angle) * 20,
+		game->player.y + sin(game->player.facing_angle) * 20);
 }
 
-void move_player(t_game *game, int x, int y)
+int will_collide(t_game *game)
 {
-	if (game->map[x / (SCREEN_WIDTH / MAP_WIDTH)][y / (SCREEN_HEIGHT / MAP_HEIGHT)] == '0')
-	{
-		game->player.x = x;
-		game->player.y = y;
-	}
+	int x;
+	int y;
+	int hypotenus;
+
+	hypotenus = game->player.current_direction * game->player.move_speed;
+	x = game->player.x + cos(game->player.facing_angle) * hypotenus;
+	y = game->player.y + sin(game->player.facing_angle) * hypotenus;
+	if (game->map[(int)floor(y / TILE_SIZE)][(int)floor(x / TILE_SIZE)] == '1')
+		return (1);
+	return (0);
 }
 
 int main_loop(t_game *game)
 {
-	if (game->current_key == UP)
-		move_player(game, game->player.x, game->player.y - 1);
-	else if (game->current_key == DOWN)
-		move_player(game, game->player.x, game->player.y + 1);
-	else if (game->current_key == RIGHT)
-		game->player.x--;
-	else if (game->current_key == LEFT)
-		game->player.x++;
+	int hypotenus;
+
+	game->player.facing_angle += game->player.current_rotation * game->player.rotate_speed;
+	hypotenus = game->player.current_direction * game->player.move_speed;
+	if (!will_collide(game))
+	{
+		game->player.x += cos(game->player.facing_angle) * hypotenus;
+		game->player.y += sin(game->player.facing_angle) * hypotenus;
+	}
 	draw_map(game);
 	draw_player(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
@@ -185,7 +264,14 @@ int main_loop(t_game *game)
 
 int key_released(int keycode, t_game *game)
 {
-	game->current_key = 0;
+	if (keycode == UP)
+		game->player.current_direction = 0;
+	else if (keycode == DOWN)
+		game->player.current_direction = 0;
+	else if (keycode == RIGHT)
+		game->player.current_rotation = 0;
+	else if (keycode == LEFT)
+		game->player.current_rotation = 0;
 }
 
 int key_pressed(int keycode, t_game *game)
@@ -198,8 +284,16 @@ int key_pressed(int keycode, t_game *game)
 		free(game->mlx);
 		exit(0);
 	}
+	else if (keycode == UP)
+		game->player.current_direction = 1;
+	else if (keycode == DOWN)
+		game->player.current_direction = -1;
+	else if (keycode == RIGHT)
+		game->player.current_rotation = 1;
+	else if (keycode == LEFT)
+		game->player.current_rotation = -1;
 	else
-		game->current_key = keycode;
+		printf("Angle: %f\n", game->player.facing_angle);
 }
 
 int             main(int argc, char *argv[])
