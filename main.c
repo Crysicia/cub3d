@@ -23,11 +23,14 @@
 #define RED 0x00FF0000
 
 #define TILE_SIZE 40
-#define NUM_RAYS 320
+#define NUM_RAYS 1
 #define FOV 60 * (M_PI / 180)
 
 typedef struct s_ray
 {
+	float length;
+	float wall_x;
+	float wall_y;
 	double angle;
 }				t_ray;
 
@@ -65,6 +68,19 @@ typedef struct	s_game
 	t_player	player;
 	t_ray rays[NUM_RAYS];
 }				t_game;
+
+double normalize_angle(double angle)
+{
+	angle = fmod(angle, 2 * M_PI);
+	if (angle < 0)
+		angle += 2 * M_PI;
+	return (angle);
+}
+
+int pixel2coord(double n)
+{
+	return (floor(n / TILE_SIZE));
+}
 
 int max(int a, int b)
 {
@@ -193,7 +209,7 @@ void init_player(t_game *game)
 	game->player.current_rotation = 0;
 	game->player.facing_angle = M_PI / 2;
 	game->player.move_speed = 2.0;
-	game->player.rotate_speed = 2 * (M_PI / 180); 
+	game->player.rotate_speed = 0.4 * (M_PI / 180); 
 }
 
 void init(t_game *game)
@@ -238,6 +254,57 @@ int draw_player(t_game *game)
 		game->player.y + sin(game->player.facing_angle) * 20);
 }
 
+int ray_vertical_direction(t_ray *ray)
+{
+	if (ray->angle > 0 && ray->angle < M_PI)
+		return (DOWN);
+	return (UP);
+}
+
+int ray_horizontal_direction(t_ray *ray)
+{
+	if (ray->angle < 0.5 * M_PI || ray->angle > 1.5 * M_PI)
+		return (RIGHT);
+	return (LEFT);
+}
+
+void print_ray(t_ray *ray)
+{
+	int ver;
+	int hor;
+
+	ver = ray_vertical_direction(ray);
+	hor = ray_horizontal_direction(ray);
+	printf("Ray direction: ");
+	if (ver == DOWN)
+		printf("DOWN ");
+	else if (ver == UP)
+		printf("UP ");
+	if (hor == RIGHT)
+		printf("RIGHT\n");
+	else if (hor == LEFT)
+		printf("LEFT\n");
+}
+
+void cast_ray(t_game *game, t_ray *ray)
+{
+	int x_intercept;
+	int y_intercept;
+	int x_step;
+	int y_step;
+
+	y_intercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
+	y_intercept += ray_vertical_direction(ray) == DOWN ? TILE_SIZE : 0;
+	x_intercept = game->player.x + (game->player.y - y_intercept) / tan(ray->angle);
+
+	y_step = TILE_SIZE;
+	y_step *= ray_vertical_direction(ray) == UP ? -1 : 1;
+	x_step = TILE_SIZE / tan(ray->angle);
+	x_step *= (ray_horizontal_direction(ray) == LEFT && x_step > 0) ? -1 : 1;
+	x_step *= (ray_horizontal_direction(ray) == RIGHT && x_step < 0) ? -1 : 1;
+	print_ray(ray);
+}
+
 void cast_rays(t_game *game)
 {
 	int i;
@@ -248,6 +315,7 @@ void cast_rays(t_game *game)
 	while (i < NUM_RAYS)
 	{
 		game->rays[i].angle = angle;
+		cast_ray(game, &game->rays[i]);
 		angle += FOV / NUM_RAYS;
 		i++;
 	}
@@ -281,7 +349,7 @@ int will_collide(t_game *game)
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	x = game->player.x + cos(game->player.facing_angle) * hypotenus;
 	y = game->player.y + sin(game->player.facing_angle) * hypotenus;
-	if (game->map[(int)floor(y / TILE_SIZE)][(int)floor(x / TILE_SIZE)] == '1')
+	if (game->map[pixel2coord(y)][pixel2coord(x)] == '1')
 		return (1);
 	return (0);
 }
@@ -290,7 +358,7 @@ int main_loop(t_game *game)
 {
 	int hypotenus;
 
-	game->player.facing_angle = fmod(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed, 2 * M_PI);
+	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	if (!will_collide(game))
 	{
