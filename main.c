@@ -23,7 +23,7 @@
 #define RED 0x00FF0000
 
 #define TILE_SIZE 40
-#define NUM_RAYS 1
+#define NUM_RAYS 320
 #define FOV 60 * (M_PI / 180)
 
 typedef struct s_ray
@@ -288,21 +288,39 @@ void print_ray(t_ray *ray)
 
 void cast_ray(t_game *game, t_ray *ray)
 {
-	int x_intercept;
-	int y_intercept;
-	int x_step;
-	int y_step;
+	float x_intercept;
+	float y_intercept;
+	float x_step;
+	float y_step;
 
 	y_intercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
 	y_intercept += ray_vertical_direction(ray) == DOWN ? TILE_SIZE : 0;
-	x_intercept = game->player.x + (game->player.y - y_intercept) / tan(ray->angle);
+	x_intercept = game->player.x + (y_intercept - game->player.y) / tan(ray->angle);
 
 	y_step = TILE_SIZE;
 	y_step *= ray_vertical_direction(ray) == UP ? -1 : 1;
 	x_step = TILE_SIZE / tan(ray->angle);
 	x_step *= (ray_horizontal_direction(ray) == LEFT && x_step > 0) ? -1 : 1;
 	x_step *= (ray_horizontal_direction(ray) == RIGHT && x_step < 0) ? -1 : 1;
-	print_ray(ray);
+	// print_ray(ray);
+
+	if (ray_vertical_direction(ray) == UP)
+		y_intercept--;
+
+	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
+	{
+		if (game->map[pixel2coord(y_intercept)][pixel2coord(x_intercept)] == '1')
+		{
+			ray->wall_x = x_intercept;
+			ray->wall_y = y_intercept;
+			break;
+		}
+		else
+		{
+			x_intercept += x_step;
+			y_intercept += y_step;
+		}
+	}
 }
 
 void cast_rays(t_game *game)
@@ -328,13 +346,21 @@ void render_rays(t_game *game)
 	i = 0;
 	while (i < NUM_RAYS)
 	{
+		// draw_line(
+		// 	&game->img,
+		// 	0x000000FF,
+		// 	game->player.x,
+		// 	game->player.y,
+		// 	game->player.x + cos(game->rays[i].angle) * 30,
+		// 	game->player.y + sin(game->rays[i].angle) * 30
+		// );
 		draw_line(
 			&game->img,
 			0x000000FF,
 			game->player.x,
 			game->player.y,
-			game->player.x + cos(game->rays[i].angle) * 30,
-			game->player.y + sin(game->rays[i].angle) * 30
+			game->rays[i].wall_x,
+			game->rays[i].wall_y
 		);
 		i++;
 	}
