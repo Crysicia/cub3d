@@ -3,6 +3,8 @@ CFLAGS 		= -g -Wall #-Werror -Wextra
 RM 			= rm -f
 NAME 		= test
 HEADERS 	= includes
+LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm
+MLX = libmlx.a
 
 SRCS 		= main.c
 OBJS 		= $(SRCS:.c=.o)
@@ -10,10 +12,13 @@ OBJS 		= $(SRCS:.c=.o)
 all: $(NAME)
 
 .c.o:
-	$(CC) $(CFLAGS) -I $(HEADERS) -I/usr/include -Imlx_linux -c $< -o $@
+	$(CC) $(CFLAGS) -I $(HEADERS) -c $< -o $@
 
-$(NAME): $(OBJS)
-	$(CC) $(OBJS) -Lmlx -lmlx -L/usr/lib -Imlx_linux -lXext -lX11 -lm -o $(NAME)
+$(NAME): $(MLX) $(OBJS)
+	$(CC) $(OBJS) $(LIBS) -o $(NAME)
+
+$(MLX):
+	@$(MAKE) -C mlx
 
 clean:
 	$(RM) $(OBJS)

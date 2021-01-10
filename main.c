@@ -1,4 +1,4 @@
-#include <mlx.h>
+#include "mlx/mlx.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -290,7 +290,7 @@ int main_loop(t_game *game)
 {
 	int hypotenus;
 
-	game->player.facing_angle += game->player.current_rotation * game->player.rotate_speed;
+	game->player.facing_angle = fmod(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed, 2 * M_PI);
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	if (!will_collide(game))
 	{
