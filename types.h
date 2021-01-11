@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/11 13:54:51 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/11 17:43:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #define RED 0x00FF0000
 
 #define TILE_SIZE 40
-#define NUM_RAYS 42
+#define NUM_RAYS 1
 #define FOV 60 * (M_PI / 180)
 
 typedef struct s_ray

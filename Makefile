@@ -2,7 +2,7 @@ CC			= gcc
 CFLAGS 		= -g -Wall #-Werror -Wextra
 RM 			= rm -f
 NAME 		= test
-HEADERS 	= includes
+HEADERS 	= .
 LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm
 MLX = libmlx.a
 

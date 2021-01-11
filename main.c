@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <float.h>
 #include <X11/X.h>
 
 #include "shapes.h"
@@ -31,7 +32,7 @@ void init_map(t_game *game)
 		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
 		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
 		{'1', '0', '1', '0', '0', '0', '0', '1', '1', '1'},
-		{'1', '0', '1', '1', '0', '1', '1', '1', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '1', '1', '0', '1'},
 		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
 		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
 	};
@@ -40,13 +41,14 @@ void init_map(t_game *game)
 
 void init_player(t_game *game)
 {
-	game->player.x = 200;
-	game->player.y = 200;
+	game->player.x = 313;
+	game->player.y = 343;
 	game->player.current_direction = 0;
 	game->player.current_rotation = 0;
-	game->player.facing_angle = M_PI / 2;
-	game->player.move_speed = 2.0;
-	game->player.rotate_speed = 0.4 * (M_PI / 180); 
+	game->player.facing_angle = 3;
+	// game->player.facing_angle = M_PI / 2;
+	game->player.move_speed = 1.2;
+	game->player.rotate_speed = 0.3 * (M_PI / 180); 
 }
 
 void init(t_game *game)
@@ -121,8 +123,8 @@ void print_ray(t_ray *ray)
 		printf("RIGHT\n");
 	else if (hor == LEFT)
 		printf("LEFT\n");
-	printf("Ray X: %i\n", ray->wall_x);
-	printf("Ray Y: %i\n", ray->wall_y);
+	printf("Ray X: %f\n", ray->wall_x);
+	printf("Ray Y: %f\n", ray->wall_y);
 }
 
 float line_len(int x0, int y0, int x1, int y1)
@@ -137,8 +139,8 @@ void cast_ray(t_game *game, t_ray *ray)
 	float x_step;
 	float y_step;
 
-	ray->wall_x = 400;
-	ray->wall_y = 400;
+	ray->wall_x = FLT_MAX;
+	ray->wall_y = FLT_MAX;
 	////////////////
 	// HORIZONTAL //
 	///////////////
@@ -151,14 +153,10 @@ void cast_ray(t_game *game, t_ray *ray)
 	x_step = TILE_SIZE / tan(ray->angle);
 	x_step *= (ray_horizontal_direction(ray) == LEFT && x_step > 0) ? -1 : 1;
 	x_step *= (ray_horizontal_direction(ray) == RIGHT && x_step < 0) ? -1 : 1;
-	// print_ray(ray);
-
-	if (ray_vertical_direction(ray) == UP)
-		y_intercept--;
 
 	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
 	{
-		if (game->map[pixel2coord(y_intercept)][pixel2coord(x_intercept)] == '1')
+		if (game->map[pixel2coord(y_intercept - (ray_vertical_direction(ray) == UP))][pixel2coord(x_intercept)] == '1')
 		{
 			ray->wall_x = x_intercept;
 			ray->wall_y = y_intercept;
@@ -188,13 +186,10 @@ void cast_ray(t_game *game, t_ray *ray)
 	y_step = TILE_SIZE * tan(ray->angle);
 	y_step *= (ray_vertical_direction(ray) == UP && y_step > 0) ? -1 : 1;
 	y_step *= (ray_vertical_direction(ray) == DOWN && y_step < 0) ? -1 : 1;
-	// print_ray(ray);
 
-	if (ray_horizontal_direction(ray) == LEFT)
-		x_intercept--;
 	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
 	{
-		if (game->map[pixel2coord(y_intercept)][pixel2coord(x_intercept)] == '1')
+		if (game->map[pixel2coord(y_intercept)][pixel2coord(x_intercept - (ray_horizontal_direction(ray) == LEFT))] == '1')
 		{
 			if (line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y) >
 				line_len(game->player.x, game->player.y, x_intercept, y_intercept))
@@ -210,6 +205,7 @@ void cast_ray(t_game *game, t_ray *ray)
 			y_intercept += y_step;
 		}
 	}
+	// print_ray(ray);
 }
 
 void cast_rays(t_game *game)
@@ -273,7 +269,7 @@ int main_loop(t_game *game)
 {
 	int hypotenus;
 
-	game->player.facing_angle = game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed;
+	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	if (!will_collide(game))
 	{
@@ -285,6 +281,10 @@ int main_loop(t_game *game)
 	render_rays(game);
 	draw_player(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
+
+	char buffer[400];
+	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.x, game->player.y, game->player.facing_angle);
+	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
 }
 
 int key_released(int keycode, t_game *game)
@@ -297,6 +297,18 @@ int key_released(int keycode, t_game *game)
 		game->player.current_rotation = 0;
 	else if (keycode == LEFT)
 		game->player.current_rotation = 0;
+}
+
+void print_infos(t_game *game)
+{
+	int i;
+
+	i = 0;
+	while (i < NUM_RAYS)
+	{
+		printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle);
+		i++;
+	}
 }
 
 int key_pressed(int keycode, t_game *game)
@@ -317,8 +329,10 @@ int key_pressed(int keycode, t_game *game)
 		game->player.current_rotation = 1;
 	else if (keycode == LEFT)
 		game->player.current_rotation = -1;
-	else
+	else if (keycode == 'a')
 		printf("Angle: %f\n", game->player.facing_angle);
+	else
+		print_infos(game);
 }
 
 int             main(int argc, char *argv[])
