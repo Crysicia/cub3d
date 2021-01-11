@@ -6,7 +6,9 @@ HEADERS 	= includes
 LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm
 MLX = libmlx.a
 
-SRCS 		= main.c
+SRCS 		= main.c \
+			  shapes.c \
+			  ft_math.c
 OBJS 		= $(SRCS:.c=.o)
 
 all: $(NAME)

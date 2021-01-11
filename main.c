@@ -3,71 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <X11/X.h>
 
-#define UP 65362
-#define DOWN 65364
-#define RIGHT 65361
-#define LEFT 65363
-#define ESC 65307
-
-#define SCREEN_WIDTH 400
-#define SCREEN_HEIGHT 400
-
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 10
-
-#define WHITE 0x00FFFFFF
-#define BLACK 0x00000000
-#define GREEN 0x0000FF00
-#define RED 0x00FF0000
-
-#define TILE_SIZE 40
-#define NUM_RAYS 320
-#define FOV 60 * (M_PI / 180)
-
-typedef struct s_ray
-{
-	float length;
-	float wall_x;
-	float wall_y;
-	double angle;
-}				t_ray;
-
-typedef struct s_player
-{
-	float x;
-	float y;
-	int current_direction;
-	int current_rotation;
-	double facing_angle;
-	double move_speed;
-	double rotate_speed;
-}			t_player;
-
-typedef struct  s_pos
-{
-	int x;
-	int y;
-}				t_pos;
-
-typedef struct  s_data {
-	void        *img;
-	char        *addr;
-	int         bits_per_pixel;
-	int         line_length;
-	int         endian;
-}               t_data;
-
-typedef struct	s_game
-{
-	void		*mlx;
-	void		*win;
-	t_data		img;
-	char		map[MAP_HEIGHT][MAP_WIDTH];
-	t_player	player;
-	t_ray rays[NUM_RAYS];
-}				t_game;
+#include "shapes.h"
 
 double normalize_angle(double angle)
 {
@@ -80,108 +19,6 @@ double normalize_angle(double angle)
 int pixel2coord(double n)
 {
 	return (floor(n / TILE_SIZE));
-}
-
-int max(int a, int b)
-{
-	return ((a > b) ? a : b);
-}
-
-int abs(int i)
-{
-	return ((i > 0) ? i : -i);
-}
-
-void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char    *dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
-
-void draw_octants(t_data *img, int xc, int yc, int x, int y)
-{
-	my_mlx_pixel_put(img, xc+x, yc+y, RED); 
-    my_mlx_pixel_put(img, xc-x, yc+y, RED); 
-    my_mlx_pixel_put(img, xc+x, yc-y, RED); 
-    my_mlx_pixel_put(img, xc-x, yc-y, RED); 
-    my_mlx_pixel_put(img, xc+y, yc+x, RED); 
-    my_mlx_pixel_put(img, xc-y, yc+x, RED);
-    my_mlx_pixel_put(img, xc+y, yc-x, RED);
-    my_mlx_pixel_put(img, xc-y, yc-x, RED);
-}
-
-void draw_circle(t_data *img, int radius, int xc, int yc)
-{
-	int x;
-	int y;
-	int delta;
-
-	x = 0;
-	y = radius;
-	delta = 3 - 2 * radius; 
-	draw_octants(img, xc, yc, x, y); 
-	while (y >= x) 
-	{
-		x++; 
-		if (delta > 0) 
-		{ 
-			y--;  
-			delta = delta + 4 * (x - y) + 10; 
-		} 
-		else
-			delta = delta + 4 * x + 6; 
-		draw_octants(img, xc, yc, x, y); 
-	}
-}
-
-void draw_square(t_data *img, int color, int size, int x, int y)
-{
-	int i = 0;
-	int j;
-	while (i <= size)
-	{
-		j = 0;
-		while (j <= size)
-		{
-			if (i == 0 || i == size || j== 0 || j == size)
-				my_mlx_pixel_put(img, x + i, y + j, BLACK);
-			else
-				my_mlx_pixel_put(img, x + i, y + j, color);
-			j++;
-		}
-		i++;
-	}
-}
-
-
-void draw_line(t_data *img, int color, int x0, int y0, int x1, int y1)
-{
-	int dx;
-	int dy;
-	float x_inc;
-	float y_inc;
-	float x;
-	float y;
-	int steps;
-	int i;
-
-	dx = x1 - x0;
-	dy = y1 - y0;
-	steps = max(abs(dx), abs(dy));
-	x_inc = dx / (float) steps;
-	y_inc = dy / (float) steps;
-	x = x0;
-	y = y0;
-	i = 0;
-	while (i <= steps)
-	{
-		my_mlx_pixel_put(img, x, y, color);
-		x += x_inc;
-		y += y_inc;
-		i++;
-	}
 }
 
 void init_map(t_game *game)
@@ -284,6 +121,13 @@ void print_ray(t_ray *ray)
 		printf("RIGHT\n");
 	else if (hor == LEFT)
 		printf("LEFT\n");
+	printf("Ray X: %i\n", ray->wall_x);
+	printf("Ray Y: %i\n", ray->wall_y);
+}
+
+float line_len(int x0, int y0, int x1, int y1)
+{
+	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
 
 void cast_ray(t_game *game, t_ray *ray)
@@ -293,6 +137,11 @@ void cast_ray(t_game *game, t_ray *ray)
 	float x_step;
 	float y_step;
 
+	ray->wall_x = 400;
+	ray->wall_y = 400;
+	////////////////
+	// HORIZONTAL //
+	///////////////
 	y_intercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
 	y_intercept += ray_vertical_direction(ray) == DOWN ? TILE_SIZE : 0;
 	x_intercept = game->player.x + (y_intercept - game->player.y) / tan(ray->angle);
@@ -321,6 +170,46 @@ void cast_ray(t_game *game, t_ray *ray)
 			y_intercept += y_step;
 		}
 	}
+
+	x_intercept = 0;
+	y_intercept = 0;
+	x_step = 0;
+	y_step = 0;
+	////////////////
+	//  VERTICAL //
+	///////////////
+	x_intercept = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
+	x_intercept += ray_horizontal_direction(ray) == RIGHT ? TILE_SIZE : 0;
+	y_intercept = game->player.y + (x_intercept - game->player.x) * tan(ray->angle);
+
+	x_step = TILE_SIZE;
+	x_step *= ray_horizontal_direction(ray) == LEFT ? -1 : 1;
+
+	y_step = TILE_SIZE * tan(ray->angle);
+	y_step *= (ray_vertical_direction(ray) == UP && y_step > 0) ? -1 : 1;
+	y_step *= (ray_vertical_direction(ray) == DOWN && y_step < 0) ? -1 : 1;
+	// print_ray(ray);
+
+	if (ray_horizontal_direction(ray) == LEFT)
+		x_intercept--;
+	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
+	{
+		if (game->map[pixel2coord(y_intercept)][pixel2coord(x_intercept)] == '1')
+		{
+			if (line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y) >
+				line_len(game->player.x, game->player.y, x_intercept, y_intercept))
+			{
+				ray->wall_x = x_intercept;
+				ray->wall_y = y_intercept;
+			}
+			break;
+		}
+		else
+		{
+			x_intercept += x_step;
+			y_intercept += y_step;
+		}
+	}
 }
 
 void cast_rays(t_game *game)
@@ -332,7 +221,7 @@ void cast_rays(t_game *game)
 	angle = game->player.facing_angle - (FOV / 2);
 	while (i < NUM_RAYS)
 	{
-		game->rays[i].angle = angle;
+		game->rays[i].angle = normalize_angle(angle);
 		cast_ray(game, &game->rays[i]);
 		angle += FOV / NUM_RAYS;
 		i++;
@@ -384,7 +273,7 @@ int main_loop(t_game *game)
 {
 	int hypotenus;
 
-	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
+	game->player.facing_angle = game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed;
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	if (!will_collide(game))
 	{
