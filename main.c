@@ -199,7 +199,7 @@ void render_3d_walls(t_game *game)
 	while (i < NUM_RAYS)
 	{
 		projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-		wall_height = (TILE_SIZE / game->rays[i].distance * cos(game->rays[i].angle - game->player.facing_angle)) * projection_plane;
+		wall_height = (TILE_SIZE / (game->rays[i].distance * cos(game->rays[i].angle - game->player.facing_angle))) * projection_plane;
 		int wall_top = (SCREEN_HEIGHT / 2) - (wall_height / 2);
 		wall_top = (wall_top < 0) ? 0 : wall_top;
 		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
