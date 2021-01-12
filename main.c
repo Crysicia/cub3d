@@ -205,7 +205,7 @@ void render_3d_walls(t_game *game)
 		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
 		wall_bottom = (wall_bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : wall_bottom;
 		//printf("RENDER: i=%i, wall_height=%f\n", i, wall_height);
-		draw_line(&game->img, GREEN, i, wall_top, i, wall_bottom);
+		draw_line(&game->img, WHITE - game->rays[i].distance, i, wall_top, i, wall_bottom);
 		i++;
 	}
 }
@@ -236,7 +236,9 @@ int main_loop(t_game *game)
 		game->player.y = y;
 	}
 	draw_rectangle(&game->img, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-	//draw_rectangle(&game->img, RED, 100, 200, 0, 0);
+	draw_rectangle(&game->img, 0x000000FF, SCREEN_WIDTH, SCREEN_HEIGHT / 2, 0, 0);
+	//draw_rectangle(&game->img, 0x00FFFFFF, SCREEN_WIDTH, SCREEN_HEIGHT / 2 - 1, 0, SCREEN_HEIGHT / 2);
+	// draw_rectangle(&game->img, RED, 100, 200, 0, 0);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);

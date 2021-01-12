@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 16:29:52 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/12 17:56:31 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void init_player(t_game *game)
 	game->player.current_rotation = 0;
 	game->player.facing_angle = 3;
 	// game->player.facing_angle = M_PI / 2;
-	game->player.move_speed = 1.2;
-	game->player.rotate_speed = 0.3 * (M_PI / 180); 
+	game->player.move_speed = 1.5;
+	game->player.rotate_speed = 1 * (M_PI / 180); 
 }
 
 void init_ray(t_ray *ray)
