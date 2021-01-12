@@ -8,7 +8,10 @@ MLX = libmlx.a
 
 SRCS 		= main.c \
 			  shapes.c \
-			  ft_math.c
+			  ft_math.c \
+			  init.c \
+			  debug.c \
+			  input.c
 OBJS 		= $(SRCS:.c=.o)
 
 all: $(NAME)
