@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 13:02:03 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/12 16:30:57 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@
 
 typedef struct s_ray
 {
-	float length;
+	float distance;
 	float wall_x;
 	float wall_y;
-	double angle;
+	float angle;
+	int facing_up;
+	int facing_left;
 }				t_ray;
 
 typedef struct s_player
@@ -54,8 +56,8 @@ typedef struct s_player
 
 typedef struct  s_pos
 {
-	int x;
-	int y;
+	float x;
+	float y;
 }				t_pos;
 
 typedef struct  s_data {

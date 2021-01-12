@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 10:51:00 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/12 15:02:05 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 void print_infos(t_game *game)
 {
 	int i;
+	float langle;
 
 	i = 0;
+	langle = 0;
+	printf("num,x,y,angle,delta\n");
 	while (i < NUM_RAYS)
 	{
-		printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle);
+		// printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle);
+		printf("%i,%f,%f,%f,%f\n", i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle, game->rays[i].angle - langle);
+		langle = game->rays[i].angle;
 		i++;
 	}
 }
@@ -29,17 +34,15 @@ void print_ray(t_ray *ray)
 	int ver;
 	int hor;
 
-	ver = ray_vertical_direction(ray);
-	hor = ray_horizontal_direction(ray);
 	printf("Ray direction: ");
-	if (ver == DOWN)
-		printf("DOWN ");
-	else if (ver == UP)
+	if (ray->facing_up)
 		printf("UP ");
-	if (hor == RIGHT)
-		printf("RIGHT\n");
-	else if (hor == LEFT)
+	else
+		printf("DOWN ");
+	if (ray->facing_left)
 		printf("LEFT\n");
+	else
+		printf("RIGHT\n");
 	printf("Ray X: %f\n", ray->wall_x);
 	printf("Ray Y: %f\n", ray->wall_y);
 }

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:40:07 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/11 12:44:54 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/12 15:40:11 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,4 +19,5 @@ void draw_octants(t_data *img, int xc, int yc, int x, int y);
 void draw_circle(t_data *img, int radius, int xc, int yc);
 void draw_square(t_data *img, int color, int size, int x, int y);
 void draw_line(t_data *img, int color, int x0, int y0, int x1, int y1);
+void draw_rectangle(t_data *img, int color, int width, int height, float x, float y);
 #endif

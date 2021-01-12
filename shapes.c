@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:38:47 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/11 17:59:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/12 16:22:21 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,23 @@ void draw_square(t_data *img, int color, int size, int x, int y)
 	}
 }
 
+void draw_rectangle(t_data *img, int color, int width, int height, float x, float y)
+{
+	int i = 0;
+	int j;
+
+	while (i <= height)
+	{
+		j = 0;
+		while (j <= width)
+		{
+			if (x + j >= 0 && x + j <= SCREEN_HEIGHT && y + i >= 0 && y + i <= SCREEN_WIDTH)
+				my_mlx_pixel_put(img, x + j, y + i, color);
+			j++;
+		}
+		i++;
+	}
+}
 
 void draw_line(t_data *img, int color, int x0, int y0, int x1, int y1)
 {

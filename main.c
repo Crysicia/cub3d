@@ -54,21 +54,7 @@ int draw_player(t_game *game)
 		game->player.y + sin(game->player.facing_angle) * 20);
 }
 
-int ray_vertical_direction(t_ray *ray)
-{
-	if (ray->angle > 0 && ray->angle < M_PI)
-		return (DOWN);
-	return (UP);
-}
-
-int ray_horizontal_direction(t_ray *ray)
-{
-	if (ray->angle < 0.5 * M_PI || ray->angle > 1.5 * M_PI)
-		return (RIGHT);
-	return (LEFT);
-}
-
-float line_len(int x0, int y0, int x1, int y1)
+float line_len(float x0, float y0, float x1, float y1)
 {
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
@@ -86,21 +72,22 @@ void cast_ray(t_game *game, t_ray *ray)
 	// HORIZONTAL //
 	///////////////
 	y_intercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
-	y_intercept += ray_vertical_direction(ray) == DOWN ? TILE_SIZE : 0;
+	y_intercept += !ray->facing_up ? TILE_SIZE : 0;
 	x_intercept = game->player.x + (y_intercept - game->player.y) / tan(ray->angle);
 
 	y_step = TILE_SIZE;
-	y_step *= ray_vertical_direction(ray) == UP ? -1 : 1;
+	y_step *= ray->facing_up ? -1 : 1;
 	x_step = TILE_SIZE / tan(ray->angle);
-	x_step *= (ray_horizontal_direction(ray) == LEFT && x_step > 0) ? -1 : 1;
-	x_step *= (ray_horizontal_direction(ray) == RIGHT && x_step < 0) ? -1 : 1;
+	x_step *= (ray->facing_left && x_step > 0) ? -1 : 1;
+	x_step *= (!ray->facing_left && x_step < 0) ? -1 : 1;
 
 	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
 	{
-		if (has_wall_at(game, x_intercept, y_intercept - (ray_vertical_direction(ray) == UP)))
+		if (has_wall_at(game, x_intercept, y_intercept - ray->facing_up))
 		{
 			ray->wall_x = x_intercept;
 			ray->wall_y = y_intercept;
+			ray->distance = line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y);
 			break;
 		}
 		else
@@ -110,33 +97,30 @@ void cast_ray(t_game *game, t_ray *ray)
 		}
 	}
 
-	x_intercept = 0;
-	y_intercept = 0;
-	x_step = 0;
-	y_step = 0;
 	////////////////
 	//  VERTICAL //
 	///////////////
 	x_intercept = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
-	x_intercept += ray_horizontal_direction(ray) == RIGHT ? TILE_SIZE : 0;
+	x_intercept += !ray->facing_left ? TILE_SIZE : 0;
 	y_intercept = game->player.y + (x_intercept - game->player.x) * tan(ray->angle);
 
 	x_step = TILE_SIZE;
-	x_step *= ray_horizontal_direction(ray) == LEFT ? -1 : 1;
+	x_step *= ray->facing_left ? -1 : 1;
 
 	y_step = TILE_SIZE * tan(ray->angle);
-	y_step *= (ray_vertical_direction(ray) == UP && y_step > 0) ? -1 : 1;
-	y_step *= (ray_vertical_direction(ray) == DOWN && y_step < 0) ? -1 : 1;
+	y_step *= (ray->facing_up && y_step > 0) ? -1 : 1;
+	y_step *= (!ray->facing_up && y_step < 0) ? -1 : 1;
 
 	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
 	{
-		if (has_wall_at(game, x_intercept - (ray_horizontal_direction(ray) == LEFT), y_intercept))
+		if (has_wall_at(game, x_intercept - ray->facing_left, y_intercept))
 		{
 			if (line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y) >
 				line_len(game->player.x, game->player.y, x_intercept, y_intercept))
 			{
 				ray->wall_x = x_intercept;
 				ray->wall_y = y_intercept;
+				ray->distance = line_len(game->player.x, game->player.y, x_intercept, y_intercept);
 			}
 			break;
 		}
@@ -149,6 +133,18 @@ void cast_ray(t_game *game, t_ray *ray)
 	// print_ray(ray);
 }
 
+void set_ray_direction(t_ray *ray)
+{
+	if (ray->angle > 0 && ray->angle < M_PI)
+		ray->facing_up = 0;
+	else
+		ray->facing_up = 1;
+	if (ray->angle < 0.5 * M_PI || ray->angle > 1.5 * M_PI)
+		ray->facing_left = 0;
+	else
+		ray->facing_left = 1;
+}
+
 void cast_rays(t_game *game)
 {
 	int i;
@@ -159,6 +155,7 @@ void cast_rays(t_game *game)
 	while (i < NUM_RAYS)
 	{
 		game->rays[i].angle = normalize_angle(angle);
+		set_ray_direction(&game->rays[i]);
 		cast_ray(game, &game->rays[i]);
 		angle += FOV / NUM_RAYS;
 		i++;
@@ -195,11 +192,22 @@ void render_rays(t_game *game)
 void render_3d_walls(t_game *game)
 {
 	int i;
-	int wall_height;
-	float projection_plane;
+	double wall_height;
+	double projection_plane;
 
 	i = 0;
-
+	while (i < NUM_RAYS)
+	{
+		projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
+		wall_height = (TILE_SIZE / game->rays[i].distance * cos(game->rays[i].angle - game->player.facing_angle)) * projection_plane;
+		int wall_top = (SCREEN_HEIGHT / 2) - (wall_height / 2);
+		wall_top = (wall_top < 0) ? 0 : wall_top;
+		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
+		wall_bottom = (wall_bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : wall_bottom;
+		//printf("RENDER: i=%i, wall_height=%f\n", i, wall_height);
+		draw_line(&game->img, GREEN, i, wall_top, i, wall_bottom);
+		i++;
+	}
 }
 
 int has_wall_at(t_game *game, double x, double y)
@@ -227,10 +235,13 @@ int main_loop(t_game *game)
 		game->player.x = x;
 		game->player.y = y;
 	}
+	draw_rectangle(&game->img, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+	//draw_rectangle(&game->img, RED, 100, 200, 0, 0);
 	cast_rays(game);
-	draw_map(game);
-	render_rays(game);
-	draw_player(game);
+	// draw_map(game);
+	// render_rays(game);
+	// draw_player(game);
+	render_3d_walls(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 
 	char buffer[400];
