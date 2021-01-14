@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 16:30:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/14 12:39:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 
 #define WHITE 0x00FFFFFF
 #define BLACK 0x00000000
+#define BLUE 0x000000FF
 #define GREEN 0x0000FF00
 #define RED 0x00FF0000
+#define YELLOW 0x00FFFF00
 
 #define TILE_SIZE 40
 #define NUM_RAYS 400
@@ -39,6 +41,10 @@ typedef struct s_ray
 	float wall_x;
 	float wall_y;
 	float angle;
+	int hit_north;
+	int hit_south;
+	int hit_east;
+	int hit_west;
 	int facing_up;
 	int facing_left;
 }				t_ray;

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 19:47:24 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/14 12:21:28 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,8 @@ void init_ray(t_ray *ray)
 	ray->angle = 0;
 	ray->facing_up = 0;
 	ray->facing_left = 0;
+	ray->hit_east = 0;
+	ray->hit_west = 0;
+	ray->hit_north = 0;
+	ray->hit_south = 0;
 }

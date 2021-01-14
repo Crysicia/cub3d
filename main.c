@@ -88,6 +88,8 @@ void cast_ray(t_game *game, t_ray *ray)
 			ray->wall_x = x_intercept;
 			ray->wall_y = y_intercept;
 			ray->distance = line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y);
+			ray->hit_south = ray->facing_up;
+			ray->hit_north = !ray->hit_south;
 			break;
 		}
 		else
@@ -121,6 +123,10 @@ void cast_ray(t_game *game, t_ray *ray)
 				ray->wall_x = x_intercept;
 				ray->wall_y = y_intercept;
 				ray->distance = line_len(game->player.x, game->player.y, x_intercept, y_intercept);
+				ray->hit_north = 0;
+				ray->hit_south = 0;
+				ray->hit_east = ray->facing_left;
+				ray->hit_west = !ray->hit_east;
 			}
 			break;
 		}
@@ -152,7 +158,7 @@ void cast_rays(t_game *game)
 
 	i = 0;
 	angle = game->player.facing_angle - (FOV / 2);
-	while (i < NUM_RAYS)
+	while (i < NUM_RAYS)	
 	{
 		game->rays[i].angle = normalize_angle(angle);
 		set_ray_direction(&game->rays[i]);
@@ -194,7 +200,7 @@ void render_3d_walls(t_game *game)
 	int i;
 	double wall_height;
 	double projection_plane;
-
+	int color;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
@@ -204,8 +210,16 @@ void render_3d_walls(t_game *game)
 		wall_top = (wall_top < 0) ? 0 : wall_top;
 		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
 		wall_bottom = (wall_bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : wall_bottom;
+		if (game->rays[i].hit_south)
+			color = YELLOW;
+		else if (game->rays[i].hit_north)
+			color = WHITE;
+		else if (game->rays[i].hit_west)
+			color = GREEN;
+		else if (game->rays[i].hit_east)
+			color = RED;
 		//printf("RENDER: i=%i, wall_height=%f\n", i, wall_height);
-		draw_line(&game->img, WHITE - game->rays[i].distance, i, wall_top, i, wall_bottom);
+		draw_line(&game->img, color, i, wall_top, i, wall_bottom);
 		i++;
 	}
 }
