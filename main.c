@@ -218,8 +218,9 @@ void render_3d_walls(t_game *game)
 			color = GREEN;
 		else if (game->rays[i].hit_east)
 			color = RED;
-		//printf("RENDER: i=%i, wall_height=%f\n", i, wall_height);
+		draw_line(&game->img, BLUE, i, 0, i, wall_top);
 		draw_line(&game->img, color, i, wall_top, i, wall_bottom);
+		draw_line(&game->img, BLACK, i, wall_bottom, i, SCREEN_HEIGHT);
 		i++;
 	}
 }
@@ -249,8 +250,8 @@ int main_loop(t_game *game)
 		game->player.x = x;
 		game->player.y = y;
 	}
-	draw_rectangle(&game->img, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-	draw_rectangle(&game->img, 0x000000FF, SCREEN_WIDTH, SCREEN_HEIGHT / 2, 0, 0);
+	// draw_rectangle(&game->img, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
+	// draw_rectangle(&game->img, 0x000000FF, SCREEN_WIDTH, SCREEN_HEIGHT / 2, 0, 0);
 	//draw_rectangle(&game->img, 0x00FFFFFF, SCREEN_WIDTH, SCREEN_HEIGHT / 2 - 1, 0, SCREEN_HEIGHT / 2);
 	// draw_rectangle(&game->img, RED, 100, 200, 0, 0);
 	cast_rays(game);
