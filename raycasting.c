@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 16:44:02 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 17:43:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +115,6 @@ void cast_ray(t_game *game, t_ray *ray)
 	get_vertical_intercept(game, ray);
 }
 
-void set_ray_direction(t_ray *ray)
-{
-	if (ray->angle > 0 && ray->angle < M_PI)
-		ray->facing_up = 0;
-	else
-		ray->facing_up = 1;
-	if (ray->angle < M_PI_2 || ray->angle > ONE_A_HALF_PI)
-		ray->facing_left = 0;
-	else
-		ray->facing_left = 1;
-}
-
 void cast_rays(t_game *game)
 {
 	int i;
@@ -136,9 +124,7 @@ void cast_rays(t_game *game)
 	angle = game->player.facing_angle - (FOV / 2);
 	while (i < NUM_RAYS)	
 	{
-		init_ray(&game->rays[i]);
-		game->rays[i].angle = normalize_angle(angle);
-		set_ray_direction(&game->rays[i]);
+		init_ray(&game->rays[i], angle);
 		cast_ray(game, &game->rays[i]);
 		angle += FOV / NUM_RAYS;
 		i++;

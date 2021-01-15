@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:44:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 14:17:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 17:42:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,5 @@
 void init(t_game *game);
 void init_map(t_game *game);
 void init_player(t_game *game);
-void init_ray(t_ray *ray);
+void init_ray(t_ray *ray, float angle);
 #endif

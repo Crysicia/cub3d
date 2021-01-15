@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 16:00:59 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 17:41:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "init.h"
 #include "shapes.h"
 #include <limits.h>
+#include "cub3d.h"
 
 
 void init(t_game *game)
@@ -69,14 +70,18 @@ void init_player(t_game *game)
 	game->player.rotate_speed = 1 * (M_PI / 180); 
 }
 
-void init_ray(t_ray *ray)
+void init_ray(t_ray *ray, float angle)
 {
 	ray->distance = 0;
 	ray->wall_x = INT_MAX;
 	ray->wall_y = INT_MAX;
-	ray->angle = 0;
-	ray->facing_up = 0;
-	ray->facing_left = 0;
+	ray->angle = normalize_angle(angle);
+	ray->facing_up = 1;
+	ray->facing_left = 1;
+	if (ray->angle > 0 && ray->angle < M_PI)
+		ray->facing_up = 0;
+	if (ray->angle < M_PI_2 || ray->angle > ONE_A_HALF_PI)
+		ray->facing_left = 0;
 	ray->hit_east = 0;
 	ray->hit_west = 0;
 	ray->hit_north = 0;
