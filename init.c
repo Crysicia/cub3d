@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 11:30:35 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 16:00:59 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <string.h>
 #include "init.h"
 #include "shapes.h"
+#include <limits.h>
 
 
 void init(t_game *game)
@@ -27,9 +28,12 @@ void init(t_game *game)
 	game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
-	game->texture.img = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &size, &size);
-	game->texture.addr = mlx_get_data_addr(game->texture.img, &game->texture.bits_per_pixel,
-		&game->texture.line_length, &game->texture.endian);
+	game->texture[0].img = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &size, &size);
+	game->texture[0].addr = mlx_get_data_addr(game->texture[0].img, &game->texture[0].bits_per_pixel,
+		&game->texture[0].line_length, &game->texture[0].endian);
+	game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./wood.xpm", &size, &size);
+	game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
+		&game->texture[1].line_length, &game->texture[1].endian);
 	game->player.x = SCREEN_WIDTH / 2;
 	game->player.y = SCREEN_WIDTH / 2;
 	init_map(game);
@@ -68,8 +72,8 @@ void init_player(t_game *game)
 void init_ray(t_ray *ray)
 {
 	ray->distance = 0;
-	ray->wall_x = 0;
-	ray->wall_y = 0;
+	ray->wall_x = INT_MAX;
+	ray->wall_y = INT_MAX;
 	ray->angle = 0;
 	ray->facing_up = 0;
 	ray->facing_left = 0;

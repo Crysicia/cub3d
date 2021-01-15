@@ -6,12 +6,16 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 11:51:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 15:56:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+#define TWO_PI 6.283185307179586
+#define ONE_A_HALF_PI 4.71238898038469
+#define PI_180 0.017453292519943
 #define UP 65362
 #define DOWN 65364
 #define RIGHT 65361
@@ -33,7 +37,13 @@
 
 #define TILE_SIZE 64
 #define NUM_RAYS 640
-#define FOV 60 * (M_PI / 180)
+#define FOV 1.047197551196598 // 60 * (M_PI / 180)
+
+typedef enum e_bool
+{
+	false,
+	true
+} 			t_bool;
 
 typedef struct s_ray
 {
@@ -79,7 +89,7 @@ typedef struct	s_game
 	void		*mlx;
 	void		*win;
 	t_data		img;
-	t_data		texture;
+	t_data		texture[4];
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
 	t_ray rays[NUM_RAYS];

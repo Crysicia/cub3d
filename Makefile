@@ -11,7 +11,8 @@ SRCS 		= main.c \
 			  ft_math.c \
 			  init.c \
 			  debug.c \
-			  input.c
+			  input.c \
+			  raycasting.c
 OBJS 		= $(SRCS:.c=.o)
 
 all: $(NAME)

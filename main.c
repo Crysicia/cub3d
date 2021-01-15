@@ -11,12 +11,13 @@
 #include "init.h"
 #include "debug.h"
 #include "input.h"
+#include "cub3d.h"
 
 double normalize_angle(double angle)
 {
-	angle = fmod(angle, 2 * M_PI);
+	angle = fmod(angle, TWO_PI);
 	if (angle < 0)
-		angle += 2 * M_PI;
+		angle += TWO_PI;
 	return (angle);
 }
 
@@ -59,116 +60,6 @@ float line_len(float x0, float y0, float x1, float y1)
 	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
 }
 
-void cast_ray(t_game *game, t_ray *ray)
-{
-	float x_intercept;
-	float y_intercept;
-	float x_step;
-	float y_step;
-
-	ray->wall_x = INT_MAX;
-	ray->wall_y = INT_MAX;
-	////////////////
-	// HORIZONTAL //
-	///////////////
-	y_intercept = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
-	y_intercept += !ray->facing_up ? TILE_SIZE : 0;
-	x_intercept = game->player.x + (y_intercept - game->player.y) / tan(ray->angle);
-
-	y_step = TILE_SIZE;
-	y_step *= ray->facing_up ? -1 : 1;
-	x_step = TILE_SIZE / tan(ray->angle);
-	x_step *= (ray->facing_left && x_step > 0) ? -1 : 1;
-	x_step *= (!ray->facing_left && x_step < 0) ? -1 : 1;
-
-	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
-	{
-		if (has_wall_at(game, x_intercept, y_intercept - ray->facing_up))
-		{
-			ray->wall_x = x_intercept;
-			ray->wall_y = y_intercept;
-			ray->distance = line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y);
-			ray->hit_south = ray->facing_up;
-			ray->hit_north = !ray->hit_south;
-			break;
-		}
-		else
-		{
-			x_intercept += x_step;
-			y_intercept += y_step;
-		}
-	}
-
-	////////////////
-	//  VERTICAL //
-	///////////////
-	x_intercept = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
-	x_intercept += !ray->facing_left ? TILE_SIZE : 0;
-	y_intercept = game->player.y + (x_intercept - game->player.x) * tan(ray->angle);
-
-	x_step = TILE_SIZE;
-	x_step *= ray->facing_left ? -1 : 1;
-
-	y_step = TILE_SIZE * tan(ray->angle);
-	y_step *= (ray->facing_up && y_step > 0) ? -1 : 1;
-	y_step *= (!ray->facing_up && y_step < 0) ? -1 : 1;
-
-	while (x_intercept >= 0 && x_intercept <= SCREEN_WIDTH && y_intercept >= 0 && y_intercept <= SCREEN_HEIGHT)
-	{
-		if (has_wall_at(game, x_intercept - ray->facing_left, y_intercept))
-		{
-			if (line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y) >
-				line_len(game->player.x, game->player.y, x_intercept, y_intercept))
-			{
-				ray->wall_x = x_intercept;
-				ray->wall_y = y_intercept;
-				ray->distance = line_len(game->player.x, game->player.y, x_intercept, y_intercept);
-				ray->hit_north = 0;
-				ray->hit_south = 0;
-				ray->hit_east = ray->facing_left;
-				ray->hit_west = !ray->hit_east;
-			}
-			break;
-		}
-		else
-		{
-			x_intercept += x_step;
-			y_intercept += y_step;
-		}
-	}
-	// print_ray(ray);
-}
-
-void set_ray_direction(t_ray *ray)
-{
-	if (ray->angle > 0 && ray->angle < M_PI)
-		ray->facing_up = 0;
-	else
-		ray->facing_up = 1;
-	if (ray->angle < 0.5 * M_PI || ray->angle > 1.5 * M_PI)
-		ray->facing_left = 0;
-	else
-		ray->facing_left = 1;
-}
-
-void cast_rays(t_game *game)
-{
-	int i;
-	float angle;
-
-	i = 0;
-	angle = game->player.facing_angle - (FOV / 2);
-	while (i < NUM_RAYS)	
-	{
-		init_ray(&game->rays[i]);
-		game->rays[i].angle = normalize_angle(angle);
-		set_ray_direction(&game->rays[i]);
-		cast_ray(game, &game->rays[i]);
-		angle += FOV / NUM_RAYS;
-		i++;
-	}
-}
-
 void render_rays(t_game *game)
 {
 	int i;
@@ -205,6 +96,7 @@ void render_3d_walls(t_game *game)
 	int offsetY;
 	// int color;
 	i = 0;
+	int t;
 	while (i < NUM_RAYS)
 	{
 		projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
@@ -222,16 +114,22 @@ void render_3d_walls(t_game *game)
 		// else if (game->rays[i].hit_east)
 		// 	color = RED;
 		if (game->rays[i].hit_east || game->rays[i].hit_west)
+		{
+			t = 0;
 			offsetX = (int)game->rays[i].wall_y % TILE_SIZE;
+		}
 		else
+		{
+			t = 1;
 			offsetX = (int)game->rays[i].wall_x % TILE_SIZE;
+		}
 		draw_line(&game->img, BLUE, i, 0, i, wall_top);
 		int y = wall_top;
 		while (y < wall_bottom)
 		{
 			int distance_from_top = y + (wall_height / 2) - (SCREEN_HEIGHT / 2);
 			offsetY = distance_from_top * (64.0 / wall_height);
-			my_mlx_pixel_put(&game->img, i, y, *(unsigned int *)(game->texture.addr + (offsetY * game->texture.line_length) + offsetX * game->texture.bits_per_pixel / 8));
+			my_mlx_pixel_put(&game->img, i, y, *(unsigned int *)(game->texture[t].addr + (offsetY * game->texture[t].line_length) + offsetX * game->texture[t].bits_per_pixel / 8));
 			y++;
 		}
 		// draw_line(&game->img, color, i, wall_top, i, wall_bottom);	
@@ -240,14 +138,14 @@ void render_3d_walls(t_game *game)
 	}
 }
 
-int has_wall_at(t_game *game, double x, double y)
+t_bool has_wall_at(t_game *game, double x, double y)
 {
 	int ix;
 	int iy;
 
 	ix = pixel2coord(x);
 	iy = pixel2coord(y);
-	return (game->map[iy][ix] == '1');
+	return (!!(game->map[iy][ix] == '1'));
 }
 
 int main_loop(t_game *game)
@@ -265,10 +163,6 @@ int main_loop(t_game *game)
 		game->player.x = x;
 		game->player.y = y;
 	}
-	// draw_rectangle(&game->img, BLACK, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
-	// draw_rectangle(&game->img, 0x000000FF, SCREEN_WIDTH, SCREEN_HEIGHT / 2, 0, 0);
-	//draw_rectangle(&game->img, 0x00FFFFFF, SCREEN_WIDTH, SCREEN_HEIGHT / 2 - 1, 0, SCREEN_HEIGHT / 2);
-	// draw_rectangle(&game->img, RED, 100, 200, 0, 0);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
