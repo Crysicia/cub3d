@@ -66,8 +66,8 @@ void cast_ray(t_game *game, t_ray *ray)
 	float x_step;
 	float y_step;
 
-	ray->wall_x = 800;
-	ray->wall_y = 800;
+	ray->wall_x = INT_MAX;
+	ray->wall_y = INT_MAX;
 	////////////////
 	// HORIZONTAL //
 	///////////////
@@ -160,6 +160,7 @@ void cast_rays(t_game *game)
 	angle = game->player.facing_angle - (FOV / 2);
 	while (i < NUM_RAYS)	
 	{
+		init_ray(&game->rays[i]);
 		game->rays[i].angle = normalize_angle(angle);
 		set_ray_direction(&game->rays[i]);
 		cast_ray(game, &game->rays[i]);
@@ -198,9 +199,11 @@ void render_rays(t_game *game)
 void render_3d_walls(t_game *game)
 {
 	int i;
-	double wall_height;
+	int wall_height;
 	double projection_plane;
-	int color;
+	int offsetX;
+	int offsetY;
+	// int color;
 	i = 0;
 	while (i < NUM_RAYS)
 	{
@@ -210,16 +213,28 @@ void render_3d_walls(t_game *game)
 		wall_top = (wall_top < 0) ? 0 : wall_top;
 		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
 		wall_bottom = (wall_bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : wall_bottom;
-		if (game->rays[i].hit_south)
-			color = YELLOW;
-		else if (game->rays[i].hit_north)
-			color = WHITE;
-		else if (game->rays[i].hit_west)
-			color = GREEN;
-		else if (game->rays[i].hit_east)
-			color = RED;
+		// if (game->rays[i].hit_south)
+		// 	color = YELLOW;
+		// else if (game->rays[i].hit_north)
+		// 	color = WHITE;
+		// else if (game->rays[i].hit_west)
+		// 	color = GREEN;
+		// else if (game->rays[i].hit_east)
+		// 	color = RED;
+		if (game->rays[i].hit_east || game->rays[i].hit_west)
+			offsetX = (int)game->rays[i].wall_y % TILE_SIZE;
+		else
+			offsetX = (int)game->rays[i].wall_x % TILE_SIZE;
 		draw_line(&game->img, BLUE, i, 0, i, wall_top);
-		draw_line(&game->img, color, i, wall_top, i, wall_bottom);
+		int y = wall_top;
+		while (y < wall_bottom)
+		{
+			int distance_from_top = y + (wall_height / 2) - (SCREEN_HEIGHT / 2);
+			offsetY = distance_from_top * (64.0 / wall_height);
+			my_mlx_pixel_put(&game->img, i, y, *(unsigned int *)(game->texture.addr + (offsetY * game->texture.line_length) + offsetX * game->texture.bits_per_pixel / 8));
+			y++;
+		}
+		// draw_line(&game->img, color, i, wall_top, i, wall_bottom);	
 		draw_line(&game->img, BLACK, i, wall_bottom, i, SCREEN_HEIGHT);
 		i++;
 	}

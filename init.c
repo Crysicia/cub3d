@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/14 12:21:28 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 11:30:35 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,17 @@
 
 void init(t_game *game)
 {
+	int size;
+
+	size = 64;
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Hello world!");
-		game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
+	game->texture.img = mlx_xpm_file_to_image(game->mlx, "./wall.xpm", &size, &size);
+	game->texture.addr = mlx_get_data_addr(game->texture.img, &game->texture.bits_per_pixel,
+		&game->texture.line_length, &game->texture.endian);
 	game->player.x = SCREEN_WIDTH / 2;
 	game->player.y = SCREEN_WIDTH / 2;
 	init_map(game);

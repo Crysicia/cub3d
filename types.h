@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/14 15:17:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/15 11:51:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,21 @@
 #define LEFT 65363
 #define ESC 65307
 
-#define SCREEN_WIDTH 400
-#define SCREEN_HEIGHT 400
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 640
 
 #define MAP_WIDTH 10
 #define MAP_HEIGHT 10
 
 #define WHITE 0x00FFFFFF
-#define BLACK 0x00000000
-#define BLUE 0x000000FF
+#define BLACK 0xFF000000
+#define BLUE 0xFF0000FF
 #define GREEN 0x0000FF00
 #define RED 0x00FF0000
 #define YELLOW 0x00FFFF00
 
-#define TILE_SIZE 40
-#define NUM_RAYS 400
+#define TILE_SIZE 64
+#define NUM_RAYS 640
 #define FOV 60 * (M_PI / 180)
 
 typedef struct s_ray
@@ -79,6 +79,7 @@ typedef struct	s_game
 	void		*mlx;
 	void		*win;
 	t_data		img;
+	t_data		texture;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
 	t_ray rays[NUM_RAYS];
