@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 10:59:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 14:15:28 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ typedef struct s_wall
 	int bottom;
 }				t_wall;
 
+typedef struct s_sprite
+{
+	t_pos pos;
+	float distance;
+}				t_sprite;
+
 typedef struct s_ray
 {
 	t_pos wall_hit;
@@ -95,6 +101,7 @@ typedef struct	s_game
 	void		*win;
 	t_data		img;
 	t_data		texture[4];
+	t_data		sprite;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
 	t_ray rays[NUM_RAYS];
