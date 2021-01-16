@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 09:52:21 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 11:49:12 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,11 @@ void print_ray(t_ray *ray)
 		printf("RIGHT\n");
 	printf("Ray X: %f\n", ray->wall_hit.x);
 	printf("Ray Y: %f\n", ray->wall_hit.y);
+}
+
+void display_infos(t_game *game)
+{
+	char buffer[400];
+	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.pos.x, game->player.pos.y, game->player.facing_angle);
+	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
 }

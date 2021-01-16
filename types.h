@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 09:59:59 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 10:59:06 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ typedef enum e_bool
 	true
 } 			t_bool;
 
+typedef struct s_wall
+{
+	int height;
+	int top;
+	int bottom;
+}				t_wall;
+
 typedef struct s_ray
 {
 	t_pos wall_hit;
@@ -91,5 +98,6 @@ typedef struct	s_game
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
 	t_ray rays[NUM_RAYS];
+	double projection_plane;
 }				t_game;
 #endif

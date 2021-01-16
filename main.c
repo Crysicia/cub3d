@@ -13,19 +13,6 @@
 #include "input.h"
 #include "cub3d.h"
 
-float normalize_angle(float angle)
-{
-	angle = fmod(angle, TWO_PI);
-	if (angle < 0)
-		angle += TWO_PI;
-	return (angle);
-}
-
-int pixel2coord(float n)
-{
-	return (floor(n / TILE_SIZE));
-}
-
 int draw_map(t_game *game)
 {
 	int x;
@@ -76,51 +63,30 @@ void render_rays(t_game *game)
 
 void render_3d_walls(t_game *game)
 {
+	t_pos offset;
+	t_wall wall;
+	t_ray ray;
 	int i;
-	int wall_height;
-	double projection_plane;
-	int offsetX;
-	int offsetY;
-	// int color;
-	i = 0;
 	int t;
+
+	i = 0;
 	while (i < NUM_RAYS)
 	{
-		projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-		wall_height = (TILE_SIZE / (game->rays[i].distance * cos(game->rays[i].angle - game->player.facing_angle))) * projection_plane;
-		int wall_top = (SCREEN_HEIGHT / 2) - (wall_height / 2);
-		wall_top = (wall_top < 0) ? 0 : wall_top;
-		int wall_bottom = (SCREEN_HEIGHT / 2) + (wall_height / 2);
-		wall_bottom = (wall_bottom > SCREEN_HEIGHT) ? SCREEN_HEIGHT : wall_bottom;
-		// if (game->rays[i].hit_south)
-		// 	color = YELLOW;
-		// else if (game->rays[i].hit_north)
-		// 	color = WHITE;
-		// else if (game->rays[i].hit_west)
-		// 	color = GREEN;
-		// else if (game->rays[i].hit_east)
-		// 	color = RED;
-		if (game->rays[i].hit_east || game->rays[i].hit_west)
+		ray = game->rays[i];
+		compute_wall_boundaries(game, &ray, &wall);
+		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
-			offsetX = (int)game->rays[i].wall_hit.y % TILE_SIZE;
+			offset.x = (int)ray.wall_hit.y % TILE_SIZE;
 		}
 		else
 		{
 			t = 1;
-			offsetX = (int)game->rays[i].wall_hit.x % TILE_SIZE;
+			offset.x = (int)ray.wall_hit.x % TILE_SIZE;
 		}
-		draw_line(&game->img, BLUE, i, 0, i, wall_top);
-		int y = wall_top;
-		while (y < wall_bottom)
-		{
-			int distance_from_top = y + (wall_height / 2) - (SCREEN_HEIGHT / 2);
-			offsetY = distance_from_top * (64.0 / wall_height);
-			my_mlx_pixel_put(&game->img, i, y, *(unsigned int *)(game->texture[t].addr + (offsetY * game->texture[t].line_length) + offsetX * game->texture[t].bits_per_pixel / 8));
-			y++;
-		}
-		// draw_line(&game->img, color, i, wall_top, i, wall_bottom);	
-		draw_line(&game->img, BLACK, i, wall_bottom, i, SCREEN_HEIGHT);
+		draw_line(&game->img, BLUE, i, 0, i, wall.top);
+		render_texture_strip(&game->img, &game->texture[t], &wall, &offset, i);
+		draw_line(&game->img, BLACK, i, wall.bottom, i, SCREEN_HEIGHT);
 		i++;
 	}
 }
@@ -156,10 +122,7 @@ int main_loop(t_game *game)
 	// draw_player(game);
 	render_3d_walls(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-
-	char buffer[400];
-	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.pos.x, game->player.pos.y, game->player.facing_angle);
-	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
+	display_infos(game);
 }
 
 int             main(int argc, char *argv[])

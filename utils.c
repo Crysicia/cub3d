@@ -6,12 +6,25 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 10:07:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 11:51:13 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
+
+int pixel2coord(float n)
+{
+	return (floor(n / TILE_SIZE));
+}
+
+float normalize_angle(float angle)
+{
+	angle = fmod(angle, TWO_PI);
+	if (angle < 0)
+		angle += TWO_PI;
+	return (angle);
+}
 
 void set_pos(t_pos *pos, float x, float y)
 {
