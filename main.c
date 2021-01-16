@@ -13,7 +13,7 @@
 #include "input.h"
 #include "cub3d.h"
 
-double normalize_angle(double angle)
+float normalize_angle(float angle)
 {
 	angle = fmod(angle, TWO_PI);
 	if (angle < 0)
@@ -21,7 +21,7 @@ double normalize_angle(double angle)
 	return (angle);
 }
 
-int pixel2coord(double n)
+int pixel2coord(float n)
 {
 	return (floor(n / TILE_SIZE));
 }
@@ -48,16 +48,11 @@ int draw_map(t_game *game)
 
 int draw_player(t_game *game)
 {
-	draw_circle(&game->img, 10, game->player.x, game->player.y);
-	draw_line(&game->img, 0x0000FF00, game->player.x,
-		game->player.y,
-		game->player.x + cos(game->player.facing_angle) * 20,
-		game->player.y + sin(game->player.facing_angle) * 20);
-}
-
-float line_len(float x0, float y0, float x1, float y1)
-{
-	return (sqrt((x1 - x0) * (x1 - x0) + (y1 - y0) * (y1 - y0)));
+	draw_circle(&game->img, 10, game->player.pos.x, game->player.pos.y);
+	draw_line(&game->img, 0x0000FF00, game->player.pos.x,
+		game->player.pos.y,
+		game->player.pos.x + cos(game->player.facing_angle) * 20,
+		game->player.pos.y + sin(game->player.facing_angle) * 20);
 }
 
 void render_rays(t_game *game)
@@ -67,21 +62,13 @@ void render_rays(t_game *game)
 	i = 0;
 	while (i < NUM_RAYS)
 	{
-		// draw_line(
-		// 	&game->img,
-		// 	0x000000FF,
-		// 	game->player.x,
-		// 	game->player.y,
-		// 	game->player.x + cos(game->rays[i].angle) * 30,
-		// 	game->player.y + sin(game->rays[i].angle) * 30
-		// );
 		draw_line(
 			&game->img,
 			0x000000FF,
-			game->player.x,
-			game->player.y,
-			game->rays[i].wall_x,
-			game->rays[i].wall_y
+			game->player.pos.x,
+			game->player.pos.y,
+			game->rays[i].wall_hit.x,
+			game->rays[i].wall_hit.y
 		);
 		i++;
 	}
@@ -116,12 +103,12 @@ void render_3d_walls(t_game *game)
 		if (game->rays[i].hit_east || game->rays[i].hit_west)
 		{
 			t = 0;
-			offsetX = (int)game->rays[i].wall_y % TILE_SIZE;
+			offsetX = (int)game->rays[i].wall_hit.y % TILE_SIZE;
 		}
 		else
 		{
 			t = 1;
-			offsetX = (int)game->rays[i].wall_x % TILE_SIZE;
+			offsetX = (int)game->rays[i].wall_hit.x % TILE_SIZE;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall_top);
 		int y = wall_top;
@@ -156,12 +143,12 @@ int main_loop(t_game *game)
 
 	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
 	hypotenus = game->player.current_direction * game->player.move_speed;
-	x = game->player.x + cos(game->player.facing_angle) * hypotenus;
-	y = game->player.y + sin(game->player.facing_angle) * hypotenus;
+	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
+	y = game->player.pos.y + sin(game->player.facing_angle) * hypotenus;
 	if (!has_wall_at(game, x, y))
 	{
-		game->player.x = x;
-		game->player.y = y;
+		game->player.pos.x = x;
+		game->player.pos.y = y;
 	}
 	cast_rays(game);
 	// draw_map(game);
@@ -171,7 +158,7 @@ int main_loop(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 
 	char buffer[400];
-	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.x, game->player.y, game->player.facing_angle);
+	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.pos.x, game->player.pos.y, game->player.facing_angle);
 	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
 }
 

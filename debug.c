@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/12 15:02:05 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 09:52:21 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void print_infos(t_game *game)
 	printf("num,x,y,angle,delta\n");
 	while (i < NUM_RAYS)
 	{
-		// printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle);
-		printf("%i,%f,%f,%f,%f\n", i, game->rays[i].wall_x, game->rays[i].wall_y, game->rays[i].angle, game->rays[i].angle - langle);
+		// printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_hit.x, game->rays[i].wall_hit.y, game->rays[i].angle);
+		printf("%i,%f,%f,%f,%f\n", i, game->rays[i].wall_hit.x, game->rays[i].wall_hit.y, game->rays[i].angle, game->rays[i].angle - langle);
 		langle = game->rays[i].angle;
 		i++;
 	}
@@ -43,6 +43,6 @@ void print_ray(t_ray *ray)
 		printf("LEFT\n");
 	else
 		printf("RIGHT\n");
-	printf("Ray X: %f\n", ray->wall_x);
-	printf("Ray Y: %f\n", ray->wall_y);
+	printf("Ray X: %f\n", ray->wall_hit.x);
+	printf("Ray Y: %f\n", ray->wall_hit.y);
 }

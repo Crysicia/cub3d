@@ -12,7 +12,9 @@ SRCS 		= main.c \
 			  init.c \
 			  debug.c \
 			  input.c \
-			  raycasting.c
+			  raycasting.c \
+			  utils.c \
+			  texture.c
 OBJS 		= $(SRCS:.c=.o)
 
 all: $(NAME)

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 17:41:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 10:00:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void init(t_game *game)
 	game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./wood.xpm", &size, &size);
 	game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
 		&game->texture[1].line_length, &game->texture[1].endian);
-	game->player.x = SCREEN_WIDTH / 2;
-	game->player.y = SCREEN_WIDTH / 2;
+	game->player.pos.x = SCREEN_WIDTH / 2;
+	game->player.pos.y = SCREEN_WIDTH / 2;
 	init_map(game);
 	init_player(game);
 }
@@ -60,8 +60,8 @@ void init_map(t_game *game)
 
 void init_player(t_game *game)
 {
-	game->player.x = 313;
-	game->player.y = 343;
+	game->player.pos.x = 313;
+	game->player.pos.y = 343;
 	game->player.current_direction = 0;
 	game->player.current_rotation = 0;
 	game->player.facing_angle = 3;
@@ -73,8 +73,7 @@ void init_player(t_game *game)
 void init_ray(t_ray *ray, float angle)
 {
 	ray->distance = 0;
-	ray->wall_x = INT_MAX;
-	ray->wall_y = INT_MAX;
+	set_pos(&ray->wall_hit, INT_MAX, INT_MAX);
 	ray->angle = normalize_angle(angle);
 	ray->facing_up = 1;
 	ray->facing_left = 1;

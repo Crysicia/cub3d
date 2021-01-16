@@ -1,13 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 10:17:23 by lpassera         ###   ########.fr       */
+/*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
+/*   Updated: 2021/01/16 10:07:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <math.h>
+
+void set_pos(t_pos *pos, float x, float y)
+{
+	pos->x = x;
+	pos->y = y;
+}
+
+float pos_distance(t_pos *p1, t_pos *p2)
+{
+	return (sqrt(pow(p2->x - p1->x, 2) + pow(p2->y - p1->y, 2)));
+}

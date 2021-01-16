@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 15:56:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 09:59:59 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@
 #define NUM_RAYS 640
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
 
+typedef struct  s_pos
+{
+	float x;
+	float y;
+}				t_pos;
+
 typedef enum e_bool
 {
 	false,
@@ -47,9 +53,8 @@ typedef enum e_bool
 
 typedef struct s_ray
 {
+	t_pos wall_hit;
 	float distance;
-	float wall_x;
-	float wall_y;
 	float angle;
 	int hit_north;
 	int hit_south;
@@ -61,20 +66,13 @@ typedef struct s_ray
 
 typedef struct s_player
 {
-	float x;
-	float y;
+	t_pos pos;
 	int current_direction;
 	int current_rotation;
 	double facing_angle;
 	double move_speed;
 	double rotate_speed;
 }			t_player;
-
-typedef struct  s_pos
-{
-	float x;
-	float y;
-}				t_pos;
 
 typedef struct  s_data {
 	void        *img;

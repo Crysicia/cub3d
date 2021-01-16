@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 17:43:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/16 10:06:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,47 @@ t_bool is_in_screen(float x, float y)
 
 void horizontal_intercept_loop(t_game *game, t_ray *ray, t_pos *intercept, t_pos *step)
 {
-	while (is_in_screen(intercept->x, intercept->y))
+	t_bool has_found_wall;
+
+	has_found_wall = false;
+	while (is_in_screen(intercept->x, intercept->y) && !has_found_wall)
 	{
 		if (has_wall_at(game, intercept->x, intercept->y - ray->facing_up))
 		{
-			ray->wall_x = intercept->x;
-			ray->wall_y = intercept->y;
-			ray->distance = line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y);
+			set_pos(&ray->wall_hit, intercept->x, intercept->y);
+			ray->distance = pos_distance(&game->player.pos, &ray->wall_hit);
 			ray->hit_south = ray->facing_up;
 			ray->hit_north = !ray->hit_south;
-			break;
+			has_found_wall = true;
 		}
 		else
+			set_pos(intercept, intercept->x + step->x, intercept->y + step->y);
+	}
+}
+
+void vertical_intercept_loop(t_game *game, t_ray *ray, t_pos *intercept, t_pos *step)
+{
+	t_bool has_found_wall;
+
+	has_found_wall = false;
+	while (is_in_screen(intercept->x, intercept->y) && !has_found_wall)
+	{
+		if (has_wall_at(game, intercept->x - ray->facing_left, intercept->y))
 		{
-			intercept->x += step->x;
-			intercept->y += step->y;
+			if (pos_distance(&game->player.pos, &ray->wall_hit) >
+				pos_distance(&game->player.pos, intercept))
+			{
+				set_pos(&ray->wall_hit, intercept->x, intercept->y);
+				ray->distance = pos_distance(&game->player.pos, &ray->wall_hit);
+				ray->hit_north = 0;
+				ray->hit_south = 0;
+				ray->hit_east = ray->facing_left;
+				ray->hit_west = !ray->hit_east;
+			}
+			has_found_wall = true;
 		}
+		else
+			set_pos(intercept, intercept->x + step->x, intercept->y + step->y);
 	}
 }
 
@@ -46,10 +71,10 @@ void get_horizontal_intercept(t_game *game, t_ray *ray)
 	t_pos intercept;
 	t_pos step;
 
-	intercept.y = floor(game->player.y / TILE_SIZE) * TILE_SIZE;
+	intercept.y = floor(game->player.pos.y / TILE_SIZE) * TILE_SIZE;
 	if (!ray->facing_up)
 		intercept.y += TILE_SIZE;
-	intercept.x = game->player.x + (intercept.y - game->player.y) / tan(ray->angle);
+	intercept.x = game->player.pos.x + (intercept.y - game->player.pos.y) / tan(ray->angle);
 	step.x = TILE_SIZE / tan(ray->angle);
 	step.y = TILE_SIZE;
 	if (ray->facing_up)
@@ -61,42 +86,15 @@ void get_horizontal_intercept(t_game *game, t_ray *ray)
 	horizontal_intercept_loop(game, ray, &intercept, &step);
 }
 
-void vertical_intercept_loop(t_game *game, t_ray *ray, t_pos *intercept, t_pos *step)
-{
-	while (is_in_screen(intercept->x, intercept->y))
-	{
-		if (has_wall_at(game, intercept->x - ray->facing_left, intercept->y))
-		{
-			if (line_len(game->player.x, game->player.y, ray->wall_x, ray->wall_y) >
-				line_len(game->player.x, game->player.y, intercept->x, intercept->y))
-			{
-				ray->wall_x = intercept->x;
-				ray->wall_y = intercept->y;
-				ray->distance = line_len(game->player.x, game->player.y, intercept->x, intercept->y);
-				ray->hit_north = 0;
-				ray->hit_south = 0;
-				ray->hit_east = ray->facing_left;
-				ray->hit_west = !ray->hit_east;
-			}
-			break;
-		}
-		else
-		{
-			intercept->x += step->x;
-			intercept->y += step->y;
-		}
-	}
-}
-
 void get_vertical_intercept(t_game *game, t_ray *ray)
 {
 	t_pos intercept;
 	t_pos step;
 
-	intercept.x = floor(game->player.x / TILE_SIZE) * TILE_SIZE;
+	intercept.x = floor(game->player.pos.x / TILE_SIZE) * TILE_SIZE;
 	if (!ray->facing_left)
 	 	intercept.x += TILE_SIZE;
-	intercept.y = game->player.y + (intercept.x - game->player.x) * tan(ray->angle);
+	intercept.y = game->player.pos.y + (intercept.x - game->player.pos.x) * tan(ray->angle);
 
 	step.x = TILE_SIZE;
 	step.y = TILE_SIZE * tan(ray->angle);
