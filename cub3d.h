@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 11:42:25 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 10:35:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ float pos_distance(t_pos *p1, t_pos *p2);
 unsigned int get_texture_color(t_data *texture, t_pos *offset);
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall);
 void render_texture_strip(t_data *img, t_data *texture, t_wall *wall, t_pos *offset, int x);
+
+t_bool is_in_fov(t_player *player, double angle);
 #endif
