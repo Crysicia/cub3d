@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 10:36:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:57:52 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "input.h"
 #include "debug.h"
 #include "mlx/mlx.h"
+#include "cub3d.h"
 
 int key_released(int keycode, t_game *game)
 {
@@ -49,7 +50,15 @@ int key_pressed(int keycode, t_game *game)
 	else if (keycode == 'a')
 		printf("Angle: %f\n", game->player.facing_angle);
 	else if (keycode == 's')
-		printf("Sprite at 1.00: %i\nFOV: %f-%f\n", is_in_fov(&game->player, 1.0), game->player.facing_angle - (FOV / 2), game->player.facing_angle + (FOV / 2));
+		printf("-----\nSprite at %f:%f: %s\nFOV: %f-%f\nANGLE: %f\nDistance: %f\n",
+			game->sprite.pos.x,
+			game->sprite.pos.y,
+			game->sprite.is_visible ? "VISIBLE" : "HIDDEN",
+			game->player.facing_angle - (FOV / 2),
+			game->player.facing_angle + (FOV / 2),
+			game->sprite.angle,
+			game->sprite.distance
+		);
 	else
 		print_infos(game);
 }

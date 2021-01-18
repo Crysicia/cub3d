@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 11:49:12 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 14:40:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
+#include "cub3d.h"
 
 void print_infos(t_game *game)
 {
@@ -50,6 +51,12 @@ void print_ray(t_ray *ray)
 void display_infos(t_game *game)
 {
 	char buffer[400];
-	sprintf(buffer, "X: %f Y: %f Angle: %f", game->player.pos.x, game->player.pos.y, game->player.facing_angle);
+	sprintf(buffer, "Coords (%i, %i) X: %f Y: %f Angle: %f",
+		pixel2coord(game->player.pos.x),
+		pixel2coord(game->player.pos.y),
+		game->player.pos.x,
+		game->player.pos.y,
+		game->player.facing_angle
+	);
 	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
 }

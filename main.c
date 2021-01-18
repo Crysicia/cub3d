@@ -112,15 +112,13 @@ int main_loop(t_game *game)
 	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
 	y = game->player.pos.y + sin(game->player.facing_angle) * hypotenus;
 	if (!has_wall_at(game, x, y))
-	{
-		game->player.pos.x = x;
-		game->player.pos.y = y;
-	}
+		set_pos(&game->player.pos, x, y);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
+	update_sprite_visibility(&game->player, &game->sprite);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	display_infos(game);
 }
