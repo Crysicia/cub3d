@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 14:04:44 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 16:31:27 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void init(t_game *game)
 	game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./wood.xpm", &size, &size);
 	game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
 		&game->texture[1].line_length, &game->texture[1].endian);
-	// game->sprite.img = mlx_xpm_file_to_image(game->mlx, "./barrel.xpm", &size, &size);
-	// game->sprite.addr = mlx_get_data_addr(game->sprite.img, &game->sprite.bits_per_pixel,
-	// 	&game->sprite.line_length, &game->sprite.endian);
+	game->sprite.texture.img = mlx_xpm_file_to_image(game->mlx, "./barrel.xpm", &size, &size);
+	game->sprite.texture.addr = mlx_get_data_addr(game->sprite.texture.img, &game->sprite.texture.bits_per_pixel,
+		&game->sprite.texture.line_length, &game->sprite.texture.endian);
 	game->sprite.pos.x = 4.5;
 	game->sprite.pos.y = 4.5;
 	game->sprite.is_visible = false;

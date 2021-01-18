@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 15:46:16 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 16:31:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@
 #define TILE_SIZE 64
 #define NUM_RAYS 640
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
+
+typedef struct  s_data {
+	void        *img;
+	char        *addr;
+	int         bits_per_pixel;
+	int         line_length;
+	int         endian;
+}               t_data;
 
 typedef struct  s_pos
 {
@@ -89,14 +97,6 @@ typedef struct s_player
 	double move_speed;
 	double rotate_speed;
 }			t_player;
-
-typedef struct  s_data {
-	void        *img;
-	char        *addr;
-	int         bits_per_pixel;
-	int         line_length;
-	int         endian;
-}               t_data;
 
 typedef struct	s_game
 {

@@ -119,6 +119,8 @@ int main_loop(t_game *game)
 	// draw_player(game);
 	render_3d_walls(game);
 	update_sprite_visibility(&game->player, &game->sprite);
+	if (game->sprite.is_visible)
+		render_sprite(game, &game->sprite);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 	display_infos(game);
 }

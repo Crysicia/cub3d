@@ -6,12 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 15:42:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/18 16:49:52 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "cub3d.h"
+#include "shapes.h"
 
 t_bool is_in_fov(double player_angle, double angle)
 {
@@ -47,13 +48,17 @@ void render_sprite(t_game *game, t_sprite *sprite)
 	int height;
 	int top;
 	int bottom;
+	int x;
 
-	height = sprite->distance * cos(sprite->angle, - game->player.facing_angle) * game->projection_plane;
+	height = (TILE_SIZE /
+		((sprite->distance * TILE_SIZE) * cos(sprite->angle - game->player.facing_angle)))
+		* game->projection_plane;
 	top = (SCREEN_HEIGHT / 2) - (height / 2);
 	if (top < 0)
 		top = 0;
 	bottom = (SCREEN_HEIGHT / 2) + (height / 2);
 	if (bottom > SCREEN_HEIGHT)
 		bottom = SCREEN_HEIGHT;
-
+	x = (sprite->pos.x * 64);
+	my_mlx_pixel_put(&game->img, x, bottom / 2, WHITE);
 }
