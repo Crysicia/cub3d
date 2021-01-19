@@ -113,8 +113,10 @@ int main_loop(t_game *game)
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
 	y = game->player.pos.y + sin(game->player.facing_angle) * hypotenus;
-	if (!has_wall_at(game, x, y))
-		set_pos(&game->player.pos, x, y);
+	if (!has_wall_at(game, x, game->player.pos.y))
+		set_pos(&game->player.pos, x, game->player.pos.y);
+	if (!has_wall_at(game, game->player.pos.x, y))
+		set_pos(&game->player.pos, game->player.pos.x, y);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
