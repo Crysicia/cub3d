@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 16:31:27 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/19 11:09:32 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,13 @@ void init_map(t_game *game)
 
 void init_player(t_game *game)
 {
-	game->player.pos.x = 128;
-	game->player.pos.y = 128;
+	game->player.pos.x = 4.5f;
+	game->player.pos.y = 4.5f;
 	game->player.current_direction = 0;
 	game->player.current_rotation = 0;
 	game->player.facing_angle = M_PI / 2;
-	game->player.move_speed = 2;
-	game->player.rotate_speed = 2 * (M_PI / 180);
+	game->player.move_speed = 0.1;
+	game->player.rotate_speed = 0.7 * (M_PI / 180);
 	game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
 }
 

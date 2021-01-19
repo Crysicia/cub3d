@@ -77,12 +77,12 @@ void render_3d_walls(t_game *game)
 		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
-			offset.x = (int)ray.wall_hit.y % TILE_SIZE;
+			offset.x = fmod(ray.wall_hit.y, 1.0f) * 64.0;
 		}
 		else
 		{
 			t = 1;
-			offset.x = (int)ray.wall_hit.x % TILE_SIZE;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * 64.0;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
 		render_texture_strip(&game->img, &game->texture[t], &wall, &offset, i);
@@ -91,19 +91,21 @@ void render_3d_walls(t_game *game)
 	}
 }
 
-t_bool has_wall_at(t_game *game, double x, double y)
+t_bool has_wall_at(t_game *game, float x, float y)
 {
 	int ix;
 	int iy;
 
-	ix = pixel2coord(x);
-	iy = pixel2coord(y);
-	return (!!(game->map[iy][ix] == '1'));
+	ix = floor(x);
+	iy = floor(y);
+	if (ix < 0 || iy < 0 || ix > MAP_WIDTH || iy > MAP_HEIGHT)
+		return (true);
+	return (game->map[iy][ix] == '1');
 }
 
 int main_loop(t_game *game)
 {
-	int hypotenus;
+	float hypotenus;
 	float x;
 	float y;
 

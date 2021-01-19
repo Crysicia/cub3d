@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 11:51:13 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/19 09:28:23 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int pixel2coord(float n)
 {
-	return (floor(n / TILE_SIZE));
+	return ((int)n);
 }
 
 float normalize_angle(float angle)

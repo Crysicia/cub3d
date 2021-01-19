@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 16:30:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/19 09:49:30 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall)
 {
-	wall->height = (TILE_SIZE /
-		(ray->distance * cos(ray->angle - game->player.facing_angle)))
-		* game->projection_plane;
-	wall->top = (SCREEN_HEIGHT / 2) - (wall->height / 2);
+	wall->height = game->projection_plane / (ray->distance * cos(ray->angle - game->player.facing_angle));
+	wall->top = (SCREEN_HEIGHT / 2.0) - (wall->height / 2);
 	if (wall->top < 0)
 		wall->top = 0;
-	wall->bottom = (SCREEN_HEIGHT / 2) + (wall->height / 2);
+	wall->bottom = (SCREEN_HEIGHT / 2.0) + (wall->height / 2);
 	if (wall->bottom > SCREEN_HEIGHT)
 		wall->bottom = SCREEN_HEIGHT;
 }

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/16 10:06:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/19 09:44:49 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ void get_horizontal_intercept(t_game *game, t_ray *ray)
 	t_pos intercept;
 	t_pos step;
 
-	intercept.y = floor(game->player.pos.y / TILE_SIZE) * TILE_SIZE;
+	intercept.y = floor(game->player.pos.y);
 	if (!ray->facing_up)
-		intercept.y += TILE_SIZE;
+		intercept.y += 1;
 	intercept.x = game->player.pos.x + (intercept.y - game->player.pos.y) / tan(ray->angle);
-	step.x = TILE_SIZE / tan(ray->angle);
-	step.y = TILE_SIZE;
+	step.x = 1 / tan(ray->angle);
+	step.y = 1;
 	if (ray->facing_up)
 		step.y *= -1;
 	if (ray->facing_left && step.x > 0)
@@ -91,13 +91,13 @@ void get_vertical_intercept(t_game *game, t_ray *ray)
 	t_pos intercept;
 	t_pos step;
 
-	intercept.x = floor(game->player.pos.x / TILE_SIZE) * TILE_SIZE;
+	intercept.x = floor(game->player.pos.x);
 	if (!ray->facing_left)
-	 	intercept.x += TILE_SIZE;
+	 	intercept.x += 1;
 	intercept.y = game->player.pos.y + (intercept.x - game->player.pos.x) * tan(ray->angle);
 
-	step.x = TILE_SIZE;
-	step.y = TILE_SIZE * tan(ray->angle);
+	step.x = 1;
+	step.y = tan(ray->angle);
 	if (ray->facing_left)
 		step.x *= -1;
 	if (ray->facing_up && step.y > 0)

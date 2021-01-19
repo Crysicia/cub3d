@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 16:31:54 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/19 10:38:33 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 #define LEFT 65363
 #define ESC 65307
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 640
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 1080
 
 #define MAP_WIDTH 10
 #define MAP_HEIGHT 10
@@ -36,7 +36,7 @@
 #define YELLOW 0x00FFFF00
 
 #define TILE_SIZE 64
-#define NUM_RAYS 640
+#define NUM_RAYS SCREEN_WIDTH
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
 
 typedef struct  s_data {
