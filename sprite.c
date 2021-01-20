@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/20 16:49:27 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/20 20:17:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,11 @@ void render_sprite(t_game *game, t_sprite *sprite)
 	if (bottom > SCREEN_HEIGHT)
 		bottom = SCREEN_HEIGHT;
 	x = game->projection_plane * tan(sprite->angle - game->player.facing_angle) + ((SCREEN_WIDTH / 2.0) - (height / 2));
-	if (x < 0)
-		x = 0;
 	if (x > SCREEN_WIDTH)
-		x = 0;
-
+		x = SCREEN_WIDTH;
 	y = top;
 	printf("Sprite: x:%i, y:%i, distance:%f, height:%i, angle:%f\n", x, y, sprite->distance, height, sprite->angle);
-	draw_x = 0;
+	draw_x = x < 0 ? -x : 0;
 	while (draw_x < height && draw_x + x < SCREEN_WIDTH)
 	{
 		draw_y = 0;
