@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/19 09:44:49 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 15:45:00 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,11 @@ void cast_rays(t_game *game)
 	float angle;
 
 	i = 0;
-	angle = game->player.facing_angle - (FOV / 2);
 	while (i < NUM_RAYS)	
 	{
+		angle = game->player.facing_angle + atan((i - NUM_RAYS / 2) / game->projection_plane);
 		init_ray(&game->rays[i], angle);
 		cast_ray(game, &game->rays[i]);
-		angle += FOV / NUM_RAYS;
 		i++;
 	}
 }
