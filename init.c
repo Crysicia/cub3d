@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/20 10:58:31 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 11:54:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void init(t_game *game)
 	size = 64;
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "Hello world!");
+	game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
+	game->num_sprites = 2;
+	game->sprites = malloc(sizeof(t_sprite) * game->num_sprites);
 	game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
@@ -35,12 +38,18 @@ void init(t_game *game)
 	game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./wood.xpm", &size, &size);
 	game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
 		&game->texture[1].line_length, &game->texture[1].endian);
-	game->sprite.texture.img = mlx_xpm_file_to_image(game->mlx, "./barrel.xpm", &size, &size);
-	game->sprite.texture.addr = mlx_get_data_addr(game->sprite.texture.img, &game->sprite.texture.bits_per_pixel,
-		&game->sprite.texture.line_length, &game->sprite.texture.endian);
-	game->sprite.pos.x = 4.5;
-	game->sprite.pos.y = 4.5;
-	game->sprite.is_visible = false;
+	game->sprites[0].texture.img = mlx_xpm_file_to_image(game->mlx, "./barrel.xpm", &size, &size);
+	game->sprites[0].texture.addr = mlx_get_data_addr(game->sprites[0].texture.img, &game->sprites[0].texture.bits_per_pixel,
+		&game->sprites[0].texture.line_length, &game->sprites[0].texture.endian);
+	game->sprites[0].pos.x = 4.5;
+	game->sprites[0].pos.y = 4.5;
+	game->sprites[1].texture.img = mlx_xpm_file_to_image(game->mlx, "./barrel.xpm", &size, &size);
+	game->sprites[1].texture.addr = mlx_get_data_addr(game->sprites[1].texture.img, &game->sprites[1].texture.bits_per_pixel,
+		&game->sprites[1].texture.line_length, &game->sprites[1].texture.endian);
+	game->sprites[1].pos.x = 5.5;
+	game->sprites[1].pos.y = 5.5;
+	game->sprites[0].is_visible = false;
+	game->sprites[1].is_visible = false;
 	init_map(game);
 	init_player(game);
 }
@@ -71,7 +80,7 @@ void init_player(t_game *game)
 	game->player.facing_angle = M_PI / 2;
 	game->player.move_speed = 0.1;
 	game->player.rotate_speed = 1.5 * (M_PI / 180);
-	game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
+
 }
 
 void init_ray(t_ray *ray, float angle)

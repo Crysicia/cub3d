@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 14:57:52 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 11:54:06 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ int key_pressed(int keycode, t_game *game)
 		game->player.current_rotation = 1;
 	else if (keycode == 'a')
 		printf("Angle: %f\n", game->player.facing_angle);
-	else if (keycode == 's')
-		printf("-----\nSprite at %f:%f: %s\nFOV: %f-%f\nANGLE: %f\nDistance: %f\n",
-			game->sprite.pos.x,
-			game->sprite.pos.y,
-			game->sprite.is_visible ? "VISIBLE" : "HIDDEN",
-			game->player.facing_angle - (FOV / 2),
-			game->player.facing_angle + (FOV / 2),
-			game->sprite.angle,
-			game->sprite.distance
-		);
 	else
 		print_infos(game);
+	// else if (keycode == 's')
+	// 	printf("-----\nSprite at %f:%f: %s\nFOV: %f-%f\nANGLE: %f\nDistance: %f\n",
+	// 		game->sprite.pos.x,
+	// 		game->sprite.pos.y,
+	// 		game->sprite.is_visible ? "VISIBLE" : "HIDDEN",
+	// 		game->player.facing_angle - (FOV / 2),
+	// 		game->player.facing_angle + (FOV / 2),
+	// 		game->sprite.angle,
+	// 		game->sprite.distance
+	// 	);
 }

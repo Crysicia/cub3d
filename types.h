@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/19 10:38:33 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 11:23:33 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ typedef struct	s_game
 {
 	void		*mlx;
 	void		*win;
+	char		map[MAP_HEIGHT][MAP_WIDTH];
+	double		projection_plane;
+	int			num_sprites;
 	t_data		img;
 	t_data		texture[4];
-	//t_data		sprite;
-	char		map[MAP_HEIGHT][MAP_WIDTH];
 	t_player	player;
-	t_ray rays[NUM_RAYS];
-	double projection_plane;
-	t_sprite sprite;
+	t_ray		rays[NUM_RAYS];
+	t_sprite	*sprites;
 }				t_game;
 #endif

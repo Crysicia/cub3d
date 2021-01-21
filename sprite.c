@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 11:03:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 11:21:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,6 @@ void update_sprite_visibility(t_player *player, t_sprite *sprite)
 
 void render_sprite(t_game *game, t_sprite *sprite)
 {
-	// int height;
-	// int top;
-	// int bottom;
-	// int x;
-
-	// int draw_x;
-	// int draw_y;
-	// t_pos offset;
-
-	// height = game->projection_plane / cos(sprite->angle) * sprite->distance;
-	// top = (SCREEN_HEIGHT / 2) - (height / 2);
-	// if (top < 0)
-	// 	top = 0;
-	// bottom = (SCREEN_HEIGHT / 2) + (height / 2);
-	// if (bottom > SCREEN_HEIGHT)
-	// 	bottom = SCREEN_HEIGHT;
-	// x = game->projection_plane * tan(sprite->angle) + (SCREEN_WIDTH / 2.0) - (height / 2);
-	// int y = top;
-	// while (x < height / 2)
-	// {
-	// 	offset.x = fmod(x, 1.0f) * 64.0;
-	// 	while (y < bottom)
-	// 	{
-	// 		int distance_from_top = y + (height / 2) - (SCREEN_HEIGHT / 2);
-	// 		offset.y = distance_from_top * (64.0f / height);
-	// 		my_mlx_pixel_put(&game->img, x, y, get_texture_color(&sprite->texture, &offset));
-	// 		y++;
-	// 	}
-	// 	x++;
-	// }
-
 	int height;
 	int top;
 	int bottom;
