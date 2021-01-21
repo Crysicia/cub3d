@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 11:54:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:42:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,4 @@ int key_pressed(int keycode, t_game *game)
 		printf("Angle: %f\n", game->player.facing_angle);
 	else
 		print_infos(game);
-	// else if (keycode == 's')
-	// 	printf("-----\nSprite at %f:%f: %s\nFOV: %f-%f\nANGLE: %f\nDistance: %f\n",
-	// 		game->sprite.pos.x,
-	// 		game->sprite.pos.y,
-	// 		game->sprite.is_visible ? "VISIBLE" : "HIDDEN",
-	// 		game->player.facing_angle - (FOV / 2),
-	// 		game->player.facing_angle + (FOV / 2),
-	// 		game->sprite.angle,
-	// 		game->sprite.distance
-	// 	);
 }

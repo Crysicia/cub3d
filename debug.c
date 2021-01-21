@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/18 14:40:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:40:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ void print_ray(t_ray *ray)
 void display_infos(t_game *game)
 {
 	char buffer[400];
-	sprintf(buffer, "Coords (%i, %i) X: %f Y: %f Angle: %f",
-		pixel2coord(game->player.pos.x),
-		pixel2coord(game->player.pos.y),
+	sprintf(buffer, "Coords X: %f Y: %f Angle: %f",
 		game->player.pos.x,
 		game->player.pos.y,
 		game->player.facing_angle

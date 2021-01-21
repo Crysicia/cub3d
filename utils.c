@@ -6,17 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/19 09:28:23 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:39:33 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
-
-int pixel2coord(float n)
-{
-	return ((int)n);
-}
 
 float normalize_angle(float angle)
 {

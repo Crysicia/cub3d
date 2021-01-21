@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 12:22:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:39:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define CUB3D_H
 # include "types.h"
 float normalize_angle(float angle);
-int pixel2coord(float n);
 int draw_map(t_game *game);
 int draw_player(t_game *game);
 void cast_ray(t_game *game, t_ray *ray);

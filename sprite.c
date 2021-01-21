@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 14:43:38 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 16:44:23 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void update_sprite_visibility(t_player *player, t_sprite *sprite)
 	set_pos(&relative_pos, sprite->pos.x - player->pos.x, sprite->pos.y - player->pos.y);
 	sprite_angle = normalize_angle(atan2(relative_pos.y, relative_pos.x));
 	sprite->angle = sprite_angle;
-	sprite->distance = sqrt(pow(sprite->pos.x - player->pos.x, 2) + pow(sprite->pos.y - player->pos.y, 2));
+	sprite->distance = pos_distance(&player->pos, &sprite->pos);
 	if (is_in_fov(player->facing_angle, sprite_angle))
 		sprite->is_visible = true;
 	else
