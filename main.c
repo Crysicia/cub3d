@@ -124,6 +124,7 @@ int main_loop(t_game *game)
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
+	sort_sprites(game);
 	while (i < game->num_sprites)
 	{
 		update_sprite_visibility(&game->player, &game->sprites[i]);

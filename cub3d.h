@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/19 10:34:33 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 12:22:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,6 @@ void render_texture_strip(t_data *img, t_data *texture, t_wall *wall, t_pos *off
 t_bool is_in_fov(double player_angle, double angle);
 void update_sprite_visibility(t_player *player, t_sprite *sprite);
 void render_sprite(t_game *game, t_sprite *sprite);
+void sort_sprites(t_game *game);
+
 #endif

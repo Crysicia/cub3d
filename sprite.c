@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 11:21:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 12:32:30 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,31 @@ void update_sprite_visibility(t_player *player, t_sprite *sprite)
 		sprite->is_visible = true;
 	else
 		sprite->is_visible = false;
+}
+
+void sort_sprites(t_game *game)
+{
+	t_sprite temp;
+	t_bool sorted;
+	int i;
+
+	sorted = false;
+	while (!sorted)
+	{
+		sorted = true;
+		i = 0;
+		while (i < game->num_sprites - 1)
+		{
+			if (game->sprites[i].distance < game->sprites[i + 1].distance)
+			{
+				temp = game->sprites[i];
+				game->sprites[i] = game->sprites[i + 1];
+				game->sprites[i + 1] = temp;
+				sorted = false;
+			}
+			i++;
+		}
+	}
 }
 
 void render_sprite(t_game *game, t_sprite *sprite)
