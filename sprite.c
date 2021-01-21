@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/20 20:17:24 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 10:29:36 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,14 @@ void render_sprite(t_game *game, t_sprite *sprite)
 	if (x > SCREEN_WIDTH)
 		x = SCREEN_WIDTH;
 	y = top;
-	printf("Sprite: x:%i, y:%i, distance:%f, height:%i, angle:%f\n", x, y, sprite->distance, height, sprite->angle);
+	// printf("Sprite: x:%i, y:%i, distance:%f, height:%i, angle:%f\n", x, y, sprite->distance, height, sprite->angle);
 	draw_x = x < 0 ? -x : 0;
 	while (draw_x < height && draw_x + x < SCREEN_WIDTH)
 	{
 		draw_y = 0;
 		while (draw_y < height && draw_y + y < SCREEN_HEIGHT)
 		{
-			if (draw_y == 0 || draw_x == 0 || draw_y == height - 1 || draw_x == height - 1)
+			if (game->rays[draw_x + x].distance > sprite->distance && (draw_y == 0 || draw_x == 0 || draw_y == height - 1 || draw_x == height - 1))
 				my_mlx_pixel_put(&game->img, draw_x + x, draw_y + y, WHITE);
 			draw_y++;
 		}
