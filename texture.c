@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/19 09:49:30 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 14:47:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void render_texture_strip(t_data *img, t_data *texture, t_wall *wall, t_pos *off
 	while (y < wall->bottom)
 	{
 		distance_from_top = y + (wall->height / 2) - (SCREEN_HEIGHT / 2);
-		offset->y = distance_from_top * (64.0f / wall->height);
+		offset->y = distance_from_top * ((float)texture->height / wall->height);
 		color = get_texture_color(texture, offset);
 		my_mlx_pixel_put(img, x, y, color);
 		y++;

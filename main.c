@@ -77,12 +77,12 @@ void render_3d_walls(t_game *game)
 		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
-			offset.x = fmod(ray.wall_hit.y, 1.0f) * 64.0;
+			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
 		}
 		else
 		{
 			t = 1;
-			offset.x = fmod(ray.wall_hit.x, 1.0f) * 64.0;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
 		render_texture_strip(&game->img, &game->texture[t], &wall, &offset, i);

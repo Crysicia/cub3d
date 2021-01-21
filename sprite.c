@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 12:32:30 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 14:43:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ t_bool is_in_fov(double player_angle, double angle)
 	float fov_start;
 	float fov_end;
 
-	fov_start = player_angle - (80 * (M_PI / 180) / 2); 
-	fov_end = player_angle + (80 *  (M_PI / 180) / 2); 
+	fov_start = player_angle - (80 * (M_PI / 180) / 2);
+	fov_end = player_angle + (80 *  (M_PI / 180) / 2);
+	//printf("Fov: %f-%f, Sprite angle: %f\n", fov_start, fov_end, angle);
 	if (fov_start <= angle && fov_end >= angle)
 		return (true);
 	return (false);
@@ -94,13 +95,13 @@ void render_sprite(t_game *game, t_sprite *sprite)
 	draw_x = x < 0 ? -x : 0;
 	while (draw_x < height && draw_x + x < SCREEN_WIDTH)
 	{
-		offset.x = draw_x * 64.0f / height;
+		offset.x = draw_x * (float)sprite->texture.width / height;
 		draw_y = 0;
 		while (draw_y < height && draw_y + y < SCREEN_HEIGHT)
 		{
-			offset.y = (draw_y + y + (height / 2) - (SCREEN_HEIGHT / 2)) * (64.0f / height);
+			offset.y = (draw_y + y + (height / 2) - (SCREEN_HEIGHT / 2)) * ((float)sprite->texture.height / height);
 			int color = get_texture_color(&sprite->texture, &offset);
-			if (game->rays[draw_x + x].distance > sprite->distance && color != 0x00000000)
+			if (game->rays[draw_x + x].distance > sprite->distance && color != sprite->alpha)
 				my_mlx_pixel_put(&game->img, draw_x + x, draw_y + y, color);
 			draw_y++;
 		}

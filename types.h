@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 11:23:33 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/21 14:41:10 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #define SCREEN_HEIGHT 1080
 
 #define MAP_WIDTH 10
-#define MAP_HEIGHT 10
+#define MAP_HEIGHT 25
 
 #define WHITE 0x00FFFFFF
 #define BLACK 0xFF000000
@@ -45,6 +45,8 @@ typedef struct  s_data {
 	int         bits_per_pixel;
 	int         line_length;
 	int         endian;
+	int			width;
+	int			height;
 }               t_data;
 
 typedef struct  s_pos
@@ -69,10 +71,11 @@ typedef struct s_wall
 typedef struct s_sprite
 {
 	t_pos pos;
-	float distance;
-	t_bool is_visible;
-	double angle;
 	t_data texture;
+	t_bool is_visible;
+	int alpha;
+	float distance;
+	double angle;
 }				t_sprite;
 
 typedef struct s_ray
