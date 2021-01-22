@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 16:44:23 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:33:30 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ void render_sprite(t_game *game, t_sprite *sprite)
 	draw_x = x < 0 ? -x : 0;
 	while (draw_x < height && draw_x + x < SCREEN_WIDTH)
 	{
-		offset.x = draw_x * (float)sprite->texture.width / height;
+		offset.x = draw_x * (float)game->sprite_texture.width / height;
 		draw_y = 0;
 		while (draw_y < height && draw_y + y < SCREEN_HEIGHT)
 		{
-			offset.y = (draw_y + y + (height / 2) - (SCREEN_HEIGHT / 2)) * ((float)sprite->texture.height / height);
-			int color = get_texture_color(&sprite->texture, &offset);
-			if (game->rays[draw_x + x].distance > sprite->distance && color != sprite->alpha)
+			offset.y = (draw_y + y + (height / 2) - (SCREEN_HEIGHT / 2)) * ((float)game->sprite_texture.height / height);
+			int color = get_texture_color(&game->sprite_texture, &offset);
+			if (game->rays[draw_x + x].distance > sprite->distance && color != game->sprite_alpha)
 				my_mlx_pixel_put(&game->img, draw_x + x, draw_y + y, color);
 			draw_y++;
 		}

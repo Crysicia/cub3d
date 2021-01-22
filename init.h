@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:44:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/15 17:42:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:31:53 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,4 +17,7 @@ void init(t_game *game);
 void init_map(t_game *game);
 void init_player(t_game *game);
 void init_ray(t_ray *ray, float angle);
+void init_sprite(t_sprite *sprite, float x, float y);
+t_bool init_all_sprites(t_game *game);
+t_bool load_texture(void *mlx, t_data *texture, char *filepath);
 #endif

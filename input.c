@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 16:42:24 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:40:15 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int key_pressed(int keycode, t_game *game)
 		game->player.current_rotation = -1;
 	else if (keycode == LEFT)
 		game->player.current_rotation = 1;
-	else if (keycode == 'a')
-		printf("Angle: %f\n", game->player.facing_angle);
-	else
-		print_infos(game);
+	// else if (keycode == 'a')
+	// 	printf("Angle: %f\n", game->player.facing_angle);
+	// else
+	// 	print_infos(game);
 }

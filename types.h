@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 14:41:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/22 16:18:18 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #define RIGHT 65361
 #define LEFT 65363
 #define ESC 65307
+#define WINDOW_TITLE "Cub3D"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 1080
@@ -71,9 +72,7 @@ typedef struct s_wall
 typedef struct s_sprite
 {
 	t_pos pos;
-	t_data texture;
 	t_bool is_visible;
-	int alpha;
 	float distance;
 	double angle;
 }				t_sprite;
@@ -108,8 +107,12 @@ typedef struct	s_game
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	double		projection_plane;
 	int			num_sprites;
+	int			map_height;
+	int			map_width;
 	t_data		img;
 	t_data		texture[4];
+	t_data		sprite_texture;
+	int			sprite_alpha;
 	t_player	player;
 	t_ray		rays[NUM_RAYS];
 	t_sprite	*sprites;

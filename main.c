@@ -110,7 +110,6 @@ int main_loop(t_game *game)
 	float y;
 	int i;
 
-	i = 0;
 	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
 	hypotenus = game->player.current_direction * game->player.move_speed;
 	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
@@ -124,11 +123,17 @@ int main_loop(t_game *game)
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
-	if (game->num_sprites > 0)
-		sort_sprites(game);
+	i = 0;
 	while (i < game->num_sprites)
 	{
 		update_sprite_visibility(&game->player, &game->sprites[i]);
+		i++;
+	}
+	if (game->num_sprites > 0)
+		sort_sprites(game);
+	i = 0;
+	while (i < game->num_sprites)
+	{
 		if (game->sprites[i].is_visible)
 			render_sprite(game, &game->sprites[i]);
 		i++;
