@@ -6,12 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 16:40:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 15:00:19 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
-#include "cub3d.h"
+#include "../includes/debug.h"
+#include "../includes/cub3d.h"
 
 void print_infos(t_game *game)
 {

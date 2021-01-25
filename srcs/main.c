@@ -1,4 +1,4 @@
-#include "mlx/mlx.h"
+#include "../mlx/mlx.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,11 +7,11 @@
 #include <float.h>
 #include <X11/X.h>
 
-#include "shapes.h"
-#include "init.h"
-#include "debug.h"
-#include "input.h"
-#include "cub3d.h"
+#include "../includes/shapes.h"
+#include "../includes/init.h"
+#include "../includes/debug.h"
+#include "../includes/input.h"
+#include "../includes/cub3d.h"
 
 int draw_map(t_game *game)
 {

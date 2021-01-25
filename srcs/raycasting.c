@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 15:45:00 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 15:00:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <math.h>
-#include "cub3d.h"
-#include "init.h"
+#include "../includes/cub3d.h"
+#include "../includes/init.h"
 
 t_bool is_in_screen(float x, float y)
 {

@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/22 16:33:30 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 15:00:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <stdio.h>
-#include "cub3d.h"
-#include "shapes.h"
+#include "../includes/cub3d.h"
+#include "../includes/shapes.h"
 
 t_bool is_in_fov(double player_angle, double angle)
 {
@@ -22,7 +22,7 @@ t_bool is_in_fov(double player_angle, double angle)
 
 	fov_start = player_angle - (80 * (M_PI / 180) / 2);
 	fov_end = player_angle + (80 *  (M_PI / 180) / 2);
-	//printf("Fov: %f-%f, Sprite angle: %f\n", fov_start, fov_end, angle);
+	// printf("Fov: %f-%f, Sprite angle: %f\n", fov_start, fov_end, angle);
 	if (fov_start <= angle && fov_end >= angle)
 		return (true);
 	return (false);

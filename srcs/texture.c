@@ -6,11 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 14:47:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 15:00:00 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../includes/cub3d.h"
 
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall)
 {
