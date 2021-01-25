@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 15:00:26 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 15:11:19 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "../mlx/mlx.h"
 #include "../includes/input.h"
 #include "../includes/debug.h"
-#include "../mlx/mlx.h"
 #include "../includes/cub3d.h"
 
 int key_released(int keycode, t_game *game)

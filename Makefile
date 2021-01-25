@@ -3,8 +3,9 @@ CFLAGS 		= -g -Wall #-Werror -Wextra
 RM 			= rm -f
 NAME 		= test
 HEADERS 	= -I./includes
-LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm
+LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm -Llibft -lft
 MLX = libmlx.a
+LIBFT = libft.a
 
 SRCS 		= srcs/main.c \
 			  srcs/shapes.c \
@@ -23,11 +24,14 @@ all: $(NAME)
 .c.o:
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
 
-$(NAME): $(MLX) $(OBJS)
+$(NAME): $(MLX) $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 $(MLX):
 	@$(MAKE) -C mlx
+
+$(LIBFT):
+	@$(MAKE) -C libft
 
 clean:
 	$(RM) $(OBJS)

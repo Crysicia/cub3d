@@ -1,4 +1,5 @@
 #include "../mlx/mlx.h"
+#include "../libft/libft.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -147,7 +148,15 @@ int             main(int argc, char *argv[])
 	(void)	argc;
 	(void)	argv;
 	t_game  game;
+	char **split;
 
+	split = ft_split_set("    125,      452,,,,,, 12", ", ");
+	int i = 0;
+	while (split[i])
+	{
+		printf("%s\n", split[i]);
+		i++;
+	}
 	init(&game);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
