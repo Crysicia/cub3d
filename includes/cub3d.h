@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/21 16:39:42 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 20:06:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ t_bool is_in_fov(double player_angle, double angle);
 void update_sprite_visibility(t_player *player, t_sprite *sprite);
 void render_sprite(t_game *game, t_sprite *sprite);
 void sort_sprites(t_game *game);
+
+int parse_colors(int *color, char *line);
 
 #endif

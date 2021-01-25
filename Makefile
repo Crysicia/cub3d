@@ -16,7 +16,9 @@ SRCS 		= srcs/main.c \
 			  srcs/raycasting.c \
 			  srcs/utils.c \
 			  srcs/texture.c \
-			  srcs/sprite.c
+			  srcs/sprite.c \
+			  srcs/parse_settings.c \
+
 OBJS 		= $(SRCS:.c=.o)
 
 all: $(NAME)

@@ -6,12 +6,15 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 16:28:31 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 20:12:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../includes/cub3d.h"
+#include <stdio.h>
+
+#define ALLOCATION_ERROR -45
 
 int arr_len(char **arr)
 {
@@ -23,13 +26,24 @@ int arr_len(char **arr)
 	return (len);
 }
 
-t_bool set_colors(t_game *game, int red, int green, int blue);
-
-t_bool parse_colors(t_game *game, char **colors)
+t_bool set_colors(int *color, int red, int green, int blue)
 {
-	if (arr_len(colors) != 3 || set_colors(game, ft_atoi(colors[0]),
-								ft_atoi(colors[1]), ft_atoi(colors[2])))
+	if (!ft_in_range(0, 255, red) || !ft_in_range(0, 255, green)
+		|| !ft_in_range(0, 255, blue))
 		return (false);
+	(*color) = (red << 16) + (green << 8) + blue;
+	return (true);
+}
+
+t_bool get_colors(int *color, char **colors)
+{
+	if (arr_len(colors) != 3 || !set_colors(color, ft_atoi(colors[0]),
+								ft_atoi(colors[1]), ft_atoi(colors[2])))
+	{
+		ft_free_matrix(colors, arr_len(colors));
+		return (false);
+	}
+	ft_free_matrix(colors, arr_len(colors));
 	return (true);
 }
 
@@ -51,4 +65,17 @@ t_bool color_is_valid(char *line)
 		index++;
 	}
 	return (true);
+}
+
+int parse_colors(int *color, char *line)
+{
+	char **color_arr;
+
+	if (!color_is_valid(line))
+		return (-1);
+	if (!(color_arr = ft_split_set(line, ", ")))
+		return (ALLOCATION_ERROR);
+	if (!get_colors(color, color_arr))
+		return (-1);
+	return (1);
 }

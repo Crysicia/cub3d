@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/22 16:18:18 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/25 18:15:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ typedef struct	s_game
 	int			num_sprites;
 	int			map_height;
 	int			map_width;
+
+	int			floor_color;
+	int			ceiling_color;
+
 	t_data		img;
 	t_data		texture[4];
 	t_data		sprite_texture;

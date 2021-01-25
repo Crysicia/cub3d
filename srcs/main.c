@@ -146,20 +146,17 @@ int main_loop(t_game *game)
 int             main(int argc, char *argv[])
 {
 	(void)	argc;
-	(void)	argv;
+	// (void)	argv;
 	t_game  game;
-	char **split;
+	int color;
 
-	split = ft_split_set("    125,      452,,,,,, 12", ", ");
-	int i = 0;
-	while (split[i])
-	{
-		printf("%s\n", split[i]);
-		i++;
-	}
-	init(&game);
-	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
-	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-	mlx_loop_hook(game.mlx, main_loop, &game);
-	mlx_loop(game.mlx);
+	if (parse_colors(&color, argv[1]) == 1)
+		printf("red: %d green: %d blue: %d\n", (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8, (color & 0x000000FF));
+	else
+		printf("Cannot parse\n");
+	// init(&game);
+	// mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
+	// mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+	// mlx_loop_hook(game.mlx, main_loop, &game);
+	// mlx_loop(game.mlx);
 }
