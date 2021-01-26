@@ -148,11 +148,12 @@ int             main(int argc, char *argv[])
 	(void)	argc;
 	// (void)	argv;
 	t_game  game;
-	t_resolution resolution;
 
-
-	if (parse_resolution(&resolution, argv[1]) == 1)
-		printf("width: %i, height: %i\n", resolution.width, resolution.height);
+	game.texture[0].img = NULL;
+	game.texture[0].addr = NULL;
+	game.mlx = mlx_init();
+	if (parse_texture(game.mlx, &game.texture[0], argv[1]) == 1)
+		printf("texture loaded");
 	else
 		printf("Cannot parse\n");
 	// init(&game);

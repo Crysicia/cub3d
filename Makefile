@@ -20,6 +20,7 @@ SRCS 		= srcs/main.c \
 			  srcs/parse_color.c \
 			  srcs/parsing_utils.c \
 			  srcs/parse_resolution.c \
+			  srcs/parse_texture.c \
 
 OBJS 		= $(SRCS:.c=.o)
 

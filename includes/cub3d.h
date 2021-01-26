@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/26 10:39:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/26 12:34:36 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 # include "types.h"
 # include <limits.h>
+# include "../mlx/mlx.h"
 float normalize_angle(float angle);
 int draw_map(t_game *game);
 int draw_player(t_game *game);
@@ -45,4 +46,7 @@ t_bool set_resolution(t_resolution *resolution, int width, int height);
 t_bool get_resolution(t_resolution *resolution, char **reso_arr);
 t_bool resolution_is_valid(char *line);
 int parse_resolution(t_resolution *resolution, char *line);
+
+int set_texture(void *mlx, t_data *texture, char *path);
+int parse_texture(void *mlx, t_data *texture, char *line);
 #endif
