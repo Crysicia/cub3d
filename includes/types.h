@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 18:15:40 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/26 11:52:00 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@
 #define TILE_SIZE 64
 #define NUM_RAYS SCREEN_WIDTH
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
+
+
+#define ALLOCATION_ERROR -45
 
 typedef struct  s_data {
 	void        *img;
@@ -76,6 +79,12 @@ typedef struct s_sprite
 	float distance;
 	double angle;
 }				t_sprite;
+
+typedef struct s_resolution
+{
+	int width;
+	int height;
+}				t_resolution;
 
 typedef struct s_ray
 {

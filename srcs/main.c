@@ -148,10 +148,11 @@ int             main(int argc, char *argv[])
 	(void)	argc;
 	// (void)	argv;
 	t_game  game;
-	int color;
+	t_resolution resolution;
 
-	if (parse_colors(&color, argv[1]) == 1)
-		printf("red: %d green: %d blue: %d\n", (color & 0x00FF0000) >> 16, (color & 0x0000FF00) >> 8, (color & 0x000000FF));
+
+	if (parse_resolution(&resolution, argv[1]) == 1)
+		printf("width: %i, height: %i\n", resolution.width, resolution.height);
 	else
 		printf("Cannot parse\n");
 	// init(&game);

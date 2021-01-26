@@ -1,30 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_settings.c                                   :+:      :+:    :+:   */
+/*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 20:12:16 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/26 11:51:51 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../includes/cub3d.h"
-#include <stdio.h>
-
-#define ALLOCATION_ERROR -45
-
-int arr_len(char **arr)
-{
-	int len;
-
-	len = 0;
-	while (arr[len])
-		len++;
-	return (len);
-}
 
 t_bool set_colors(int *color, int red, int green, int blue)
 {

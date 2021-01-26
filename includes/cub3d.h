@@ -6,13 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 20:06:54 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/26 10:39:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 # include "types.h"
+# include <limits.h>
 float normalize_angle(float angle);
 int draw_map(t_game *game);
 int draw_player(t_game *game);
@@ -34,6 +35,14 @@ void update_sprite_visibility(t_player *player, t_sprite *sprite);
 void render_sprite(t_game *game, t_sprite *sprite);
 void sort_sprites(t_game *game);
 
+int arr_len(char **arr);
+t_bool set_colors(int *color, int red, int green, int blue);
+t_bool get_colors(int *color, char **colors);
+t_bool color_is_valid(char *line);
 int parse_colors(int *color, char *line);
 
+t_bool set_resolution(t_resolution *resolution, int width, int height);
+t_bool get_resolution(t_resolution *resolution, char **reso_arr);
+t_bool resolution_is_valid(char *line);
+int parse_resolution(t_resolution *resolution, char *line);
 #endif

@@ -17,7 +17,9 @@ SRCS 		= srcs/main.c \
 			  srcs/utils.c \
 			  srcs/texture.c \
 			  srcs/sprite.c \
-			  srcs/parse_settings.c \
+			  srcs/parse_color.c \
+			  srcs/parsing_utils.c \
+			  srcs/parse_resolution.c \
 
 OBJS 		= $(SRCS:.c=.o)
 
@@ -37,9 +39,11 @@ $(LIBFT):
 
 clean:
 	$(RM) $(OBJS)
+	@$(MAKE) clean -C libft
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(MAKE) fclean -C libft
 
 re: fclean all
 
