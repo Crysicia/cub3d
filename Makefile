@@ -21,6 +21,8 @@ SRCS 		= srcs/main.c \
 			  srcs/parsing_utils.c \
 			  srcs/parse_resolution.c \
 			  srcs/parse_texture.c \
+			  srcs/get_next_line.c \
+			  srcs/get_next_line_utils.c \
 
 OBJS 		= $(SRCS:.c=.o)
 

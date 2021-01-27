@@ -6,12 +6,16 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/26 11:52:00 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 13:02:36 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+#define EXTENSION_ERROR -42
+#define ALLOCATION_ERROR -45
+#define SUCCESS 42
 
 #define TWO_PI 6.283185307179586
 #define ONE_A_HALF_PI 4.71238898038469
@@ -39,9 +43,6 @@
 #define TILE_SIZE 64
 #define NUM_RAYS SCREEN_WIDTH
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
-
-
-#define ALLOCATION_ERROR -45
 
 typedef struct  s_data {
 	void        *img;

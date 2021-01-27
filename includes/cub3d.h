@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 12:37:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 13:19:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 # include <limits.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
+# define BUFFER_SIZE 64
+
+char	*gnl_strdup(const char *s1);
+char	*gnl_strjoin(char const *s1, char const *s2);
+int		gnl_strchr(const char *s, int c);
+void	gnl_nl_to_null(char *str);
+int		gnl_free(void *line, char **remaining, int status);
+char	*gnl_dup_free(char *to_free, char *to_dup);
+char	*gnl_alloc_remaining(char *remaining);
+int		get_next_line(int fd, char **line);
 
 float normalize_angle(float angle);
 int draw_map(t_game *game);
