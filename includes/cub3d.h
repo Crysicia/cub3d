@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/26 12:34:36 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 12:37:57 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include "types.h"
 # include <limits.h>
 # include "../mlx/mlx.h"
+# include "../libft/libft.h"
+
 float normalize_angle(float angle);
 int draw_map(t_game *game);
 int draw_player(t_game *game);
@@ -49,4 +51,6 @@ int parse_resolution(t_resolution *resolution, char *line);
 
 int set_texture(void *mlx, t_data *texture, char *path);
 int parse_texture(void *mlx, t_data *texture, char *line);
+
+t_bool has_extension(char *path, char *ext);
 #endif

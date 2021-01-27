@@ -6,11 +6,10 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:17:04 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/26 12:03:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 12:49:08 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../includes/cub3d.h"
 
 t_bool set_resolution(t_resolution *resolution, int width, int height)
