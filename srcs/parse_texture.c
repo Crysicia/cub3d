@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:27:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 12:49:05 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 16:48:58 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int set_texture(void *mlx, t_data *texture, char *path)
 		if (texture->img)
 			mlx_destroy_image(mlx, texture->img);
 		free(texture->addr);
-		return (-1);
+		return (GENERIC_ERROR);
 	}
-	return (1);
+	return (SUCCESS);
 }
 
 int parse_texture(void *mlx, t_data *texture, char *line)
@@ -41,7 +41,7 @@ int parse_texture(void *mlx, t_data *texture, char *line)
 	if (!has_extension(trimmed, ".xpm"))
 	{
 		free(trimmed);
-		return (-1);
+		return (EXTENSION_ERROR);
 	}
 	return (set_texture(mlx, texture, trimmed));
 }

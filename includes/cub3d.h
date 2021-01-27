@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 13:19:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 17:12:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CUB3D_H
 # include "types.h"
 # include <limits.h>
+# include <fcntl.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
 # define BUFFER_SIZE 64
@@ -63,4 +64,13 @@ int set_texture(void *mlx, t_data *texture, char *path);
 int parse_texture(void *mlx, t_data *texture, char *line);
 
 t_bool has_extension(char *path, char *ext);
+t_bool open_file(char *path, int *fd);
+int set_error(int *error, int code);
+t_bool settings_set(int settings);
+
+int parse_setting(t_game *game, char *line);
+int parse_settings_loop(t_game *game, int fd, int *error);
+int parse_map_loop(t_game *game, int fd, int *error);
+int parse_file(t_game *game, char *path);
+
 #endif

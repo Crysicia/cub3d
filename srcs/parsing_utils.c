@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:05:58 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 12:47:52 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 16:39:58 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,18 @@ t_bool has_extension(char *path, char *ext)
 	if (ext_len > path_len)
 		return (false);
 	return (!ft_strncmp(&path[path_len - ext_len], ext, ext_len));
+}
+
+t_bool open_file(char *path, int *fd)
+{
+	*fd = open(path, O_RDONLY);
+	if (*fd == -1)
+		return (false);
+	return (true);
+}
+
+int set_error(int *error, int code)
+{
+	*error = code;
+	return (code);
 }

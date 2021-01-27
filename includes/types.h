@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 13:02:36 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 16:54:14 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 # define TYPES_H
 
 #define EXTENSION_ERROR -42
+#define OPEN_ERROR -43
+#define READ_ERROR -44
 #define ALLOCATION_ERROR -45
+#define UNKNOWN_SETTING_ERROR -46
+#define INVALID_SETTING_ERROR -47
+#define GENERIC_ERROR -48
 #define SUCCESS 42
 
 #define TWO_PI 6.283185307179586
@@ -112,6 +117,7 @@ typedef struct s_player
 
 typedef struct	s_game
 {
+	int 		settings;
 	void		*mlx;
 	void		*win;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
@@ -123,6 +129,7 @@ typedef struct	s_game
 	int			floor_color;
 	int			ceiling_color;
 
+	t_resolution resolution;
 	t_data		img;
 	t_data		texture[4];
 	t_data		sprite_texture;

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:17:04 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 12:49:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 17:02:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,15 @@ int parse_resolution(t_resolution *resolution, char *line)
 	char **reso_arr;
 
 	if (!resolution_is_valid(line))
-		return (-1);
+		return (INVALID_SETTING_ERROR);
 	if (!(reso_arr = ft_split_set(line, " ")))
 		return (ALLOCATION_ERROR);
 	if (!get_resolution(resolution, reso_arr))
-		return (-1);
-	return (1);
+		return (INVALID_SETTING_ERROR);
+	return (SUCCESS);
+}
+
+t_bool settings_set(int settings)
+{
+	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 18:08:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/27 16:26:13 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void init(t_game *game)
 {
 	game->mlx = mlx_init();
 	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "OOPS");
+	game->settings = 0;
 	game->map_height = MAP_HEIGHT;
 	game->map_width = MAP_WIDTH;
 	game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);

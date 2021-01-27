@@ -146,14 +146,29 @@ int main_loop(t_game *game)
 int             main(int argc, char *argv[])
 {
 	(void)	argc;
-	// (void)	argv;
+	(void)	argv;
 	t_game  game;
 
 	game.texture[0].img = NULL;
 	game.texture[0].addr = NULL;
+	game.texture[1].img = NULL;
+	game.texture[1].addr = NULL;
+	game.texture[2].img = NULL;
+	game.texture[2].addr = NULL;
+	game.texture[3].img = NULL;
+	game.texture[3].addr = NULL;
 	game.mlx = mlx_init();
-	if (parse_texture(game.mlx, &game.texture[0], argv[1]) == 1)
-		printf("texture loaded");
+
+
+	int ret = parse_file(&game, argv[1]);
+	if (ret == SUCCESS)
+		printf(
+			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
+			game.resolution.width,
+			game.resolution.height,
+			game.ceiling_color,
+			game.floor_color
+		);
 	else
 		printf("Cannot parse\n");
 	// init(&game);
