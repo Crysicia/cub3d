@@ -2,18 +2,15 @@ C 225   ,   0    ,   125
 R 158 5
 F 0,0,   0   
 
-
 S ./textures/barrel.xpm
 NO ./textures/wood.xpm
-     
-
-					
-
 SO ./textures/wall.xpm
 WE ./textures/oversized.xpm
 EA ./textures/barrel.xpm
 
 1111111
 1001101
+   
+
 1N00001
 1111111

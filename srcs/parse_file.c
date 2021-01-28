@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 15:53:29 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 22:42:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_bool line_is_blank(char *line)
 {
 	while (*line)
 	{
-		if (*line != ' ')
+		if (*line != ' ' || *line != '\t')
 			return (false);
 		line++;
 	}
@@ -57,6 +57,7 @@ int parse_settings_loop(t_game *game, int fd, int *error)
 			return (set_error(error, READ_ERROR));
 		if (!line_is_blank(line))
 			*error = parse_setting(game, line);
+		printf("Current line: %s\n", line);
 		free(line);
 	}
 	if (*error != SUCCESS)
@@ -104,7 +105,7 @@ int parse_file(t_game *game, char *path)
 	if (parse_map_loop(game, fd, &error) != SUCCESS)
 		return (error);
 	close(fd);
-	if (!validate_map(&game->map2, &error) != SUCCESS)
-		return (error)
+	// if (!validate_map(&game->map2, &error) != SUCCESS)
+	// 	return (error);
 	return (SUCCESS);
 }

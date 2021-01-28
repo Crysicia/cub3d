@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:05:58 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 13:47:28 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 22:39:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ t_bool settings_set(t_game *game)
 	if (game->floor_color == NOT_SET
 		|| game->ceiling_color == NOT_SET
 		|| game->resolution.width == NOT_SET
-		|| game->texture[0].img == NULL
-		|| game->texture[1].img == NULL
-		|| game->texture[2].img == NULL
-		|| game->texture[3].img == NULL)
+		|| game->sprite_texture.addr == NULL
+		|| game->texture[0].addr == NULL
+		|| game->texture[1].addr == NULL
+		|| game->texture[2].addr == NULL
+		|| game->texture[3].addr == NULL)
 		return (false);
 	return (true);
 }

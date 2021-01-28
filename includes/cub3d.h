@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 13:50:14 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 22:32:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,7 @@ int parse_settings_loop(t_game *game, int fd, int *error);
 int parse_map_loop(t_game *game, int fd, int *error);
 int parse_file(t_game *game, char *path);
 
+t_bool add_row_to_map(t_map *map, char *row);
+t_bool map_row_is_valid(char *line);
+int parse_map(t_game *game, char *line);
 #endif

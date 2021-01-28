@@ -153,6 +153,7 @@ void init_settings(t_game *game)
 	game->texture[2].addr = NULL;
 	game->texture[3].img = NULL;
 	game->texture[3].addr = NULL;
+	game->sprite_texture.addr = NULL;
 	game->floor_color = NOT_SET;
 	game->ceiling_color = NOT_SET;
 	game->resolution.width = NOT_SET;
@@ -161,6 +162,19 @@ void init_settings(t_game *game)
 	game->map2.matrix = NULL;
 	game->map2.width = 0;
 	game->map2.height = 0;
+}
+
+void display_map(t_map *map)
+{
+	int i;
+
+	i = 0;
+	printf("\n");
+	while (i < map->height)
+	{
+		printf("%s\n", map->matrix[i]);
+		i++;
+	}
 }
 
 int             main(int argc, char *argv[])
@@ -173,6 +187,7 @@ int             main(int argc, char *argv[])
 	init_settings(&game);
 	int ret = parse_file(&game, argv[1]);
 	if (ret == SUCCESS)
+	{
 		printf(
 			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
 			game.resolution.width,
@@ -180,6 +195,8 @@ int             main(int argc, char *argv[])
 			game.ceiling_color,
 			game.floor_color
 		);
+		display_map(&game.map2);
+	}
 	else
 		printf("Cannot parse, ERROR: %i\n", ret);
 	// init(&game);

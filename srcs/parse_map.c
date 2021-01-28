@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 16:20:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 22:44:09 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@ t_bool add_row_to_map(t_map *map, char *row)
 		return (false);
 	while (index < map->height)
 	{
-		// copy shit
+		new_matrix[index] = map->matrix[index];
+		index++;
 	}
+	new_matrix[index] = row;
+	free(map->matrix);
+	map->matrix = new_matrix;
+	map->height++;
+	return (true);
 }
 
 t_bool map_row_is_valid(char *line)
@@ -42,9 +48,12 @@ t_bool map_row_is_valid(char *line)
 
 int parse_map(t_game *game, char *line)
 {
+	char *row;
+
 	if (!map_row_is_valid(line))
 		return (MAP_ERROR);
-	if (!add_row_to_map(&game->map2, line))
+	row = ft_strdup(line);
+	if (!row || !add_row_to_map(&game->map2, row))
 		return (ALLOCATION_ERROR);
 	return (SUCCESS);
 }
