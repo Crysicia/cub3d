@@ -143,23 +143,30 @@ int main_loop(t_game *game)
 	display_infos(game);
 }
 
+void init_settings(t_game *game)
+{
+	game->texture[0].img = NULL;
+	game->texture[0].addr = NULL;
+	game->texture[1].img = NULL;
+	game->texture[1].addr = NULL;
+	game->texture[2].img = NULL;
+	game->texture[2].addr = NULL;
+	game->texture[3].img = NULL;
+	game->texture[3].addr = NULL;
+	game->floor_color = NOT_SET;
+	game->ceiling_color = NOT_SET;
+	game->resolution.width = NOT_SET;
+	game->resolution.height = NOT_SET;
+}
+
 int             main(int argc, char *argv[])
 {
 	(void)	argc;
 	(void)	argv;
 	t_game  game;
 
-	game.texture[0].img = NULL;
-	game.texture[0].addr = NULL;
-	game.texture[1].img = NULL;
-	game.texture[1].addr = NULL;
-	game.texture[2].img = NULL;
-	game.texture[2].addr = NULL;
-	game.texture[3].img = NULL;
-	game.texture[3].addr = NULL;
 	game.mlx = mlx_init();
-
-
+	init_settings(&game);
 	int ret = parse_file(&game, argv[1]);
 	if (ret == SUCCESS)
 		printf(
@@ -170,7 +177,7 @@ int             main(int argc, char *argv[])
 			game.floor_color
 		);
 	else
-		printf("Cannot parse\n");
+		printf("Cannot parse, ERROR: %i\n", ret);
 	// init(&game);
 	// mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	// mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);

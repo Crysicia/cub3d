@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:05:58 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 16:39:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 13:47:28 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,17 @@ int set_error(int *error, int code)
 {
 	*error = code;
 	return (code);
+}
+
+t_bool settings_set(t_game *game)
+{
+	if (game->floor_color == NOT_SET
+		|| game->ceiling_color == NOT_SET
+		|| game->resolution.width == NOT_SET
+		|| game->texture[0].img == NULL
+		|| game->texture[1].img == NULL
+		|| game->texture[2].img == NULL
+		|| game->texture[3].img == NULL)
+		return (false);
+	return (true);
 }

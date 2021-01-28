@@ -6,11 +6,22 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 20:32:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 13:48:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+t_bool line_is_blank(char *line)
+{
+	while (*line)
+	{
+		if (*line != ' ')
+			return (false);
+		line++;
+	}
+	return (true);
+}
 
 int parse_setting(t_game *game, char *line)
 {
@@ -30,7 +41,7 @@ int parse_setting(t_game *game, char *line)
 		return (parse_texture(game->mlx, &game->texture[2], &line[3]));
 	if (!ft_strncmp(line, "WE ", 3))
 		return (parse_texture(game->mlx, &game->texture[3], &line[3]));
-	return (SUCCESS); // TODO FIX THATT
+	return (UNKNOWN_SETTING_ERROR);
 }
 
 int parse_settings_loop(t_game *game, int fd, int *error)
@@ -39,13 +50,13 @@ int parse_settings_loop(t_game *game, int fd, int *error)
 	int gnl_ret;
 
 	gnl_ret = 1;
-	while (*error == SUCCESS && gnl_ret == 1
-							 && !settings_set(game->settings))
+	while (*error == SUCCESS && gnl_ret == 1 && !settings_set(game))
 	{
 		gnl_ret = get_next_line(fd, &line);
 		if (gnl_ret == -1)
 			return (set_error(error, READ_ERROR));
-		*error = parse_setting(game, line);
+		if (!line_is_blank(line))
+			*error = parse_setting(game, line);
 		free(line);
 	}
 	if (*error != SUCCESS)

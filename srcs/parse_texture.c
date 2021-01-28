@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:27:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 16:48:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 12:24:36 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int parse_texture(void *mlx, t_data *texture, char *line)
 {
 	char *trimmed;
 
+	if (texture->img != NULL)
+		return (ALREADY_SET_ERROR);
 	trimmed = ft_strtrim(line, " ");
 	if (!trimmed)
 		return (ALLOCATION_ERROR);

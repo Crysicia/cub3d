@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:17:04 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 20:32:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 13:31:58 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int parse_resolution(t_resolution *resolution, char *line)
 {
 	char **reso_arr;
 
+	if (resolution->width != NOT_SET)
+		return (ALREADY_SET_ERROR);
 	if (!resolution_is_valid(line))
 		return (INVALID_SETTING_ERROR);
 	if (!(reso_arr = ft_split_set(line, " ")))
@@ -57,9 +59,4 @@ int parse_resolution(t_resolution *resolution, char *line)
 	if (!get_resolution(resolution, reso_arr))
 		return (INVALID_SETTING_ERROR);
 	return (SUCCESS);
-}
-
-t_bool settings_set(int settings)
-{
-	return (false);
 }

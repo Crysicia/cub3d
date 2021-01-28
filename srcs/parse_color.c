@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 16:46:09 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 13:30:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int parse_colors(int *color, char *line)
 {
 	char **color_arr;
 
+	if (*color != NOT_SET)
+		return (ALREADY_SET_ERROR);
 	if (!color_is_valid(line))
 		return (INVALID_SETTING_ERROR);
 	if (!(color_arr = ft_split_set(line, ", ")))

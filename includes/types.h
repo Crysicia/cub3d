@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 16:54:14 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 13:29:44 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
 #define UNKNOWN_SETTING_ERROR -46
 #define INVALID_SETTING_ERROR -47
 #define GENERIC_ERROR -48
+#define ALREADY_SET_ERROR -49
 #define SUCCESS 42
+
+#define NOT_SET -256
 
 #define TWO_PI 6.283185307179586
 #define ONE_A_HALF_PI 4.71238898038469
