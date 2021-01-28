@@ -157,6 +157,10 @@ void init_settings(t_game *game)
 	game->ceiling_color = NOT_SET;
 	game->resolution.width = NOT_SET;
 	game->resolution.height = NOT_SET;
+
+	game->map2.matrix = NULL;
+	game->map2.width = 0;
+	game->map2.height = 0;
 }
 
 int             main(int argc, char *argv[])

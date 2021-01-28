@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 13:29:44 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:48:46 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #define INVALID_SETTING_ERROR -47
 #define GENERIC_ERROR -48
 #define ALREADY_SET_ERROR -49
+#define MAP_ERROR -50
+
+
 #define SUCCESS 42
 
 #define NOT_SET -256
@@ -118,11 +121,19 @@ typedef struct s_player
 	double rotate_speed;
 }			t_player;
 
+typedef struct s_map
+{
+	int width;
+	int height;
+	char **matrix;
+}				t_map;
+
 typedef struct	s_game
 {
 	int 		settings;
 	void		*mlx;
 	void		*win;
+	t_map 		map2;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	double		projection_plane;
 	int			num_sprites;
