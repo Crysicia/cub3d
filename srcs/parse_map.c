@@ -6,11 +6,38 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 22:44:09 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 12:59:50 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+int map_get_positions(t_map *map)
+{
+	t_pos coords;
+	char tile;
+
+	set_pos(&coords, 0, 0);
+	while ((int)coords.y < map->height)
+	{
+		coords.x = 0;
+		while (map[(int)coords.y][(int)coords.x])
+		{
+			tile = map[(int)coords.y][(int)coords.x];
+			if (tile == SPRITE)
+				map->sprites_count++;
+			else if (ft_strchr(player, tile))
+			{
+				if (map->player.pos.x == -1)
+					return (STARTING_POINT_ERROR);
+				set_pos(&map->player.pos, coords.x, coords.y);
+			}
+			coords.x++;
+		}
+		coords.y++;
+	}
+	return (SUCCESS);
+}
 
 t_bool add_row_to_map(t_map *map, char *row)
 {

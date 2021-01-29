@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 15:48:46 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 12:59:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #define GENERIC_ERROR -48
 #define ALREADY_SET_ERROR -49
 #define MAP_ERROR -50
+#define DOUBLE_PLAYER_ERROR -50
 
 
 #define SUCCESS 42
@@ -37,6 +38,10 @@
 #define LEFT 65363
 #define ESC 65307
 #define WINDOW_TITLE "Cub3D"
+
+#define WALL '1'
+#define SPRITE '2'
+#define PLAYER "NSEW"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 1080
@@ -126,6 +131,9 @@ typedef struct s_map
 	int width;
 	int height;
 	char **matrix;
+	int sprites_count;
+	t_sprite *sprites;
+	t_player player;
 }				t_map;
 
 typedef struct	s_game
