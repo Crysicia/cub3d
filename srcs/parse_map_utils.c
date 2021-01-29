@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 23:33:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:52:44 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/30 00:55:50 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+#include "../includes/init.h"
 
 int set_sprites_pos(t_map *map)
 {
@@ -32,6 +33,7 @@ int set_sprites_pos(t_map *map)
 			if (tile == SPRITE)
 			{
 				init_sprite(&map->sprites[i], coords.x + 0.5, coords.y + 0.5);
+				printf("Sprite[%2d] - (%f,%f)\n", i, coords.x + 0.5, coords.y + 0.5);
 				i++;
 			}
 			coords.x++;

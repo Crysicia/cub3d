@@ -36,11 +36,11 @@ int draw_map(t_game *game)
 
 int draw_player(t_game *game)
 {
-	draw_circle(&game->img, 10, game->player.pos.x, game->player.pos.y);
-	draw_line(&game->img, 0x0000FF00, game->player.pos.x,
-		game->player.pos.y,
-		game->player.pos.x + cos(game->player.facing_angle) * 20,
-		game->player.pos.y + sin(game->player.facing_angle) * 20);
+	draw_circle(&game->img, 10, game->map2.player.pos.x, game->map2.player.pos.y);
+	draw_line(&game->img, 0x0000FF00, game->map2.player.pos.x,
+		game->map2.player.pos.y,
+		game->map2.player.pos.x + cos(game->map2.player.facing_angle) * 20,
+		game->map2.player.pos.y + sin(game->map2.player.facing_angle) * 20);
 }
 
 void render_rays(t_game *game)
@@ -53,8 +53,8 @@ void render_rays(t_game *game)
 		draw_line(
 			&game->img,
 			0x000000FF,
-			game->player.pos.x,
-			game->player.pos.y,
+			game->map2.player.pos.x,
+			game->map2.player.pos.y,
 			game->rays[i].wall_hit.x,
 			game->rays[i].wall_hit.y
 		);
@@ -86,8 +86,8 @@ void render_3d_walls(t_game *game)
 			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
-		render_texture_strip(&game->img, &game->texture[t], &wall, &offset, i);
-		draw_line(&game->img, BLACK, i, wall.bottom, i, SCREEN_HEIGHT);
+		render_texture_strip(&game, &game->texture[t], &wall, &offset, i);
+		draw_line(&game->img, BLACK, i, wall.bottom, i, game->resolution.height);
 		i++;
 	}
 }
@@ -99,9 +99,9 @@ t_bool has_wall_at(t_game *game, float x, float y)
 
 	ix = floor(x);
 	iy = floor(y);
-	if (ix < 0 || iy < 0 || ix > MAP_WIDTH || iy > MAP_HEIGHT)
+	if (ix < 0 || iy < 0 || iy > game->map2.height || ix > ft_strlen(game->map2.matrix[iy]))
 		return (true);
-	return (game->map[iy][ix] == '1');
+	return (game->map2.matrix[iy][ix] == '1');
 }
 
 int main_loop(t_game *game)
@@ -111,36 +111,35 @@ int main_loop(t_game *game)
 	float y;
 	int i;
 
-	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
-	hypotenus = game->player.current_direction * game->player.move_speed;
-	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
-	y = game->player.pos.y + sin(game->player.facing_angle) * hypotenus;
-	if (!has_wall_at(game, x, game->player.pos.y))
-		set_pos(&game->player.pos, x, game->player.pos.y);
-	if (!has_wall_at(game, game->player.pos.x, y))
-		set_pos(&game->player.pos, game->player.pos.x, y);
+	game->map2.player.facing_angle = normalize_angle(game->map2.player.facing_angle + game->map2.player.current_rotation * game->map2.player.rotate_speed);
+	hypotenus = game->map2.player.current_direction * game->map2.player.move_speed;
+	x = game->map2.player.pos.x + cos(game->map2.player.facing_angle) * hypotenus;
+	y = game->map2.player.pos.y + sin(game->map2.player.facing_angle) * hypotenus;
+	if (!has_wall_at(game, x, game->map2.player.pos.y))
+		set_pos(&game->map2.player.pos, x, game->map2.player.pos.y);
+	if (!has_wall_at(game, game->map2.player.pos.x, y))
+		set_pos(&game->map2.player.pos, game->map2.player.pos.x, y);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
 	i = 0;
-	while (i < game->num_sprites)
+	while (i < game->map2.sprites_count)
 	{
-		update_sprite_visibility(&game->player, &game->sprites[i]);
+		update_sprite_visibility(&game->map2.player, &game->map2.sprites[i]);
 		i++;
 	}
-	if (game->num_sprites > 0)
+	if (game->map2.sprites_count > 0)
 		sort_sprites(game);
 	i = 0;
-	while (i < game->num_sprites)
+	while (i < game->map2.sprites_count)
 	{
-		if (game->sprites[i].is_visible)
-			render_sprite(game, &game->sprites[i]);
+		if (game->map2.sprites[i].is_visible)
+			render_sprite(game, &game->map2.sprites[i]);
 		i++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-	display_infos(game);
 }
 
 void init_settings(t_game *game)
@@ -164,6 +163,7 @@ void init_settings(t_game *game)
 	game->map2.height = 0;
 	game->map2.sprites_count = 0;
 	game->map2.sprites = NULL;
+	game->mlx = mlx_init();
 	set_pos(&game->map2.player.pos, -1, -1);
 }
 
@@ -186,7 +186,6 @@ int             main(int argc, char *argv[])
 	(void)	argv;
 	t_game  game;
 
-	game.mlx = mlx_init();
 	init_settings(&game);
 	int ret = parse_file(&game, argv[1]);
 	if (ret == SUCCESS)
@@ -202,9 +201,16 @@ int             main(int argc, char *argv[])
 	}
 	else
 		printf("Cannot parse, ERROR: %i\n", ret);
-	// init(&game);
-	// mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
-	// mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-	// mlx_loop_hook(game.mlx, main_loop, &game);
-	// mlx_loop(game.mlx);
+	game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
+	game.projection_plane = (game.resolution.width / 2) / tan(FOV / 2);
+	game.sprite_alpha = get_texture_color(&game.sprite_texture, &(t_pos){0, 0});
+	game.map2.player.current_direction = 0;
+	game.map2.player.current_rotation = 0;
+	game.map2.player.move_speed = 0.1;
+	game.map2.player.rotate_speed = 1.5 * (M_PI / 180);
+	//init(&game);
+	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
+	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+	mlx_loop_hook(game.mlx, main_loop, &game);
+	mlx_loop(game.mlx);
 }

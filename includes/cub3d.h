@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:35:00 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/30 00:51:46 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void set_pos(t_pos *pos, float x, float y);
 float pos_distance(t_pos *p1, t_pos *p2);
 unsigned int get_texture_color(t_data *texture, t_pos *offset);
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall);
-void render_texture_strip(t_data *img, t_data *texture, t_wall *wall, t_pos *offset, int x);
+void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, t_pos *offset, int x);
 
 t_bool is_in_fov(double player_angle, double angle);
 void update_sprite_visibility(t_player *player, t_sprite *sprite);
@@ -77,7 +77,7 @@ int parse_file(t_game *game, char *path);
 t_bool add_row_to_map(t_map *map, char *row);
 t_bool map_row_is_valid(char *line);
 int parse_map(t_game *game, char *line);
-
+int validate_map(t_map *map, int *error);
 int map_get_positions(t_map *map);
 void set_player_pos(t_player *player, t_pos *pos, char angle);
 int set_sprites_pos(t_map *map);

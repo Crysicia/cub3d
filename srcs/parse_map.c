@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:50:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 23:59:05 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int parse_map(t_game *game, char *line)
 
 int validate_map(t_map *map, int *error)
 {
-	map->width = 25;
 	*error = map_get_positions(map);
 	if (*error != SUCCESS)
 		return (*error);

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:43:41 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/30 00:48:12 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 #define SPRITE '2'
 #define PLAYER "NSEW"
 
-#define SCREEN_WIDTH 800
+#define SCREEN_WIDTH 1080
 #define SCREEN_HEIGHT 1080
 
 #define MAP_WIDTH 10
@@ -145,7 +145,6 @@ typedef struct	s_game
 	t_map 		map2;
 	char		map[MAP_HEIGHT][MAP_WIDTH];
 	double		projection_plane;
-	int			num_sprites;
 	int			map_height;
 	int			map_width;
 
@@ -157,8 +156,9 @@ typedef struct	s_game
 	t_data		texture[4];
 	t_data		sprite_texture;
 	int			sprite_alpha;
-	t_player	player;
 	t_ray		rays[NUM_RAYS];
-	t_sprite	*sprites;
+	//t_sprite	*sprites;
+	//int			num_sprites;
+	//t_player	player;
 }				t_game;
 #endif
