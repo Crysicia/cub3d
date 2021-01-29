@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 13:30:16 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 11:25:15 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,25 @@ t_bool get_colors(int *color, char **colors)
 t_bool color_is_valid(char *line)
 {
 	int commas;
+	t_bool prec_num;
 	char *charset;
 	size_t index;
 
 	commas = 0;
 	charset = "0123456789, ";
 	index = 0;
+	prec_num = false;
 	while (line[index])
 	{
+		if (ft_isdigit(line[index]))
+			prec_num = true;
 		if (line[index] == ',')
+		{
+			if (prec_num == false)
+				return (false);
 			commas++;
+			prec_num = false;
+		}
 		if (!ft_strchr(charset, line[index]) || commas > 2)
 			return (false);
 		index++;
