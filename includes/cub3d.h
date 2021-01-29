@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 12:42:18 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 23:35:00 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "types.h"
 # include <limits.h>
 # include <fcntl.h>
+# include <math.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
 # define BUFFER_SIZE 64
@@ -76,6 +77,10 @@ int parse_file(t_game *game, char *path);
 t_bool add_row_to_map(t_map *map, char *row);
 t_bool map_row_is_valid(char *line);
 int parse_map(t_game *game, char *line);
+
+int map_get_positions(t_map *map);
+void set_player_pos(t_player *player, t_pos *pos, char angle);
+int set_sprites_pos(t_map *map);
 
 t_bool floodfill(int x, int y, char *targets, char fill, t_map *map);
 #endif

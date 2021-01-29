@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 16:26:13 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 19:10:57 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void init(t_game *game)
 	game->num_sprites = 10;
 	// if (!load_texture(game->mlx, &game->sprite_texture, "./pillar.xpm"))
 	// 	return (false);
-	game->sprite_texture.img = mlx_xpm_file_to_image(game->mlx, "./textures/pillar.xpm", &game->sprite_texture.width, &game->sprite_texture.height);
+	game->sprite_texture.img = mlx_xpm_file_to_image(game->mlx, "./textures/barrel.xpm", &game->sprite_texture.width, &game->sprite_texture.height);
 	game->sprite_texture.addr = mlx_get_data_addr(game->sprite_texture.img, &game->sprite_texture.bits_per_pixel,
 		&game->sprite_texture.line_length, &game->sprite_texture.endian);
 	game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);

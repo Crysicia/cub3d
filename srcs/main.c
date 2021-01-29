@@ -163,7 +163,8 @@ void init_settings(t_game *game)
 	game->map2.width = 0;
 	game->map2.height = 0;
 	game->map2.sprites_count = 0;
-	set_pos(game->map2.player.pos, -1, -1);
+	game->map2.sprites = NULL;
+	set_pos(&game->map2.player.pos, -1, -1);
 }
 
 void display_map(t_map *map)

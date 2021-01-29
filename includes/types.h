@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 12:59:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 23:43:41 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 #define GENERIC_ERROR -48
 #define ALREADY_SET_ERROR -49
 #define MAP_ERROR -50
-#define DOUBLE_PLAYER_ERROR -50
+#define STARTING_POINT_ERROR -51
+#define MALFORMED_MAP_ERROR -52
 
 
 #define SUCCESS 42

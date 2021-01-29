@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 22:42:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/01/29 23:35:44 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int parse_file(t_game *game, char *path)
 	if (parse_map_loop(game, fd, &error) != SUCCESS)
 		return (error);
 	close(fd);
-	// if (!validate_map(&game->map2, &error) != SUCCESS)
-	// 	return (error);
+	if (!validate_map(&game->map2, &error) != SUCCESS)
+		return (error);
 	return (SUCCESS);
 }
