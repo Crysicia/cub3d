@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 13:45:35 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:34:09 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void ps(t_game *game)
 	int i;
 
 	i = 0;
-	while (i < game->map2.sprites_count)
+	while (i < game->map.sprites_count)
 	{
 		printf("Sprites[%02i], pos(%f, %f)\n",
 			i,
-			game->map2.sprites[i].pos.x,
-			game->map2.sprites[i].pos.y
+			game->map.sprites[i].pos.x,
+			game->map.sprites[i].pos.y
 		);
 		i++;
 	}
@@ -65,47 +65,15 @@ void init(t_game *game)
 	// game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
 }
 
-void init_map(t_game *game)
-{
-	char map[MAP_HEIGHT][MAP_WIDTH] = {
-		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '2', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '0', '2', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-		{'1', '0', '0', '1', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '1', '0', '2', '0', '2', '1'},
-		{'1', '0', '0', '1', '0', '0', '1', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '1', '1', '0', '1', '0', '1'},
-		{'1', '0', '0', '0', '1', '1', '1', '0', '0', '1'},
-		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
-	};
-	memcpy(game->map, map, sizeof(char) * MAP_WIDTH * MAP_HEIGHT);
-}
-
 void init_player(t_game *game)
 {
-	game->map2.player.pos.x = -1;
-	game->map2.player.pos.y = -1;
-	game->map2.player.current_direction = 0;
-	game->map2.player.current_rotation = 0;
-	game->map2.player.facing_angle = M_PI / 2;
-	game->map2.player.move_speed = 0.1;
-	game->map2.player.rotate_speed = 1.5 * (M_PI / 180);
+	game->map.player.pos.x = -1;
+	game->map.player.pos.y = -1;
+	game->map.player.current_direction = 0;
+	game->map.player.current_rotation = 0;
+	game->map.player.facing_angle = M_PI / 2;
+	game->map.player.move_speed = 0.1;
+	game->map.player.rotate_speed = 1.5 * (M_PI / 180);
 
 }
 
@@ -126,6 +94,14 @@ void init_ray(t_ray *ray, float angle)
 	ray->hit_south = 0;
 }
 
+t_bool init_rays(t_game *game)
+{
+	game->rays = malloc(sizeof(t_ray) * game->resolution.width);
+	if (!game->rays)
+		return (false);
+	return (true);
+}
+
 void init_sprite(t_sprite *sprite, float x, float y)
 {
 	set_pos(&sprite->pos, x, y);
@@ -133,32 +109,3 @@ void init_sprite(t_sprite *sprite, float x, float y)
 	sprite->distance = 0;
 	sprite->angle = 0;
 }
-
-// t_bool init_all_sprites(t_game *game)
-// {
-// 	t_pos coords;
-// 	int i;
-// 	int x;
-// 	int y;
-
-// 	x = 0;
-// 	set_pos(&coords, 0, 0);
-// 	i = 0;
-// 	if (!(game->sprites = malloc(sizeof(t_sprite) * game->num_sprites)))
-// 		return (false);
-// 	while (x < game->map_width)
-// 	{
-// 		y = 0;
-// 		while (y < game->map_height)
-// 		{
-// 			if (game->map[y][x] == '2' && i < game->num_sprites)
-// 			{
-// 				init_sprite(&game->sprites[i], x + 0.5, y + 0.5);
-// 				i++;
-// 			}
-// 			y++;
-// 		}
-// 		x++;
-// 	}
-// 	return (true);
-// }

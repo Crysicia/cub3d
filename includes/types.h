@@ -6,13 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 13:59:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:33:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
 
+// ERROR CODEX
 #define EXTENSION_ERROR -42
 #define OPEN_ERROR -43
 #define READ_ERROR -44
@@ -24,28 +25,30 @@
 #define MAP_ERROR -50
 #define STARTING_POINT_ERROR -51
 #define MALFORMED_MAP_ERROR -52
-
-
 #define SUCCESS 42
 
 #define NOT_SET -256
 
+#define FOV 1.047197551196598 // 60 * (M_PI / 180)
+
+
 #define TWO_PI 6.283185307179586
 #define ONE_A_HALF_PI 4.71238898038469
 #define PI_180 0.017453292519943
+#define WINDOW_TITLE "Cub3D"
+
 #define UP 65362
 #define DOWN 65364
 #define RIGHT 65361
 #define LEFT 65363
 #define ESC 65307
-#define WINDOW_TITLE "Cub3D"
 
 #define WALL '1'
 #define SPRITE '2'
 #define PLAYER "NSEW"
 
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 200
+#define SCREEN_WIDTH 0
+#define SCREEN_HEIGHT 0
 
 #define MAP_WIDTH 10
 #define MAP_HEIGHT 25
@@ -58,8 +61,6 @@
 #define YELLOW 0x00FFFF00
 
 #define TILE_SIZE 64
-#define NUM_RAYS SCREEN_WIDTH
-#define FOV 1.047197551196598 // 60 * (M_PI / 180)
 
 typedef struct  s_data {
 	void        *img;
@@ -142,8 +143,7 @@ typedef struct	s_game
 	int 		settings;
 	void		*mlx;
 	void		*win;
-	t_map 		map2;
-	char		map[MAP_HEIGHT][MAP_WIDTH];
+	t_map 		map;
 	double		projection_plane;
 	int			map_height;
 	int			map_width;
@@ -156,7 +156,7 @@ typedef struct	s_game
 	t_data		texture[4];
 	t_data		sprite_texture;
 	int			sprite_alpha;
-	t_ray		rays[NUM_RAYS];
+	t_ray		*rays;
 	//t_sprite	*sprites;
 	//int			num_sprites;
 	//t_player	player;

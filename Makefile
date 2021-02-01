@@ -27,6 +27,7 @@ SRCS 		= srcs/main.c \
 			  srcs/parse_map.c \
 			  srcs/parse_map_utils.c \
 			  srcs/floodfill.c \
+			  srcs/error.c \
 
 OBJS 		= $(SRCS:.c=.o)
 

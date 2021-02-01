@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:37:41 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:34:13 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void sort_sprites(t_game *game)
 	{
 		sorted = true;
 		i = 0;
-		while (i < game->map2.sprites_count - 1)
+		while (i < game->map.sprites_count - 1)
 		{
-			if (game->map2.sprites[i].distance < game->map2.sprites[i + 1].distance)
+			if (game->map.sprites[i].distance < game->map.sprites[i + 1].distance)
 			{
-				temp = game->map2.sprites[i];
-				game->map2.sprites[i] = game->map2.sprites[i + 1];
-				game->map2.sprites[i + 1] = temp;
+				temp = game->map.sprites[i];
+				game->map.sprites[i] = game->map.sprites[i + 1];
+				game->map.sprites[i + 1] = temp;
 				sorted = false;
 			}
 			i++;
@@ -80,14 +80,14 @@ void render_sprite(t_game *game, t_sprite *sprite)
 
 	t_pos offset;
 
-	height = game->projection_plane / (cos(sprite->angle - game->map2.player.facing_angle) * sprite->distance);
+	height = game->projection_plane / (cos(sprite->angle - game->map.player.facing_angle) * sprite->distance);
 	top = (game->resolution.height / 2) - (height / 2);
 	if (top < 0)
 		top = 0;
 	bottom = (game->resolution.height / 2) + (height / 2);
 	if (bottom > game->resolution.height)
 		bottom = game->resolution.height;
-	x = game->projection_plane * tan(sprite->angle - game->map2.player.facing_angle) + ((game->resolution.width / 2.0) - (height / 2));
+	x = game->projection_plane * tan(sprite->angle - game->map.player.facing_angle) + ((game->resolution.width / 2.0) - (height / 2));
 	if (x > game->resolution.width)
 		x = game->resolution.width;
 	y = top;

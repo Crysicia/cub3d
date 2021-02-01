@@ -26,7 +26,7 @@ int draw_map(t_game *game)
 		y = 0;
 		while (y < 10)
 		{
-			color = (game->map[x][y] == '1') ? BLACK : WHITE;
+			color = (game->map.matrix[x][y] == '1') ? BLACK : WHITE;
 			draw_square(&game->img, color, TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE);
 			y++;
 		}
@@ -36,11 +36,11 @@ int draw_map(t_game *game)
 
 int draw_player(t_game *game)
 {
-	draw_circle(&game->img, 10, game->map2.player.pos.x, game->map2.player.pos.y);
-	draw_line(&game->img, 0x0000FF00, game->map2.player.pos.x,
-		game->map2.player.pos.y,
-		game->map2.player.pos.x + cos(game->map2.player.facing_angle) * 20,
-		game->map2.player.pos.y + sin(game->map2.player.facing_angle) * 20);
+	draw_circle(&game->img, 10, game->map.player.pos.x, game->map.player.pos.y);
+	draw_line(&game->img, 0x0000FF00, game->map.player.pos.x,
+		game->map.player.pos.y,
+		game->map.player.pos.x + cos(game->map.player.facing_angle) * 20,
+		game->map.player.pos.y + sin(game->map.player.facing_angle) * 20);
 }
 
 void render_rays(t_game *game)
@@ -48,13 +48,13 @@ void render_rays(t_game *game)
 	int i;
 
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < game->resolution.width)
 	{
 		draw_line(
 			&game->img,
 			0x000000FF,
-			game->map2.player.pos.x,
-			game->map2.player.pos.y,
+			game->map.player.pos.x,
+			game->map.player.pos.y,
 			game->rays[i].wall_hit.x,
 			game->rays[i].wall_hit.y
 		);
@@ -71,13 +71,10 @@ void render_3d_walls(t_game *game)
 	int t;
 
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < game->resolution.width)
 	{
 		ray = game->rays[i];
 		compute_wall_boundaries(game, &ray, &wall);
-		//printf("Ray number : %i\n", i);
-		//print_ray(&ray);
-		//print_wall(&wall);
 		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
@@ -102,9 +99,9 @@ t_bool has_wall_at(t_game *game, float x, float y)
 
 	ix = floor(x);
 	iy = floor(y);
-	if (ix < 0 || iy < 0 || iy >= game->map2.height || ix >= ft_strlen(game->map2.matrix[iy]))
+	if (ix < 0 || iy < 0 || iy >= game->map.height || ix >= ft_strlen(game->map.matrix[iy]))
 		return (true);
-	return (game->map2.matrix[iy][ix] == '1');
+	return (game->map.matrix[iy][ix] == '1');
 }
 
 int main_loop(t_game *game)
@@ -114,32 +111,32 @@ int main_loop(t_game *game)
 	float y;
 	int i;
 
-	game->map2.player.facing_angle = normalize_angle(game->map2.player.facing_angle + game->map2.player.current_rotation * game->map2.player.rotate_speed);
-	hypotenus = game->map2.player.current_direction * game->map2.player.move_speed;
-	x = game->map2.player.pos.x + cos(game->map2.player.facing_angle) * hypotenus;
-	y = game->map2.player.pos.y + sin(game->map2.player.facing_angle) * hypotenus;
-	if (!has_wall_at(game, x, game->map2.player.pos.y))
-		set_pos(&game->map2.player.pos, x, game->map2.player.pos.y);
-	if (!has_wall_at(game, game->map2.player.pos.x, y))
-		set_pos(&game->map2.player.pos, game->map2.player.pos.x, y);
+	game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
+	hypotenus = game->map.player.current_direction * game->map.player.move_speed;
+	x = game->map.player.pos.x + cos(game->map.player.facing_angle) * hypotenus;
+	y = game->map.player.pos.y + sin(game->map.player.facing_angle) * hypotenus;
+	if (!has_wall_at(game, x, game->map.player.pos.y))
+		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
+	if (!has_wall_at(game, game->map.player.pos.x, y))
+		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
 	i = 0;
-	while (i < game->map2.sprites_count)
+	while (i < game->map.sprites_count)
 	{
-		update_sprite_visibility(&game->map2.player, &game->map2.sprites[i]);
+		update_sprite_visibility(&game->map.player, &game->map.sprites[i]);
 		i++;
 	}
-	if (game->map2.sprites_count > 0)
+	if (game->map.sprites_count > 0)
 		sort_sprites(game);
 	i = 0;
-	while (i < game->map2.sprites_count)
+	while (i < game->map.sprites_count)
 	{
-		if (game->map2.sprites[i].is_visible)
-			render_sprite(game, &game->map2.sprites[i]);
+		if (game->map.sprites[i].is_visible)
+			render_sprite(game, &game->map.sprites[i]);
 		i++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
@@ -155,17 +152,18 @@ void init_settings(t_game *game)
 	game->texture[2].addr = NULL;
 	game->texture[3].img = NULL;
 	game->texture[3].addr = NULL;
+	game->sprite_texture.img = NULL;
 	game->sprite_texture.addr = NULL;
 	game->floor_color = NOT_SET;
 	game->ceiling_color = NOT_SET;
 	game->resolution.width = NOT_SET;
 	game->resolution.height = NOT_SET;
 
-	game->map2.matrix = NULL;
-	game->map2.width = 0;
-	game->map2.height = 0;
-	game->map2.sprites_count = 0;
-	game->map2.sprites = NULL;
+	game->map.matrix = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+	game->map.sprites_count = 0;
+	game->map.sprites = NULL;
 	init_player(game);
 }
 
@@ -200,11 +198,11 @@ int             main(int argc, char *argv[])
 			game.ceiling_color,
 			game.floor_color
 		);
-		display_map(&game.map2);
+		display_map(&game.map);
 	}
 	else
 	{
-		printf("Cannot parse, ERROR: %i\n", ret);
+		print_error(ret);
 		exit(0);
 	}
 	game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
@@ -212,14 +210,14 @@ int             main(int argc, char *argv[])
 	game.sprite_alpha = get_texture_color(&game.sprite_texture, &(t_pos){0, 0});
 	printf("Sprite color = %i\n", game.sprite_alpha);
 	printf("Projection plane = %f\n", game.projection_plane);
-	game.map2.player.current_direction = 0;
-	game.map2.player.current_rotation = 0;
-	game.map2.player.move_speed = 0.1;
-	game.map2.player.rotate_speed = 1.5 * (M_PI / 180);
-	game.map2.player.facing_angle = 1.5;
+	game.map.player.current_direction = 0;
+	game.map.player.current_rotation = 0;
+	game.map.player.move_speed = 0.1;
+	game.map.player.rotate_speed = 1.5 * (M_PI / 180);
 	init(&game);
+	init_rays(&game);
 	print_resolution(&game.resolution);
-	print_player(&game.map2.player);
+	print_player(&game.map.player);
 	print_texture(&game.texture[0], "NORTH");
 	print_texture(&game.texture[1], "EAST");
 	print_texture(&game.texture[2], "SOUTH");

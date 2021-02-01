@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:51:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:34:08 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+#include <stdio.h>
 
 t_bool line_is_blank(char *line)
 {
@@ -105,7 +106,7 @@ int parse_file(t_game *game, char *path)
 	if (parse_map_loop(game, fd, &error) != SUCCESS)
 		return (error);
 	close(fd);
-	if (validate_map(&game->map2, &error) != SUCCESS)
+	if (validate_map(&game->map, &error) != SUCCESS)
 		return (error);
 	return (SUCCESS);
 }

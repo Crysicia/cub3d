@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 12:38:25 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:16:55 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void print_infos(t_game *game)
 	i = 0;
 	langle = 0;
 	printf("num,x,y,angle,delta\n");
-	while (i < NUM_RAYS)
+	while (i < game->resolution.width)
 	{
 		// printf("\n---- %i ----\n| WallX: %f\n| WallY: %f\n| Angle: %f\n",  i, game->rays[i].wall_hit.x, game->rays[i].wall_hit.y, game->rays[i].angle);
 		printf("%i,%f,%f,%f,%f\n", i, game->rays[i].wall_hit.x, game->rays[i].wall_hit.y, game->rays[i].angle, game->rays[i].angle - langle);
@@ -78,14 +78,3 @@ void print_player(t_player *player)
 {
 	printf("--- Player ---\n| Pos: [%f, %f]\n| Angle: %f\n", player->pos.x, player->pos.y, player->facing_angle);
 }
-
-// void display_infos(t_game *game)
-// {
-// 	char buffer[400];
-// 	sprintf(buffer, "Coords X: %f Y: %f Angle: %f",
-// 		game->player.pos.x,
-// 		game->player.pos.y,
-// 		game->player.facing_angle
-// 	);
-// 	mlx_string_put(game->mlx, game->win, 5, 15, WHITE, buffer);
-// }

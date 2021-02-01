@@ -5,15 +5,15 @@ R 320 200
 
 S ./textures/barrel.xpm
 NO ./textures/wood.xpm
-SO ./textures/wall.xpm
-EA ./textures/wall.xpm
-WE ./textures/wood.xpm
+SO ./textures/barrel.xpm
+EA ./textures/oversized.xpm
+WE ./textures/wall.xpm
 
-1111111111
-1000000001
-1020000001
-1020200001
-1000000001
+111111111111111111111
+1000000000000000000001
+102000000000000000001
+10202000000000000111
+10000000011111111
 1000001001
 1000000101
 1000010021
