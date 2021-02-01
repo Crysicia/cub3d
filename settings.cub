@@ -6,10 +6,10 @@ R 1920 1080
 S ./textures/barrel.xpm
 NO ./textures/wood.xpm
 SO ./textures/wall.xpm
-EA ./textures/barrel.xpm
-WE ./textures/oversized.xpm
+EA ./textures/wall.xpm
+WE ./textures/wood.xpm
 
 1111111
 1001101
-1N00001
+1E00001
 1111111

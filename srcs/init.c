@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:58:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:29:44 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void init_map(t_game *game)
 
 void init_player(t_game *game)
 {
-	game->map2.player.pos.x = 4.5f;
-	game->map2.player.pos.y = 4.5f;
+	game->map2.player.pos.x = -1;
+	game->map2.player.pos.y = -1;
 	game->map2.player.current_direction = 0;
 	game->map2.player.current_rotation = 0;
 	game->map2.player.facing_angle = M_PI / 2;

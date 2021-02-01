@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:26:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:29:33 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void print_infos(t_game *game)
 
 void print_ray(t_ray *ray)
 {
-	int ver;
-	int hor;
-
-	printf("Ray direction: ");
+	printf("--- Ray ---\n| Direction: ");
 	if (ray->facing_up)
 		printf("UP ");
 	else
@@ -44,8 +41,37 @@ void print_ray(t_ray *ray)
 		printf("LEFT\n");
 	else
 		printf("RIGHT\n");
-	printf("Ray X: %f\n", ray->wall_hit.x);
-	printf("Ray Y: %f\n", ray->wall_hit.y);
+	printf("| Wall hit X: %f\n", ray->wall_hit.x);
+	printf("| Wall hit Y: %f\n", ray->wall_hit.y);
+	printf("| Angle: %f\n", ray->angle);
+	printf("| Distance: %f\n", ray->distance);
+}
+
+void print_wall(t_wall *wall)
+{
+	printf("--- Wall ---\n| Height: %f\n| Top: %f\n| Bottom: %f\n",
+		wall->height,
+		wall->top,
+		wall->bottom
+	);
+}
+
+void print_texture(t_data *text, char *name)
+{
+	printf("--- Texture [%s] ---\n| Width: %i\n| Height: %i\n| BPS: %i\n| Line length: %i\n| Addr: %p\n| Img: %p\n",
+		name,
+		text->width,
+		text->height,
+		text->bits_per_pixel,
+		text->line_length,
+		text->addr,
+		text->img
+	);
+}
+
+void print_resolution(t_resolution *reso)
+{
+	printf("--- Resolution ---\n| Width: %i\n| Height: %i\n", reso->width, reso->height);
 }
 
 // void display_infos(t_game *game)

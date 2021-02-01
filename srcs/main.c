@@ -75,6 +75,9 @@ void render_3d_walls(t_game *game)
 	{
 		ray = game->rays[i];
 		compute_wall_boundaries(game, &ray, &wall);
+		printf("Ray number : %i\n", i);
+		print_ray(&ray);
+		print_wall(&wall);
 		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
@@ -99,7 +102,7 @@ t_bool has_wall_at(t_game *game, float x, float y)
 
 	ix = floor(x);
 	iy = floor(y);
-	if (ix < 0 || iy < 0 || iy > game->map2.height || ix > ft_strlen(game->map2.matrix[iy]))
+	if (ix < 0 || iy < 0 || iy >= game->map2.height || ix >= ft_strlen(game->map2.matrix[iy]))
 		return (true);
 	return (game->map2.matrix[iy][ix] == '1');
 }
@@ -164,7 +167,7 @@ void init_settings(t_game *game)
 	game->map2.sprites_count = 0;
 	game->map2.sprites = NULL;
 	game->mlx = mlx_init();
-	set_pos(&game->map2.player.pos, -1, -1);
+	init_player(game);
 }
 
 void display_map(t_map *map)
@@ -204,10 +207,17 @@ int             main(int argc, char *argv[])
 	game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
 	game.projection_plane = (game.resolution.width / 2) / tan(FOV / 2);
 	game.sprite_alpha = get_texture_color(&game.sprite_texture, &(t_pos){0, 0});
+	printf("Sprite color = %i\n", game.sprite_alpha);
+	printf("Projection plane = %f\n", game.projection_plane);
 	game.map2.player.current_direction = 0;
 	game.map2.player.current_rotation = 0;
 	game.map2.player.move_speed = 0.1;
 	game.map2.player.rotate_speed = 1.5 * (M_PI / 180);
+	print_resolution(&game.resolution);
+	print_texture(&game.texture[0], "NORTH");
+	print_texture(&game.texture[1], "EAST");
+	print_texture(&game.texture[2], "SOUTH");
+	print_texture(&game.texture[3], "WEST");
 	//init(&game);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
