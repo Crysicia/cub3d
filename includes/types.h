@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:48:12 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 13:59:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@
 #define SPRITE '2'
 #define PLAYER "NSEW"
 
-#define SCREEN_WIDTH 1080
-#define SCREEN_HEIGHT 1080
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 200
 
 #define MAP_WIDTH 10
 #define MAP_HEIGHT 25
 
 #define WHITE 0x00FFFFFF
 #define BLACK 0xFF000000
-#define BLUE 0xFF0000FF
+#define BLUE 0x000000FF
 #define GREEN 0x0000FF00
 #define RED 0x00FF0000
 #define YELLOW 0x00FFFF00

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 11:29:33 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 12:38:25 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,11 @@ void print_texture(t_data *text, char *name)
 void print_resolution(t_resolution *reso)
 {
 	printf("--- Resolution ---\n| Width: %i\n| Height: %i\n", reso->width, reso->height);
+}
+
+void print_player(t_player *player)
+{
+	printf("--- Player ---\n| Pos: [%f, %f]\n| Angle: %f\n", player->pos.x, player->pos.y, player->facing_angle);
 }
 
 // void display_infos(t_game *game)

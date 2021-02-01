@@ -75,9 +75,9 @@ void render_3d_walls(t_game *game)
 	{
 		ray = game->rays[i];
 		compute_wall_boundaries(game, &ray, &wall);
-		printf("Ray number : %i\n", i);
-		print_ray(&ray);
-		print_wall(&wall);
+		//printf("Ray number : %i\n", i);
+		//print_ray(&ray);
+		//print_wall(&wall);
 		if (ray.hit_east || ray.hit_west)
 		{
 			t = 0;
@@ -89,7 +89,7 @@ void render_3d_walls(t_game *game)
 			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
-		render_texture_strip(&game, &game->texture[t], &wall, &offset, i);
+		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
 		draw_line(&game->img, BLACK, i, wall.bottom, i, game->resolution.height);
 		i++;
 	}
@@ -166,7 +166,6 @@ void init_settings(t_game *game)
 	game->map2.height = 0;
 	game->map2.sprites_count = 0;
 	game->map2.sprites = NULL;
-	game->mlx = mlx_init();
 	init_player(game);
 }
 
@@ -189,6 +188,7 @@ int             main(int argc, char *argv[])
 	(void)	argv;
 	t_game  game;
 
+	game.mlx = mlx_init();
 	init_settings(&game);
 	int ret = parse_file(&game, argv[1]);
 	if (ret == SUCCESS)
@@ -203,7 +203,10 @@ int             main(int argc, char *argv[])
 		display_map(&game.map2);
 	}
 	else
+	{
 		printf("Cannot parse, ERROR: %i\n", ret);
+		exit(0);
+	}
 	game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
 	game.projection_plane = (game.resolution.width / 2) / tan(FOV / 2);
 	game.sprite_alpha = get_texture_color(&game.sprite_texture, &(t_pos){0, 0});
@@ -213,7 +216,10 @@ int             main(int argc, char *argv[])
 	game.map2.player.current_rotation = 0;
 	game.map2.player.move_speed = 0.1;
 	game.map2.player.rotate_speed = 1.5 * (M_PI / 180);
+	game.map2.player.facing_angle = 1.5;
+	init(&game);
 	print_resolution(&game.resolution);
+	print_player(&game.map2.player);
 	print_texture(&game.texture[0], "NORTH");
 	print_texture(&game.texture[1], "EAST");
 	print_texture(&game.texture[2], "SOUTH");

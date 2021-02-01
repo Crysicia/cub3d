@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 23:33:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/30 00:55:50 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 12:39:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int set_sprites_pos(t_map *map)
 
 void set_player_pos(t_player *player, t_pos *pos, char angle)
 {
-	set_pos(&player->pos, pos->x, pos->y);
+	set_pos(&player->pos, pos->x + 0.5, pos->y + 0.5);
 	if (angle == 'N')
 		player->facing_angle = 0;
 	else if (angle == 'E')
