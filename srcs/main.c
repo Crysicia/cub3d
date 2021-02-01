@@ -186,25 +186,25 @@ int             main(int argc, char *argv[])
 	(void)	argv;
 	t_game  game;
 
-	game.mlx = mlx_init();
-	init_settings(&game);
-	int ret = parse_file(&game, argv[1]);
-	if (ret == SUCCESS)
-	{
-		printf(
-			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
-			game.resolution.width,
-			game.resolution.height,
-			game.ceiling_color,
-			game.floor_color
-		);
-		display_map(&game.map2);
-	}
-	else
-		printf("Cannot parse, ERROR: %i\n", ret);
-	// init(&game);
-	// mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
-	// mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-	// mlx_loop_hook(game.mlx, main_loop, &game);
-	// mlx_loop(game.mlx);
+	// game.mlx = mlx_init();
+	// init_settings(&game);
+	// int ret = parse_file(&game, argv[1]);
+	// if (ret == SUCCESS)
+	// {
+	// 	printf(
+	// 		"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
+	// 		game.resolution.width,
+	// 		game.resolution.height,
+	// 		game.ceiling_color,
+	// 		game.floor_color
+	// 	);
+	// 	display_map(&game.map2);
+	// }
+	// else
+	// 	printf("Cannot parse, ERROR: %i\n", ret);
+	init(&game);
+	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
+	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+	mlx_loop_hook(game.mlx, main_loop, &game);
+	mlx_loop(game.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 19:10:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:42:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void init(t_game *game)
 	init_player(game);
 	init_all_sprites(game);
 	ps(game);
+	printf("Projection plane: %f\n", game->projection_plane);
 	game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
 }
 
@@ -101,8 +102,8 @@ void init_map(t_game *game)
 
 void init_player(t_game *game)
 {
-	game->player.pos.x = 4.5f;
-	game->player.pos.y = 4.5f;
+	game->player.pos.x = 1.5f;
+	game->player.pos.y = 1.5f;
 	game->player.current_direction = 0;
 	game->player.current_rotation = 0;
 	game->player.facing_angle = M_PI / 2;

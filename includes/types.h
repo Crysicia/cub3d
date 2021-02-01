@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:43:41 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 11:42:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 #define SPRITE '2'
 #define PLAYER "NSEW"
 
-#define SCREEN_WIDTH 800
+#define SCREEN_WIDTH 1920
 #define SCREEN_HEIGHT 1080
 
 #define MAP_WIDTH 10
