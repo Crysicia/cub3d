@@ -56,3 +56,16 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+#-------------------------------#
+# TODO :
+# - Add clean exit (free everything)
+# - Fix GNL leak
+# - Add east and west textures
+# - Implement queue for floodfill
+# - Compile with errrors
+# - Implement strafing
+# - Fix sprites bug at angle 0
+# - Clean code
+# - Code "a la norme"™️
+# - Implement bitmap save

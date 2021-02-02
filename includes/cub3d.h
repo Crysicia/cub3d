@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:53:39 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:44:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	*gnl_dup_free(char *to_free, char *to_dup);
 char	*gnl_alloc_remaining(char *remaining);
 int		get_next_line(int fd, char **line);
 
+void clean_exit(t_game *game);
 void print_error(int code);
 t_bool init_rays(t_game *game);
 float normalize_angle(float angle);

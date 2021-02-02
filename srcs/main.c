@@ -142,8 +142,11 @@ int main_loop(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 }
 
-void init_settings(t_game *game)
+t_bool init_settings(t_game *game)
 {
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (false);
 	game->texture[0].img = NULL;
 	game->texture[0].addr = NULL;
 	game->texture[1].img = NULL;
@@ -165,6 +168,7 @@ void init_settings(t_game *game)
 	game->map.sprites_count = 0;
 	game->map.sprites = NULL;
 	init_player(game);
+	return (true);
 }
 
 void display_map(t_map *map)
@@ -186,7 +190,6 @@ int             main(int argc, char *argv[])
 	(void)	argv;
 	t_game  game;
 
-	game.mlx = mlx_init();
 	init_settings(&game);
 	int ret = parse_file(&game, argv[1]);
 	if (ret == SUCCESS)
@@ -205,16 +208,10 @@ int             main(int argc, char *argv[])
 		print_error(ret);
 		exit(0);
 	}
-	game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
-	game.projection_plane = (game.resolution.width / 2) / tan(FOV / 2);
-	game.sprite_alpha = get_texture_color(&game.sprite_texture, &(t_pos){0, 0});
+	if (!init(&game))
+		clean_exit(&game);
 	printf("Sprite color = %i\n", game.sprite_alpha);
 	printf("Projection plane = %f\n", game.projection_plane);
-	game.map.player.current_direction = 0;
-	game.map.player.current_rotation = 0;
-	game.map.player.move_speed = 0.1;
-	game.map.player.rotate_speed = 1.5 * (M_PI / 180);
-	init(&game);
 	init_rays(&game);
 	print_resolution(&game.resolution);
 	print_player(&game.map.player);

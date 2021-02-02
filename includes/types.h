@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:33:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:43:41 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ typedef struct s_map
 
 typedef struct	s_game
 {
-	int 		settings;
+	t_data		img;
 	void		*mlx;
 	void		*win;
 	t_map 		map;
@@ -152,13 +152,9 @@ typedef struct	s_game
 	int			ceiling_color;
 
 	t_resolution resolution;
-	t_data		img;
 	t_data		texture[4];
 	t_data		sprite_texture;
 	int			sprite_alpha;
 	t_ray		*rays;
-	//t_sprite	*sprites;
-	//int			num_sprites;
-	//t_player	player;
 }				t_game;
 #endif

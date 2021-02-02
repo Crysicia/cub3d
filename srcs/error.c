@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 17:02:26 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:45:35 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,17 @@ void print_error(int code)
 
 void clean_exit(t_game *game)
 {
-
+	ft_free_matrix((void **)game->map.matrix, game->map.height);
+	free(game->map.sprites);
+	free(game->rays);
+	mlx_destroy_image(game->mlx, game->img.img);
+	mlx_destroy_image(game->mlx, game->texture[0].img);
+	mlx_destroy_image(game->mlx, game->texture[1].img);
+	mlx_destroy_image(game->mlx, game->texture[2].img);
+	mlx_destroy_image(game->mlx, game->texture[3].img);
+	mlx_destroy_image(game->mlx, game->sprite_texture.img);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+	exit(0);
 }

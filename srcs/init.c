@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:34:09 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:45:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,21 @@ void ps(t_game *game)
 	}
 }
 
-void init(t_game *game)
+t_bool init(t_game *game)
 {
-	// game->mlx = mlx_init();
-	// game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "OOPS");
-	// game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-	// if (!load_texture(game->mlx, &game->sprite_texture, "./pillar.xpm"))
-	// 	return (false);
-	// game->sprite_texture.img = mlx_xpm_file_to_image(game->mlx, "./textures/barrel.xpm", &game->sprite_texture.width, &game->sprite_texture.height);
-	// game->sprite_texture.addr = mlx_get_data_addr(game->sprite_texture.img, &game->sprite_texture.bits_per_pixel,
-	// 	&game->sprite_texture.line_length, &game->sprite_texture.endian);
+	game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
+	if (!game->win)
+		return (false);
 	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
+	if (!game->img.img)
+		return (false);
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
-	game->img.width = 42;
-	game->img.height = 42;
-	// game->texture[0].img = mlx_xpm_file_to_image(game->mlx, "./textures/wall.xpm", &game->texture[0].width, &game->texture[0].height);
-	// game->texture[0].addr = mlx_get_data_addr(game->texture[0].img, &game->texture[0].bits_per_pixel,
-	// 	&game->texture[0].line_length, &game->texture[0].endian);
-	// game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./textures/wood.xpm", &game->texture[1].width, &game->texture[1].height);
-	// game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
-	// 	&game->texture[1].line_length, &game->texture[1].endian);
-
-	// init_map(game);
-	// init_player(game);
-	// init_all_sprites(game);
-	// ps(game);
-	// game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
+	if (!game->img.addr)
+		return (false);
+	game->projection_plane = (game->resolution.width / 2) / tan(FOV / 2);
+	game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
+	return (true);
 }
 
 void init_player(t_game *game)

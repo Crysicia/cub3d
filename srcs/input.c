@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:34:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 11:45:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,7 @@ int key_released(int keycode, t_game *game)
 int key_pressed(int keycode, t_game *game)
 {
 	if (keycode == ESC)
-	{
-		mlx_destroy_image(game->mlx, game->img.img);
-		mlx_destroy_window(game->mlx, game->win);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-		exit(0);
-	}
+		clean_exit(game);
 	else if (keycode == UP)
 		game->map.player.current_direction = 1;
 	else if (keycode == DOWN)
@@ -47,8 +41,4 @@ int key_pressed(int keycode, t_game *game)
 		game->map.player.current_rotation = -1;
 	else if (keycode == LEFT)
 		game->map.player.current_rotation = 1;
-	// else if (keycode == 'a')
-	// 	printf("Angle: %f\n", game->map.player.facing_angle);
-	// else
-	// 	print_infos(game);
 }
