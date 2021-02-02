@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 11:45:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 15:57:02 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,37 +20,24 @@
 #include "../includes/shapes.h"
 #include "../includes/cub3d.h"
 
-void ps(t_game *game)
+int init(t_game *game, int *error)
 {
-	int i;
-
-	i = 0;
-	while (i < game->map.sprites_count)
-	{
-		printf("Sprites[%02i], pos(%f, %f)\n",
-			i,
-			game->map.sprites[i].pos.x,
-			game->map.sprites[i].pos.y
-		);
-		i++;
-	}
-}
-
-t_bool init(t_game *game)
-{
+	*error = SUCCESS;
 	game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
 	if (!game->win)
-		return (false);
+		return (set_error(error, ALLOCATION_ERROR));
 	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
 	if (!game->img.img)
-		return (false);
+		return (set_error(error, ALLOCATION_ERROR));
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
 	if (!game->img.addr)
-		return (false);
+		return (set_error(error, ALLOCATION_ERROR));
 	game->projection_plane = (game->resolution.width / 2) / tan(FOV / 2);
 	game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
-	return (true);
+	if (!init_rays(game))
+		return (set_error(error, ALLOCATION_ERROR));
+	return (SUCCESS);
 }
 
 void init_player(t_game *game)

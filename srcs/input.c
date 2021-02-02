@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 11:45:42 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 16:04:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int key_released(int keycode, t_game *game)
 int key_pressed(int keycode, t_game *game)
 {
 	if (keycode == ESC)
-		clean_exit(game);
+		clean_exit(game, SUCCESS);
 	else if (keycode == UP)
 		game->map.player.current_direction = 1;
 	else if (keycode == DOWN)

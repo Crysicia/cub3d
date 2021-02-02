@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 11:44:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 16:03:58 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*gnl_dup_free(char *to_free, char *to_dup);
 char	*gnl_alloc_remaining(char *remaining);
 int		get_next_line(int fd, char **line);
 
-void clean_exit(t_game *game);
+void clean_exit(t_game *game, int error);
 void print_error(int code);
 t_bool init_rays(t_game *game);
 float normalize_angle(float angle);
@@ -75,7 +75,7 @@ t_bool settings_set(t_game *game);
 int parse_setting(t_game *game, char *line);
 int parse_settings_loop(t_game *game, int fd, int *error);
 int parse_map_loop(t_game *game, int fd, int *error);
-int parse_file(t_game *game, char *path);
+int parse_file(t_game *game, char *path, int *error);
 
 t_bool add_row_to_map(t_map *map, char *row);
 t_bool map_row_is_valid(char *line);

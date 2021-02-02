@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:34:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 15:08:20 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,23 +90,22 @@ int parse_map_loop(t_game *game, int fd, int *error)
 	return (*error);
 }
 
-int parse_file(t_game *game, char *path)
+int parse_file(t_game *game, char *path, int *error)
 {
-	int error;
 	int fd;
 
-	error = SUCCESS;
+	*error = SUCCESS;
 	fd = 0;
 	if (!has_extension(path, ".cub"))
-		return (EXTENSION_ERROR);
+		return (set_error(error, EXTENSION_ERROR));
 	if (!open_file(path, &fd))
-		return (OPEN_ERROR);
-	if (parse_settings_loop(game, fd, &error) != SUCCESS)
-		return (error);
-	if (parse_map_loop(game, fd, &error) != SUCCESS)
-		return (error);
+		return (set_error(error, OPEN_ERROR));
+	if (parse_settings_loop(game, fd, error) != SUCCESS)
+		return (*error);
+	if (parse_map_loop(game, fd, error) != SUCCESS)
+		return (*error);
 	close(fd);
-	if (validate_map(&game->map, &error) != SUCCESS)
-		return (error);
-	return (SUCCESS);
+	if (validate_map(&game->map, error) != SUCCESS)
+		return (*error);
+	return (*error);
 }

@@ -59,13 +59,14 @@ re: fclean all
 
 #-------------------------------#
 # TODO :
-# - Add clean exit (free everything)
-# - Fix GNL leak
-# - Add east and west textures
-# - Implement queue for floodfill
-# - Compile with errrors
-# - Implement strafing
-# - Fix sprites bug at angle 0
-# - Clean code
-# - Code "a la norme"™️
-# - Implement bitmap save
+# [✔] - Add clean exit (free everything)
+# [] - Fix GNL leak
+# [] - Add east and west textures
+# [] - Implement queue for floodfill
+# [] - Add close event on red cross
+# [] - Implement bitmap save
+# [] - Implement strafing
+# [] - Fix sprites bug at angle 0
+# [] - Clean code
+# [] - Compile with errrors
+# [] - Code "a la norme"™️

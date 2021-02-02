@@ -14,6 +14,43 @@
 #include "../includes/input.h"
 #include "../includes/cub3d.h"
 
+void nullify_texture(t_data *texture)
+{
+	texture->img = NULL;
+	texture->addr = NULL;
+}
+
+void nullify_settings(t_game *game)
+{
+	nullify_texture(&game->img);
+	nullify_texture(&game->texture[0]);
+	nullify_texture(&game->texture[1]);
+	nullify_texture(&game->texture[2]);
+	nullify_texture(&game->texture[3]);
+	nullify_texture(&game->sprite_texture);
+	game->floor_color = NOT_SET;
+	game->ceiling_color = NOT_SET;
+	game->resolution.width = NOT_SET;
+	game->resolution.height = NOT_SET;
+	game->map.matrix = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+	game->map.sprites_count = 0;
+	game->map.sprites = NULL;
+	game->win = NULL;
+	game->rays = NULL;
+}
+
+t_bool init_settings(t_game *game)
+{
+	nullify_settings(game);
+	init_player(game);
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (false);
+	return (true);
+}
+
 int draw_map(t_game *game)
 {
 	int x;
@@ -142,57 +179,18 @@ int main_loop(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 }
 
-t_bool init_settings(t_game *game)
-{
-	game->mlx = mlx_init();
-	if (!game->mlx)
-		return (false);
-	game->texture[0].img = NULL;
-	game->texture[0].addr = NULL;
-	game->texture[1].img = NULL;
-	game->texture[1].addr = NULL;
-	game->texture[2].img = NULL;
-	game->texture[2].addr = NULL;
-	game->texture[3].img = NULL;
-	game->texture[3].addr = NULL;
-	game->sprite_texture.img = NULL;
-	game->sprite_texture.addr = NULL;
-	game->floor_color = NOT_SET;
-	game->ceiling_color = NOT_SET;
-	game->resolution.width = NOT_SET;
-	game->resolution.height = NOT_SET;
-
-	game->map.matrix = NULL;
-	game->map.width = 0;
-	game->map.height = 0;
-	game->map.sprites_count = 0;
-	game->map.sprites = NULL;
-	init_player(game);
-	return (true);
-}
-
-void display_map(t_map *map)
-{
-	int i;
-
-	i = 0;
-	printf("\n");
-	while (i < map->height)
-	{
-		printf("%s\n", map->matrix[i]);
-		i++;
-	}
-}
-
 int             main(int argc, char *argv[])
 {
 	(void)	argc;
 	(void)	argv;
 	t_game  game;
+	int ret;
 
-	init_settings(&game);
-	int ret = parse_file(&game, argv[1]);
-	if (ret == SUCCESS)
+	if (!init_settings(&game)
+		|| parse_file(&game, argv[1], &ret) != SUCCESS
+		|| init(&game, &ret) != SUCCESS)
+		clean_exit(&game, ret);
+	else
 	{
 		printf(
 			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
@@ -203,23 +201,6 @@ int             main(int argc, char *argv[])
 		);
 		display_map(&game.map);
 	}
-	else
-	{
-		print_error(ret);
-		exit(0);
-	}
-	if (!init(&game))
-		clean_exit(&game);
-	printf("Sprite color = %i\n", game.sprite_alpha);
-	printf("Projection plane = %f\n", game.projection_plane);
-	init_rays(&game);
-	print_resolution(&game.resolution);
-	print_player(&game.map.player);
-	print_texture(&game.texture[0], "NORTH");
-	print_texture(&game.texture[1], "EAST");
-	print_texture(&game.texture[2], "SOUTH");
-	print_texture(&game.texture[3], "WEST");
-	//init(&game);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
 	mlx_loop_hook(game.mlx, main_loop, &game);
