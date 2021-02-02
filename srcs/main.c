@@ -113,15 +113,25 @@ void render_3d_walls(t_game *game)
 	{
 		ray = game->rays[i];
 		compute_wall_boundaries(game, &ray, &wall);
-		if (ray.hit_east || ray.hit_west)
+		if (ray.hit_north)
 		{
 			t = 0;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
+		}
+		else if (ray.hit_east)
+		{
+			t = 1;
 			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
+		}
+		else if (ray.hit_south)
+		{
+			t = 2;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
 		}
 		else
 		{
-			t = 1;
-			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
+			t = 3;
+			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
 		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
