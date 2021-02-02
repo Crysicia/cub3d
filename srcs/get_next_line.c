@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:27:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/27 13:12:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:48:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,27 @@ char	*gnl_alloc_remaining(char *remaining)
 	return (gnl_strdup(""));
 }
 
-int		get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line, char **remaining)
 {
-	static char	*remaining = NULL;
 	char		buffer[BUFFER_SIZE + 1];
 	int			bytes_read;
 
 	bytes_read = 1;
 	if (fd < 0 || !line || read(fd, buffer, 0) || BUFFER_SIZE <= 0
-			|| !(remaining = gnl_alloc_remaining(remaining)))
+			|| !(*remaining = gnl_alloc_remaining(*remaining)))
 		return (-1);
-	while (!gnl_strchr(remaining, '\n') && bytes_read > 0)
+	while (!gnl_strchr(*remaining, '\n') && bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		buffer[bytes_read] = '\0';
-		remaining = gnl_strjoin(remaining, buffer);
+		*remaining = gnl_strjoin(*remaining, buffer);
 	}
-	gnl_nl_to_null(remaining);
-	*line = gnl_strdup(remaining);
+	gnl_nl_to_null(*remaining);
+	*line = gnl_strdup(*remaining);
 	if (bytes_read == 0)
-		return (gnl_free(*line, &remaining, 0));
-	remaining = gnl_dup_free(remaining, &remaining[ft_strlen(remaining) + 1]);
-	if (!*line || !remaining || bytes_read == -1)
-		return (gnl_free(*line, &remaining, -1));
+		return (gnl_free(*line, remaining, 0));
+	*remaining = gnl_dup_free(*remaining, &(*remaining)[ft_strlen(*remaining) + 1]);
+	if (!*line || !*remaining || bytes_read == -1)
+		return (gnl_free(*line, remaining, -1));
 	return (1);
 }

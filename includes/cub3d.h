@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 16:03:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:30:07 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	gnl_nl_to_null(char *str);
 int		gnl_free(void *line, char **remaining, int status);
 char	*gnl_dup_free(char *to_free, char *to_dup);
 char	*gnl_alloc_remaining(char *remaining);
-int		get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line, char **remaining);
 
 void clean_exit(t_game *game, int error);
 void print_error(int code);

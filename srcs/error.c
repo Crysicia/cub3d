@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 16:23:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:51:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void clean_exit(t_game *game, int error)
 	free_img(game->mlx, &game->texture[3]);
 	free_img(game->mlx, &game->sprite_texture);
 	free_display(game->mlx, game->win);
+	free(game->gnl_remaining);
 	exit(0);
 }

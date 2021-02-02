@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 11:43:41 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:50:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ typedef struct	s_game
 
 	int			floor_color;
 	int			ceiling_color;
+
+	char *gnl_remaining;
 
 	t_resolution resolution;
 	t_data		texture[4];

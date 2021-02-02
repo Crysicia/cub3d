@@ -39,6 +39,7 @@ void nullify_settings(t_game *game)
 	game->map.sprites = NULL;
 	game->win = NULL;
 	game->rays = NULL;
+	game->gnl_remaining = NULL;
 }
 
 t_bool init_settings(t_game *game)

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 15:08:20 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:51:57 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int parse_settings_loop(t_game *game, int fd, int *error)
 	gnl_ret = 1;
 	while (*error == SUCCESS && gnl_ret == 1 && !settings_set(game))
 	{
-		gnl_ret = get_next_line(fd, &line);
+		gnl_ret = get_next_line(fd, &line, &game->gnl_remaining);
 		if (gnl_ret == -1)
 			return (set_error(error, READ_ERROR));
 		if (!line_is_blank(line))
@@ -76,7 +76,7 @@ int parse_map_loop(t_game *game, int fd, int *error)
 	map_reached = false;
 	while (*error == SUCCESS && gnl_ret == 1)
 	{
-		gnl_ret = get_next_line(fd, &line);
+		gnl_ret = get_next_line(fd, &line, &game->gnl_remaining);
 		if (gnl_ret == -1)
 			return (set_error(error, READ_ERROR));
 		if (!line_is_blank(line))
