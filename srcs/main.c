@@ -235,7 +235,7 @@ int             main(int argc, char *argv[])
 	}
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-	mlx_hook(game.win, 33, 1L << 2, close_window, &game);
+	mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
 	mlx_loop_hook(game.mlx, main_loop, &game);
 	mlx_loop(game.mlx);
 }

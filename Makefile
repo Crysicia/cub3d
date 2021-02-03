@@ -43,7 +43,7 @@ $(MLX):
 	@$(MAKE) -C mlx
 
 $(LIBFT):
-	@$(MAKE) -C libft
+	@$(MAKE) bonus -C libft
 
 clean:
 	$(RM) $(OBJS)
