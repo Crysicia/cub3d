@@ -63,10 +63,10 @@ re: fclean all
 # [✔] - Fix GNL leak
 # [✔] - Add east and west textures
 # [✔] - Implement strafing
-# [] - Implement queue for floodfill
-# [] - Add close event on red cross
-# [] - Implement bitmap save
+# [✔] - Add close event on red cross
 # [] - Fix sprites bug at angle 0
+# [] - Implement queue for floodfill
+# [] - Implement bitmap save
 # [] - Clean code
 # [] - Compile with errrors
 # [] - Code "a la norme"™️

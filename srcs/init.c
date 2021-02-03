@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 15:57:02 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 14:44:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void init_player(t_game *game)
 	game->map.player.facing_angle = M_PI / 2;
 	game->map.player.move_speed = 0.1;
 	game->map.player.rotate_speed = 1.5 * (M_PI / 180);
+	game->map.player.current_strafing = 0;
 
 }
 

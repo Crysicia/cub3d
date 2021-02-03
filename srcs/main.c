@@ -206,6 +206,11 @@ int main_loop(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 }
 
+void close_window(t_game *game)
+{
+	clean_exit(game, SUCCESS);
+}
+
 int             main(int argc, char *argv[])
 {
 	(void)	argc;
@@ -230,6 +235,7 @@ int             main(int argc, char *argv[])
 	}
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+	mlx_hook(game.win, 33, 1L << 2, close_window, &game);
 	mlx_loop_hook(game.mlx, main_loop, &game);
 	mlx_loop(game.mlx);
 }
