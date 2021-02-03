@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:34:09 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 16:07:25 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ int validate_map(t_map *map, int *error)
 	if (*error != SUCCESS)
 		return (*error);
 	if (!floodfill(
-			map->player.pos.x,
-			map->player.pos.y,
+			&map->player.pos,
 			"02",
 			'-',
 			map

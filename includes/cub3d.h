@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 23:30:07 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 16:07:46 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ int map_get_positions(t_map *map);
 void set_player_pos(t_player *player, t_pos *pos, char angle);
 int set_sprites_pos(t_map *map);
 
-t_bool floodfill(int x, int y, char *targets, char fill, t_map *map);
+t_bool floodfill(t_pos *pos, char *targets, char fill, t_map *map);
 #endif
