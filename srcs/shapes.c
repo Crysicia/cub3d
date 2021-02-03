@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:38:47 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/25 15:00:02 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 13:56:34 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shapes.h"
+#include "../includes/debug.h"
 
 void            my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {

@@ -27,6 +27,7 @@ SRCS 		= srcs/main.c \
 			  srcs/parse_map.c \
 			  srcs/parse_map_utils.c \
 			  srcs/floodfill.c \
+			  srcs/error.c \
 
 OBJS 		= $(SRCS:.c=.o)
 
@@ -55,3 +56,17 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
+
+#-------------------------------#
+# TODO :
+# [✔] - Add clean exit (free everything)
+# [✔] - Fix GNL leak
+# [✔] - Add east and west textures
+# [✔] - Implement strafing
+# [✔] - Add close event on red cross
+# [] - Fix sprites bug at angle 0
+# [] - Implement queue for floodfill
+# [] - Implement bitmap save
+# [] - Clean code
+# [] - Compile with errrors
+# [] - Code "a la norme"™️

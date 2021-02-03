@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 11:42:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 16:43:11 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,96 +20,36 @@
 #include "../includes/shapes.h"
 #include "../includes/cub3d.h"
 
-void ps(t_game *game)
+int init(t_game *game, int *error)
 {
-	int i;
-
-	i = 0;
-	while (i < game->num_sprites)
-	{
-		printf("Sprites[%02i], pos(%f, %f)\n",
-			i,
-			game->sprites[i].pos.x,
-			game->sprites[i].pos.y
-		);
-		i++;
-	}
-}
-
-void init(t_game *game)
-{
-	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT, "OOPS");
-	game->settings = 0;
-	game->map_height = MAP_HEIGHT;
-	game->map_width = MAP_WIDTH;
-	game->projection_plane = (SCREEN_WIDTH / 2) / tan(FOV / 2);
-	game->num_sprites = 10;
-	// if (!load_texture(game->mlx, &game->sprite_texture, "./pillar.xpm"))
-	// 	return (false);
-	game->sprite_texture.img = mlx_xpm_file_to_image(game->mlx, "./textures/barrel.xpm", &game->sprite_texture.width, &game->sprite_texture.height);
-	game->sprite_texture.addr = mlx_get_data_addr(game->sprite_texture.img, &game->sprite_texture.bits_per_pixel,
-		&game->sprite_texture.line_length, &game->sprite_texture.endian);
-	game->img.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
+	*error = SUCCESS;
+	game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
+	if (!game->win)
+		return (set_error(error, ALLOCATION_ERROR));
+	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
+	if (!game->img.img)
+		return (set_error(error, ALLOCATION_ERROR));
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
 		&game->img.line_length, &game->img.endian);
-	game->texture[0].img = mlx_xpm_file_to_image(game->mlx, "./textures/wall.xpm", &game->texture[0].width, &game->texture[0].height);
-	game->texture[0].addr = mlx_get_data_addr(game->texture[0].img, &game->texture[0].bits_per_pixel,
-		&game->texture[0].line_length, &game->texture[0].endian);
-	game->texture[1].img = mlx_xpm_file_to_image(game->mlx, "./textures/wood.xpm", &game->texture[1].width, &game->texture[1].height);
-	game->texture[1].addr = mlx_get_data_addr(game->texture[1].img, &game->texture[1].bits_per_pixel,
-		&game->texture[1].line_length, &game->texture[1].endian);
-
-	init_map(game);
-	init_player(game);
-	init_all_sprites(game);
-	ps(game);
-	printf("Projection plane: %f\n", game->projection_plane);
+	if (!game->img.addr)
+		return (set_error(error, ALLOCATION_ERROR));
+	game->projection_plane = (game->resolution.width / 2) / tan(FOV / 2);
 	game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
-}
-
-void init_map(t_game *game)
-{
-	char map[MAP_HEIGHT][MAP_WIDTH] = {
-		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '2', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '2', '0', '0', '2', '0', '0', '2', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
-		{'1', '0', '0', '1', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '1', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '1', '0', '2', '0', '2', '1'},
-		{'1', '0', '0', '1', '0', '0', '1', '0', '0', '1'},
-		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
-		{'1', '0', '0', '0', '1', '1', '0', '1', '0', '1'},
-		{'1', '0', '0', '0', '1', '1', '1', '0', '0', '1'},
-		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
-	};
-	memcpy(game->map, map, sizeof(char) * MAP_WIDTH * MAP_HEIGHT);
+	if (!init_rays(game))
+		return (set_error(error, ALLOCATION_ERROR));
+	return (SUCCESS);
 }
 
 void init_player(t_game *game)
 {
-	game->player.pos.x = 1.5f;
-	game->player.pos.y = 1.5f;
-	game->player.current_direction = 0;
-	game->player.current_rotation = 0;
-	game->player.facing_angle = M_PI / 2;
-	game->player.move_speed = 0.1;
-	game->player.rotate_speed = 1.5 * (M_PI / 180);
-
+	game->map.player.pos.x = -1;
+	game->map.player.pos.y = -1;
+	game->map.player.current_direction = 0;
+	game->map.player.current_rotation = 0;
+	game->map.player.facing_angle = M_PI / 2;
+	game->map.player.move_speed = 0.1;
+	game->map.player.rotate_speed = 1.5 * (M_PI / 180);
+	game->map.player.current_strafing = 0;
 }
 
 void init_ray(t_ray *ray, float angle)
@@ -129,50 +69,18 @@ void init_ray(t_ray *ray, float angle)
 	ray->hit_south = 0;
 }
 
+t_bool init_rays(t_game *game)
+{
+	game->rays = malloc(sizeof(t_ray) * game->resolution.width);
+	if (!game->rays)
+		return (false);
+	return (true);
+}
+
 void init_sprite(t_sprite *sprite, float x, float y)
 {
 	set_pos(&sprite->pos, x, y);
 	sprite->is_visible = true;
 	sprite->distance = 0;
 	sprite->angle = 0;
-}
-
-t_bool init_all_sprites(t_game *game)
-{
-	t_pos coords;
-	int i;
-	int x;
-	int y;
-
-	x = 0;
-	set_pos(&coords, 0, 0);
-	i = 0;
-	if (!(game->sprites = malloc(sizeof(t_sprite) * game->num_sprites)))
-		return (false);
-	while (x < game->map_width)
-	{
-		y = 0;
-		while (y < game->map_height)
-		{
-			if (game->map[y][x] == '2' && i < game->num_sprites)
-			{
-				init_sprite(&game->sprites[i], x + 0.5, y + 0.5);
-				i++;
-			}
-			y++;
-		}
-		x++;
-	}
-	return (true);
-}
-
-t_bool load_texture(void *mlx, t_data *texture, char *filepath)
-{
-	texture->img = mlx_xpm_file_to_image(mlx, "../textures/pillar.xpm", &texture->width, &texture->height);
-	// if (!texture->img)
-	// 	return (false);
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
-	// if (!texture->addr)
-	// 	return (false);
-	return (true);
 }

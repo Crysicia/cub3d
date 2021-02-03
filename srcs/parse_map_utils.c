@@ -6,11 +6,12 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 23:33:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 10:44:50 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 16:43:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+#include "../includes/init.h"
 
 int set_sprites_pos(t_map *map)
 {
@@ -43,15 +44,15 @@ int set_sprites_pos(t_map *map)
 
 void set_player_pos(t_player *player, t_pos *pos, char angle)
 {
-	set_pos(&player->pos, pos->x, pos->y);
+	set_pos(&player->pos, pos->x + 0.5, pos->y + 0.5);
 	if (angle == 'N')
-		player->facing_angle = 0;
+		player->facing_angle = 270 *(M_PI / 180);
 	else if (angle == 'E')
-		player->facing_angle = 90 * (M_PI / 180);
+		player->facing_angle = (M_PI / 180);
 	else if (angle == 'S')
-		player->facing_angle = 180 * (M_PI / 180);
+		player->facing_angle = 90 * (M_PI / 180);
 	else if (angle == 'W') 
-		player->facing_angle = 270 * (M_PI / 180);
+		player->facing_angle = 180 * (M_PI / 180);
 }
 
 int map_get_positions(t_map *map)

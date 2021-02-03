@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:50:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/01 16:34:09 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ int parse_map(t_game *game, char *line)
 	if (!map_row_is_valid(line))
 		return (MAP_ERROR);
 	row = ft_strdup(line);
-	if (!row || !add_row_to_map(&game->map2, row))
+	if (!row || !add_row_to_map(&game->map, row))
 		return (ALLOCATION_ERROR);
 	return (SUCCESS);
 }
 
 int validate_map(t_map *map, int *error)
 {
-	map->width = 25;
 	*error = map_get_positions(map);
 	if (*error != SUCCESS)
 		return (*error);

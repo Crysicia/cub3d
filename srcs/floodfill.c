@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 12:33:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/29 23:51:34 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/02 23:55:32 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_bool floodfill(int x, int y, char *targets, char fill, t_map *map)
 {
-	if (x < 0 || y < 0 || x >= map->width || y >= map->height || !map->matrix[y][x])
+	if (x < 0 || y < 0 || y >= map->height || x >= ft_strlen(map->matrix[y]))
 		return (false);
 	if (ft_strchr(targets, map->matrix[y][x]))
 	{

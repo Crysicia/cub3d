@@ -14,6 +14,44 @@
 #include "../includes/input.h"
 #include "../includes/cub3d.h"
 
+void nullify_texture(t_data *texture)
+{
+	texture->img = NULL;
+	texture->addr = NULL;
+}
+
+void nullify_settings(t_game *game)
+{
+	nullify_texture(&game->img);
+	nullify_texture(&game->texture[0]);
+	nullify_texture(&game->texture[1]);
+	nullify_texture(&game->texture[2]);
+	nullify_texture(&game->texture[3]);
+	nullify_texture(&game->sprite_texture);
+	game->floor_color = NOT_SET;
+	game->ceiling_color = NOT_SET;
+	game->resolution.width = NOT_SET;
+	game->resolution.height = NOT_SET;
+	game->map.matrix = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+	game->map.sprites_count = 0;
+	game->map.sprites = NULL;
+	game->win = NULL;
+	game->rays = NULL;
+	game->gnl_remaining = NULL;
+}
+
+t_bool init_settings(t_game *game)
+{
+	nullify_settings(game);
+	init_player(game);
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (false);
+	return (true);
+}
+
 int draw_map(t_game *game)
 {
 	int x;
@@ -26,7 +64,7 @@ int draw_map(t_game *game)
 		y = 0;
 		while (y < 10)
 		{
-			color = (game->map[x][y] == '1') ? BLACK : WHITE;
+			color = (game->map.matrix[x][y] == '1') ? BLACK : WHITE;
 			draw_square(&game->img, color, TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE);
 			y++;
 		}
@@ -36,11 +74,11 @@ int draw_map(t_game *game)
 
 int draw_player(t_game *game)
 {
-	draw_circle(&game->img, 10, game->player.pos.x, game->player.pos.y);
-	draw_line(&game->img, 0x0000FF00, game->player.pos.x,
-		game->player.pos.y,
-		game->player.pos.x + cos(game->player.facing_angle) * 20,
-		game->player.pos.y + sin(game->player.facing_angle) * 20);
+	draw_circle(&game->img, 10, game->map.player.pos.x, game->map.player.pos.y);
+	draw_line(&game->img, 0x0000FF00, game->map.player.pos.x,
+		game->map.player.pos.y,
+		game->map.player.pos.x + cos(game->map.player.facing_angle) * 20,
+		game->map.player.pos.y + sin(game->map.player.facing_angle) * 20);
 }
 
 void render_rays(t_game *game)
@@ -48,13 +86,13 @@ void render_rays(t_game *game)
 	int i;
 
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < game->resolution.width)
 	{
 		draw_line(
 			&game->img,
 			0x000000FF,
-			game->player.pos.x,
-			game->player.pos.y,
+			game->map.player.pos.x,
+			game->map.player.pos.y,
 			game->rays[i].wall_hit.x,
 			game->rays[i].wall_hit.y
 		);
@@ -71,23 +109,33 @@ void render_3d_walls(t_game *game)
 	int t;
 
 	i = 0;
-	while (i < NUM_RAYS)
+	while (i < game->resolution.width)
 	{
 		ray = game->rays[i];
 		compute_wall_boundaries(game, &ray, &wall);
-		if (ray.hit_east || ray.hit_west)
+		if (ray.hit_north)
 		{
 			t = 0;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
+		}
+		else if (ray.hit_east)
+		{
+			t = 1;
 			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
+		}
+		else if (ray.hit_south)
+		{
+			t = 2;
+			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
 		}
 		else
 		{
-			t = 1;
-			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
+			t = 3;
+			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
 		}
 		draw_line(&game->img, BLUE, i, 0, i, wall.top);
-		render_texture_strip(&game->img, &game->texture[t], &wall, &offset, i);
-		draw_line(&game->img, BLACK, i, wall.bottom, i, SCREEN_HEIGHT);
+		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
+		draw_line(&game->img, BLACK, i, wall.bottom, i, game->resolution.height);
 		i++;
 	}
 }
@@ -99,9 +147,24 @@ t_bool has_wall_at(t_game *game, float x, float y)
 
 	ix = floor(x);
 	iy = floor(y);
-	if (ix < 0 || iy < 0 || ix > MAP_WIDTH || iy > MAP_HEIGHT)
+	if (ix < 0 || iy < 0 || iy >= game->map.height || ix >= ft_strlen(game->map.matrix[iy]))
 		return (true);
-	return (game->map[iy][ix] == '1');
+	return (game->map.matrix[iy][ix] == '1');
+}
+
+void move_strafe(t_game *game)
+{
+	float hypotenus;
+	float x;
+	float y;
+
+	hypotenus = game->map.player.current_strafing * game->map.player.move_speed;
+	x = game->map.player.pos.x + cos(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
+	y = game->map.player.pos.y + sin(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
+	if (!has_wall_at(game, x, game->map.player.pos.y))
+		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
+	if (!has_wall_at(game, game->map.player.pos.x, y))
+		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
 }
 
 int main_loop(t_game *game)
@@ -111,73 +174,41 @@ int main_loop(t_game *game)
 	float y;
 	int i;
 
-	game->player.facing_angle = normalize_angle(game->player.facing_angle + game->player.current_rotation * game->player.rotate_speed);
-	hypotenus = game->player.current_direction * game->player.move_speed;
-	x = game->player.pos.x + cos(game->player.facing_angle) * hypotenus;
-	y = game->player.pos.y + sin(game->player.facing_angle) * hypotenus;
-	if (!has_wall_at(game, x, game->player.pos.y))
-		set_pos(&game->player.pos, x, game->player.pos.y);
-	if (!has_wall_at(game, game->player.pos.x, y))
-		set_pos(&game->player.pos, game->player.pos.x, y);
+	move_strafe(game);
+	game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
+	hypotenus = game->map.player.current_direction * game->map.player.move_speed;
+	x = game->map.player.pos.x + cos(game->map.player.facing_angle) * hypotenus;
+	y = game->map.player.pos.y + sin(game->map.player.facing_angle) * hypotenus;
+	if (!has_wall_at(game, x, game->map.player.pos.y))
+		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
+	if (!has_wall_at(game, game->map.player.pos.x, y))
+		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
 	cast_rays(game);
 	// draw_map(game);
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
 	i = 0;
-	while (i < game->num_sprites)
+	while (i < game->map.sprites_count)
 	{
-		update_sprite_visibility(&game->player, &game->sprites[i]);
+		update_sprite_visibility(&game->map.player, &game->map.sprites[i]);
 		i++;
 	}
-	if (game->num_sprites > 0)
+	if (game->map.sprites_count > 0)
 		sort_sprites(game);
 	i = 0;
-	while (i < game->num_sprites)
+	while (i < game->map.sprites_count)
 	{
-		if (game->sprites[i].is_visible)
-			render_sprite(game, &game->sprites[i]);
+		if (game->map.sprites[i].is_visible)
+			render_sprite(game, &game->map.sprites[i]);
 		i++;
 	}
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
-	display_infos(game);
 }
 
-void init_settings(t_game *game)
+void close_window(t_game *game)
 {
-	game->texture[0].img = NULL;
-	game->texture[0].addr = NULL;
-	game->texture[1].img = NULL;
-	game->texture[1].addr = NULL;
-	game->texture[2].img = NULL;
-	game->texture[2].addr = NULL;
-	game->texture[3].img = NULL;
-	game->texture[3].addr = NULL;
-	game->sprite_texture.addr = NULL;
-	game->floor_color = NOT_SET;
-	game->ceiling_color = NOT_SET;
-	game->resolution.width = NOT_SET;
-	game->resolution.height = NOT_SET;
-
-	game->map2.matrix = NULL;
-	game->map2.width = 0;
-	game->map2.height = 0;
-	game->map2.sprites_count = 0;
-	game->map2.sprites = NULL;
-	set_pos(&game->map2.player.pos, -1, -1);
-}
-
-void display_map(t_map *map)
-{
-	int i;
-
-	i = 0;
-	printf("\n");
-	while (i < map->height)
-	{
-		printf("%s\n", map->matrix[i]);
-		i++;
-	}
+	clean_exit(game, SUCCESS);
 }
 
 int             main(int argc, char *argv[])
@@ -185,26 +216,26 @@ int             main(int argc, char *argv[])
 	(void)	argc;
 	(void)	argv;
 	t_game  game;
+	int ret;
 
-	// game.mlx = mlx_init();
-	// init_settings(&game);
-	// int ret = parse_file(&game, argv[1]);
-	// if (ret == SUCCESS)
-	// {
-	// 	printf(
-	// 		"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
-	// 		game.resolution.width,
-	// 		game.resolution.height,
-	// 		game.ceiling_color,
-	// 		game.floor_color
-	// 	);
-	// 	display_map(&game.map2);
-	// }
-	// else
-	// 	printf("Cannot parse, ERROR: %i\n", ret);
-	init(&game);
+	if (!init_settings(&game)
+		|| parse_file(&game, argv[1], &ret) != SUCCESS
+		|| init(&game, &ret) != SUCCESS)
+		clean_exit(&game, ret);
+	else
+	{
+		printf(
+			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
+			game.resolution.width,
+			game.resolution.height,
+			game.ceiling_color,
+			game.floor_color
+		);
+		display_map(&game.map);
+	}
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+	mlx_hook(game.win, 33, 1L << 2, close_window, &game);
 	mlx_loop_hook(game.mlx, main_loop, &game);
 	mlx_loop(game.mlx);
 }
