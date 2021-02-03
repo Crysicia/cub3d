@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 23:50:54 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/03 11:35:18 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@
 #define WINDOW_TITLE "Cub3D"
 
 #define UP 65362
+#define W 119
+#define A 97
+#define S 115
+#define D 100
 #define DOWN 65364
 #define RIGHT 65361
 #define LEFT 65363
@@ -122,6 +126,7 @@ typedef struct s_player
 {
 	t_pos pos;
 	int current_direction;
+	int current_strafing;
 	int current_rotation;
 	double facing_angle;
 	double move_speed;

@@ -152,6 +152,21 @@ t_bool has_wall_at(t_game *game, float x, float y)
 	return (game->map.matrix[iy][ix] == '1');
 }
 
+void move_strafe(t_game *game)
+{
+	float hypotenus;
+	float x;
+	float y;
+
+	hypotenus = game->map.player.current_strafing * game->map.player.move_speed;
+	x = game->map.player.pos.x + cos(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
+	y = game->map.player.pos.y + sin(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
+	if (!has_wall_at(game, x, game->map.player.pos.y))
+		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
+	if (!has_wall_at(game, game->map.player.pos.x, y))
+		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
+}
+
 int main_loop(t_game *game)
 {
 	float hypotenus;
@@ -159,6 +174,7 @@ int main_loop(t_game *game)
 	float y;
 	int i;
 
+	move_strafe(game);
 	game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
 	hypotenus = game->map.player.current_direction * game->map.player.move_speed;
 	x = game->map.player.pos.x + cos(game->map.player.facing_angle) * hypotenus;
