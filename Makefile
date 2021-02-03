@@ -64,8 +64,8 @@ re: fclean all
 # [✔] - Add east and west textures
 # [✔] - Implement strafing
 # [✔] - Add close event on red cross
+# [✔] - Implement queue for floodfill
 # [] - Fix sprites bug at angle 0
-# [] - Implement queue for floodfill
 # [] - Implement bitmap save
 # [] - Clean code
 # [] - Compile with errrors
