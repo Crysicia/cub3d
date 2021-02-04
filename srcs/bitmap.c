@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:50:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 16:26:05 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/05 00:03:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int pitch_correction(int bits)
 {
 	int pitch;
 
-	pitch = (3 * bits) % 4;
+	pitch = 4 - ((3 * bits) % 4);
 	if (pitch == 4)
 		return (0);
 	return (pitch);
@@ -39,56 +39,64 @@ void render_one_frame(t_game *game)
 	render_all_sprites(game);
 }
 
-int set_header(t_game *game, int fd)
+int set_header(t_game *game, int fd, t_bmp_header *header)
 {
-	t_bmp_header header;
+	int size;
 
-	ft_bzero(&header, sizeof(t_bmp_header));
-	header.signature[0] = 'B';
-	header.signature[1] = 'M';
-	header.image_offset = sizeof(t_bmp_header);
-	header.dib_header.header_size = sizeof(t_bmp_header);
-	header.dib_header.width = game->resolution.width;
-	header.dib_header.height = game->resolution.height;
-	header.dib_header.planes = 1;
-	header.dib_header.bits_per_pixel = 24;
-	header.dib_header.image_size = (3 * header.dib_header.height
-		* header.dib_header.width + header.dib_header.height
-		* pitch_correction(header.dib_header.width));
-	header.size = header.image_offset + header.dib_header.image_size;
-	return (write(fd, &header, sizeof(t_bmp_header)));
+	size = (3 * game->resolution.height * game->resolution.width)
+		+ game->resolution.height
+		* pitch_correction(game->resolution.width);
+	ft_bzero(header, sizeof(t_bmp_header));
+	header->signature[0] = 'B';
+	header->signature[1] = 'M';
+	header->image_offset = sizeof(t_bmp_header) - 2;
+	header->reserved = 0;
+	header->dib_header.header_size = sizeof(t_bmp_header);
+	header->dib_header.width = game->resolution.width;
+	header->dib_header.height = game->resolution.height;
+	header->dib_header.planes = 1;
+	header->dib_header.bits_per_pixel = 24;
+	header->dib_header.image_size = size;
+	header->size = header->image_offset + header->dib_header.image_size;
+	return (write(fd, header, 2));
 }
 
-t_bool set_image(t_game *game, int fd)
+t_bool set_image(t_game *game, int fd, t_bmp_header *header)
 {
 	t_pos coords;
 	t_bmp_pixel pixel;
-	unsigned int color_tab[3];
+	unsigned char color_tab[3];
 
-	set_pos(&coords, 0, 0);
-	while ((int)coords.y < game->resolution.height)
+	set_pos(&coords, 0, game->resolution.height - 1);
+	write(fd, (char*)header + 4, sizeof(t_bmp_header) - 4);
+	while ((int)coords.y >= 0)
 	{
 		coords.x = 0;
 		while ((int)coords.x < game->resolution.width)
 		{
 			pixel = rgb_to_pixel(get_texture_color(&game->img, &coords));
-			color_tab[0] = pixel.blue;
+			color_tab[0] = pixel.red;
 			color_tab[1] = pixel.green;
-			color_tab[2] = pixel.red;
-			write(fd, color_tab, 3);
+			color_tab[2] = pixel.blue;
+			write(fd, &pixel, 3);
 			coords.x++;
 		}
-		coords.y++;
+		ft_bzero(color_tab, 3);
+		write(fd, color_tab, pitch_correction(header->dib_header.width));
+		coords.y--;
 	}
 	return (true);
 }
 
 t_bool save_image(t_game *game)
 {
+	t_bmp_header header;
 	int fd;
+
 	render_one_frame(game);
 	fd = open(BMP_PATH, O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG | S_IRWXO);
-	if (fd == -1 || set_header(game, fd) == -1 || set_image(game, fd) == -1)
+	if (fd == -1 || set_header(game, fd, &header) == -1 || set_image(game, fd, &header) == -1)
 		return (false);
+	close(fd);
 	return (true);
 }

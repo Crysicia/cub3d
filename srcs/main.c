@@ -219,7 +219,8 @@ int             main(int argc, char *argv[])
 		);
 		display_map(&game.map);
 	}
-	save_image(&game);
+	// save_image(&game);
+	// clean_exit(&game, SUCCESS);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
 	mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
