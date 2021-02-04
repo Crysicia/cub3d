@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 00:24:19 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:30:16 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, t_pos *of
 
 t_bool is_in_fov(double player_angle, double angle);
 void update_sprite_visibility(t_player *player, t_sprite *sprite);
+void render_all_sprites(t_game *game);
 void render_sprite(t_game *game, t_sprite *sprite);
 void sort_sprites(t_game *game);
 
@@ -90,4 +91,8 @@ int free_queue(t_list *queue, int error);
 t_bool enqueue(t_list **queue, int x, int y);
 void dequeue(t_list **queue);
 int floodfill(t_pos *pos, char *targets, char fill, t_map *map);
+
+
+t_bool save_image(t_game *game);
+
 #endif

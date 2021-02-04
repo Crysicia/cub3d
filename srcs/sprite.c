@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/03 14:32:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/04 13:42:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include <stdio.h>
 #include "../includes/cub3d.h"
 #include "../includes/shapes.h"
+
+void render_all_sprites(t_game *game)
+{
+	int i;
+
+	i = -1;
+	if (game->map.sprites_count <= 0)
+		return ;
+	while (++i < game->map.sprites_count)
+		update_sprite_visibility(&game->map.player, &game->map.sprites[i]);
+	sort_sprites(game);
+	i = -1;
+	while (++i < game->map.sprites_count)
+		if (game->map.sprites[i].is_visible)
+			render_sprite(game, &game->map.sprites[i]);
+}
 
 t_bool is_in_fov(double player_angle, double angle)
 {

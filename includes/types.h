@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/03 16:42:22 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/04 14:28:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,40 @@
 #define YELLOW 0x00FFFF00
 
 #define TILE_SIZE 64
+
+#define BMP_PATH "./saved.bmp"
+
+typedef struct s_dib_header
+{
+	int header_size;
+	int width;
+	int height;
+	short planes;
+	short bits_per_pixel;
+	int compression;
+	int image_size;
+	int horizontal_res;
+	int vertical_res;
+	int palette;
+	int important_colors;
+}				t_dib_header;
+
+typedef struct s_bmp_pixel
+{
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
+}				t_bmp_pixel;
+
+typedef struct s_bmp_header
+{
+	char signature[2];
+	int size;
+	int reserved;
+	int image_offset;
+	t_dib_header dib_header;
+}				t_bmp_header;
+
 
 typedef struct  s_data {
 	void        *img;

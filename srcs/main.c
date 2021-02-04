@@ -133,9 +133,9 @@ void render_3d_walls(t_game *game)
 			t = 3;
 			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
 		}
-		draw_line(&game->img, BLUE, i, 0, i, wall.top);
+		draw_line(&game->img, game->ceiling_color, i, 0, i, wall.top);
 		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
-		draw_line(&game->img, BLACK, i, wall.bottom, i, game->resolution.height);
+		draw_line(&game->img, game->floor_color, i, wall.bottom, i, game->resolution.height);
 		i++;
 	}
 }
@@ -188,21 +188,7 @@ int main_loop(t_game *game)
 	// render_rays(game);
 	// draw_player(game);
 	render_3d_walls(game);
-	i = 0;
-	while (i < game->map.sprites_count)
-	{
-		update_sprite_visibility(&game->map.player, &game->map.sprites[i]);
-		i++;
-	}
-	if (game->map.sprites_count > 0)
-		sort_sprites(game);
-	i = 0;
-	while (i < game->map.sprites_count)
-	{
-		if (game->map.sprites[i].is_visible)
-			render_sprite(game, &game->map.sprites[i]);
-		i++;
-	}
+	render_all_sprites(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
 }
 
@@ -233,6 +219,7 @@ int             main(int argc, char *argv[])
 		);
 		display_map(&game.map);
 	}
+	save_image(&game);
 	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
 	mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
