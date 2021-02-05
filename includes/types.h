@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 14:28:42 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/05 15:37:32 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,18 @@ typedef struct s_dib_header
 
 typedef struct s_bmp_pixel
 {
-	unsigned char red;
-	unsigned char green;
 	unsigned char blue;
+	unsigned char green;
+	unsigned char red;
 }				t_bmp_pixel;
 
 typedef struct s_bmp_header
 {
-	char signature[2];
+	unsigned char signature[2];
 	int size;
 	int reserved;
 	int image_offset;
-	t_dib_header dib_header;
+	struct s_dib_header dib_header;
 }				t_bmp_header;
 
 
