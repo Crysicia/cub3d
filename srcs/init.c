@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 15:57:49 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 16:55:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <limits.h>
 
 #include "../includes/init.h"
-#include "../includes/shapes.h"
 #include "../includes/cub3d.h"
 
 void adjust_screen_size(t_game *game, int save_flag)

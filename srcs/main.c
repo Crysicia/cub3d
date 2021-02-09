@@ -8,7 +8,6 @@
 #include <float.h>
 #include <X11/X.h>
 
-#include "../includes/shapes.h"
 #include "../includes/init.h"
 #include "../includes/debug.h"
 #include "../includes/input.h"
@@ -52,51 +51,12 @@ t_bool init_settings(t_game *game)
 	return (true);
 }
 
-int draw_map(t_game *game)
+void draw_column(t_data *img, int color, int column, int start, int end)
 {
-	int x;
-	int y;
-	int color;
-
-	x = 0;
-	while (x < 10)
+	while (start <= end)
 	{
-		y = 0;
-		while (y < 10)
-		{
-			color = (game->map.matrix[x][y] == '1') ? BLACK : WHITE;
-			draw_square(&game->img, color, TILE_SIZE, y * TILE_SIZE, x * TILE_SIZE);
-			y++;
-		}
-		x++;
-	}
-}
-
-int draw_player(t_game *game)
-{
-	draw_circle(&game->img, 10, game->map.player.pos.x, game->map.player.pos.y);
-	draw_line(&game->img, 0x0000FF00, game->map.player.pos.x,
-		game->map.player.pos.y,
-		game->map.player.pos.x + cos(game->map.player.facing_angle) * 20,
-		game->map.player.pos.y + sin(game->map.player.facing_angle) * 20);
-}
-
-void render_rays(t_game *game)
-{
-	int i;
-
-	i = 0;
-	while (i < game->resolution.width)
-	{
-		draw_line(
-			&game->img,
-			0x000000FF,
-			game->map.player.pos.x,
-			game->map.player.pos.y,
-			game->rays[i].wall_hit.x,
-			game->rays[i].wall_hit.y
-		);
-		i++;
+		my_mlx_pixel_put(img, column, start, color);
+		start++;
 	}
 }
 
@@ -133,9 +93,9 @@ void render_3d_walls(t_game *game)
 			t = 3;
 			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
 		}
-		draw_line(&game->img, game->ceiling_color, i, 0, i, wall.top);
+		draw_column(&game->img, game->ceiling_color, i, 0, wall.top);
 		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
-		draw_line(&game->img, game->floor_color, i, wall.bottom, i, game->resolution.height);
+		draw_column(&game->img, game->floor_color, i, wall.bottom, game->resolution.height);
 		i++;
 	}
 }
@@ -194,6 +154,15 @@ void close_window(t_game *game)
 	clean_exit(game, SUCCESS);
 }
 
+void bind_hooks(t_game *game)
+{
+	mlx_hook(game->win, KeyPress, KeyPressMask, key_pressed, game);
+	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_released, game);
+	mlx_hook(game->win, ClientMessage, StructureNotifyMask, close_window, game);
+	mlx_loop_hook(game->mlx, main_loop, game);
+	mlx_loop(game->mlx);
+}
+
 int             main(int argc, char *argv[])
 {
 	t_game game;
@@ -219,11 +188,7 @@ int             main(int argc, char *argv[])
 			clean_exit(&game, ret);
 		if (save)
 			clean_exit(&game, save_image(&game));
-		mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
-		mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-		mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
-		mlx_loop_hook(game.mlx, main_loop, &game);
-		mlx_loop(game.mlx);
+		bind_hooks(&game);
 	}
 	else
 		print_error(ARG_ERROR);

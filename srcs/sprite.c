@@ -6,14 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 13:42:40 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 16:55:26 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include <stdio.h>
 #include "../includes/cub3d.h"
-#include "../includes/shapes.h"
 
 void render_all_sprites(t_game *game)
 {

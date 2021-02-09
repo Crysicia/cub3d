@@ -1,7 +1,7 @@
 C 225,0,125
 F 0,0,0
 
-R 48555 48555
+R 800 700
 
 S ./textures/barrel.xpm
 NO ./textures/wood.xpm
