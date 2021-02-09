@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 12:02:38 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 15:59:46 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@
 #define MALFORMED_MAP_ERROR -52
 #define WRITE_ERROR -53
 #define ARG_ERROR -54
-
 #define SUCCESS 42
+
+#define X11_MAX_SIZE 20000
 
 #define NOT_SET -256
 
 #define FOV 1.047197551196598 // 60 * (M_PI / 180)
-
 
 #define TWO_PI 6.283185307179586
 #define ONE_A_HALF_PI 4.71238898038469

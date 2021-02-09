@@ -66,8 +66,8 @@ re: fclean all
 # [✔] - Implement strafing
 # [✔] - Add close event on red cross
 # [✔] - Implement queue for floodfill
+# [✔] - Implement bitmap save
 # [] - Fix sprites bug at angle 0
-# [] - Implement bitmap save
 # [] - Clean code
 # [] - Compile with errrors
 # [] - Code "a la norme"™️

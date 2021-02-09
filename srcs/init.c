@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 14:20:31 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 15:57:49 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,36 @@
 #include "../includes/shapes.h"
 #include "../includes/cub3d.h"
 
-int init(t_game *game, int *error)
+void adjust_screen_size(t_game *game, int save_flag)
 {
+	t_resolution screen_size;
+
+	mlx_get_screen_size(game->mlx, &screen_size.width, &screen_size.height);
+	if (!save_flag)
+	{
+		if (screen_size.width < game->resolution.width)
+			game->resolution.width = screen_size.width;
+		if (screen_size.height < game->resolution.height)
+			game->resolution.height = screen_size.height;
+	}
+	else
+	{
+		if (game->resolution.width > X11_MAX_SIZE)
+			game->resolution.width = X11_MAX_SIZE;
+		if (game->resolution.height > X11_MAX_SIZE)
+			game->resolution.height = X11_MAX_SIZE;
+	}
+}
+
+int init(t_game *game, int *error, int save_flag)
+{
+	adjust_screen_size(game, save_flag);
+	if (!save_flag)
+	{
+		game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
+		if (!game->win)
+			return (set_error(error, ALLOCATION_ERROR));
+	}
 	*error = SUCCESS;
 	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
 	if (!game->img.img)

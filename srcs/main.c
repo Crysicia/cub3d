@@ -184,9 +184,6 @@ int main_loop(t_game *game)
 	if (!has_wall_at(game, game->map.player.pos.x, y))
 		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
 	cast_rays(game);
-	// draw_map(game);
-	// render_rays(game);
-	// draw_player(game);
 	render_3d_walls(game);
 	render_all_sprites(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
@@ -218,13 +215,10 @@ int             main(int argc, char *argv[])
 		}
 		if (!init_settings(&game)
 			|| parse_file(&game, argv[1 + save], &ret) != SUCCESS
-			|| init(&game, &ret) != SUCCESS)
+			|| init(&game, &ret, save) != SUCCESS)
 			clean_exit(&game, ret);
 		if (save)
 			clean_exit(&game, save_image(&game));
-		game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
-		if (!game.win)
-			clean_exit(&game, ALLOCATION_ERROR);
 		mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
 		mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
 		mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);

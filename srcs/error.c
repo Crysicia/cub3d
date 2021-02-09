@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 13:30:56 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 14:37:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void print_error(int code)
 		message = "Invalid map";
 	else if (code == ARG_ERROR)
 		message = "Invalid arguments\nUsage: ./Cub3D [--save] path_to_map";
+	else if (code == WRITE_ERROR)
+		message = "Could not write file to disk";
 	printf("Error\n%s\n", message);
 }
 

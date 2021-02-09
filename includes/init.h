@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:44:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 15:45:53 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 15:30:54 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INIT_H
 # define INIT_H
 #include "types.h"
-int init(t_game *game, int *error);
+int init(t_game *game, int *error, int save_flag);
 void init_map(t_game *game);
 void init_player(t_game *game);
 void init_ray(t_ray *ray, float angle);
