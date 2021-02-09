@@ -199,31 +199,39 @@ void close_window(t_game *game)
 
 int             main(int argc, char *argv[])
 {
-	(void)	argc;
-	(void)	argv;
-	t_game  game;
+	t_game game;
 	int ret;
+	int save;
 
-	if (!init_settings(&game)
-		|| parse_file(&game, argv[1], &ret) != SUCCESS
-		|| init(&game, &ret) != SUCCESS)
-		clean_exit(&game, ret);
-	else
+	save = 0;
+	if (argc == 2 || argc == 3)
 	{
-		printf(
-			"Settings:\n- Resolution [%i, %i]\n- Ceiling [%i]\n- Floor [%i]\n",
-			game.resolution.width,
-			game.resolution.height,
-			game.ceiling_color,
-			game.floor_color
-		);
-		display_map(&game.map);
+		if (argc == 3)
+		{
+			if (ft_strncmp(argv[1], "--save", 6) == 0)
+				save = 1;
+			else
+			{
+				print_error(ARG_ERROR);
+				exit(0);
+			}
+		}
+		if (!init_settings(&game)
+			|| parse_file(&game, argv[1 + save], &ret) != SUCCESS
+			|| init(&game, &ret) != SUCCESS)
+			clean_exit(&game, ret);
+		if (save)
+			clean_exit(&game, save_image(&game));
+		game.win = mlx_new_window(game.mlx, game.resolution.width, game.resolution.height, "OOPS");
+		if (!game.win)
+			clean_exit(&game, ALLOCATION_ERROR);
+		mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
+		mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
+		mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
+		mlx_loop_hook(game.mlx, main_loop, &game);
+		mlx_loop(game.mlx);
 	}
-	save_image(&game);
-	clean_exit(&game, SUCCESS);
-	mlx_hook(game.win, KeyPress, KeyPressMask, key_pressed, &game);
-	mlx_hook(game.win, KeyRelease, KeyReleaseMask, key_released, &game);
-	mlx_hook(game.win, ClientMessage, StructureNotifyMask, close_window, &game);
-	mlx_loop_hook(game.mlx, main_loop, &game);
-	mlx_loop(game.mlx);
+	else
+		print_error(ARG_ERROR);
+	exit(0);
 }

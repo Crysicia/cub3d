@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/03 16:43:11 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 14:20:31 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 int init(t_game *game, int *error)
 {
 	*error = SUCCESS;
-	game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
-	if (!game->win)
-		return (set_error(error, ALLOCATION_ERROR));
 	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
 	if (!game->img.img)
 		return (set_error(error, ALLOCATION_ERROR));

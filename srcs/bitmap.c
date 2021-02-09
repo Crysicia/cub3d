@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:50:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/05 15:40:52 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 13:37:49 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ int set_header(t_game *game, int fd, t_bmp_header *header)
 	return (-1);
 }
 
-t_bool set_image(t_game *game, int fd, t_bmp_header *header)
+int set_image(t_game *game, int fd, t_bmp_header *header)
 {
 	t_pos coords;
 	t_bmp_pixel pixel;
-	unsigned char color_tab[3];
 
 	set_pos(&coords, 0, game->resolution.height - 1);
 	while ((int)coords.y >= 0)
@@ -73,28 +72,26 @@ t_bool set_image(t_game *game, int fd, t_bmp_header *header)
 		while ((int)coords.x < game->resolution.width)
 		{
 			pixel = rgb_to_pixel(get_texture_color(&game->img, &coords));
-			color_tab[0] = pixel.blue;
-			color_tab[1] = pixel.green;
-			color_tab[2] = pixel.red;
-			write(fd, color_tab, 3);
+			if (write(fd, &pixel, 3) == -1)
+				return (-1);
 			coords.x++;
 		}
-		ft_bzero(color_tab, 3);
-		write(fd, color_tab, pitch_correction(header->dib_header.width));
+		if (write(fd, "\0\0\0", pitch_correction(header->dib_header.width)) == -1)
+			return (-1);
 		coords.y--;
 	}
-	return (true);
+	return (1);
 }
 
-t_bool save_image(t_game *game)
+int save_image(t_game *game)
 {
 	t_bmp_header header;
 	int fd;
 
 	render_one_frame(game);
 	fd = open(BMP_PATH, O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);
-	if (fd == -1 || set_header(game, fd, &header) == -1 || set_image(game, fd, &header) == -1)
-		return (false);
-	close(fd);
-	return (true);
+	if (fd == -1 || set_header(game, fd, &header) == -1
+		|| set_image(game, fd, &header) == -1 || close(fd) == -1)
+		return (WRITE_ERROR);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 14:30:16 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 13:37:40 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ void dequeue(t_list **queue);
 int floodfill(t_pos *pos, char *targets, char fill, t_map *map);
 
 
-t_bool save_image(t_game *game);
+int save_image(t_game *game);
 
 #endif

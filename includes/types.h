@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/05 15:37:32 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/09 12:02:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 #define MAP_ERROR -50
 #define STARTING_POINT_ERROR -51
 #define MALFORMED_MAP_ERROR -52
+#define WRITE_ERROR -53
+#define ARG_ERROR -54
+
 #define SUCCESS 42
 
 #define NOT_SET -256
