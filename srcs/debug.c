@@ -6,12 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 16:09:48 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 14:58:51 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/debug.h"
 #include "../includes/cub3d.h"
+#include <stdio.h>
 
 void print_infos(t_game *game)
 {
@@ -49,7 +50,7 @@ void print_ray(t_ray *ray)
 
 void print_wall(t_wall *wall)
 {
-	printf("--- Wall ---\n| Height: %f\n| Top: %f\n| Bottom: %f\n",
+	printf("--- Wall ---\n| Height: %d\n| Top: %d\n| Bottom: %d\n",
 		wall->height,
 		wall->top,
 		wall->bottom

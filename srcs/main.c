@@ -155,11 +155,13 @@ int main_loop(t_game *game)
 	render_3d_walls(game);
 	render_all_sprites(game);
 	mlx_put_image_to_window(game->mlx, game->win, game->img.img, 0, 0);
+	return (1);
 }
 
-void close_window(t_game *game)
+int close_window(t_game *game)
 {
 	clean_exit(game, SUCCESS);
+	return (1);
 }
 
 void bind_hooks(t_game *game)

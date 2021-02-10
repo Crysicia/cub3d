@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:17:04 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 13:31:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:03:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ t_bool get_resolution(t_resolution *resolution, char **reso_arr)
 	if (arr_len(reso_arr) != 2 || !set_resolution(resolution,
 		ft_atoi(reso_arr[0]), ft_atoi(reso_arr[1])))
 	{
-		ft_free_matrix(reso_arr, arr_len(reso_arr));
+		ft_free_matrix((void **)reso_arr, arr_len(reso_arr));
 		return (false);
 	}
-	ft_free_matrix(reso_arr, arr_len(reso_arr));
+	ft_free_matrix((void **)reso_arr, arr_len(reso_arr));
 	return (true);
 }
 

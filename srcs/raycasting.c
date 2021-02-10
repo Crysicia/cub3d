@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/01 16:34:11 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 14:48:28 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,6 @@ void get_vertical_intercept(t_game *game, t_ray *ray)
 	vertical_intercept_loop(game, ray, &intercept, &step);
 }
 
-void cast_ray(t_game *game, t_ray *ray)
-{
-	get_horizontal_intercept(game, ray);
-	get_vertical_intercept(game, ray);
-}
-
 void cast_rays(t_game *game)
 {
 	int i;
@@ -123,7 +117,8 @@ void cast_rays(t_game *game)
 	{
 		angle = game->map.player.facing_angle + atan((i - game->resolution.width / 2) / game->projection_plane);
 		init_ray(&game->rays[i], angle);
-		cast_ray(game, &game->rays[i]);
+		get_horizontal_intercept(game, &game->rays[i]);
+		get_vertical_intercept(game, &game->rays[i]);
 		i++;
 	}
 }

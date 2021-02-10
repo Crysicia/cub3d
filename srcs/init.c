@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 16:55:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 14:39:11 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void adjust_screen_size(t_game *game, int save_flag)
 
 int init(t_game *game, int *error, int save_flag)
 {
+	*error = SUCCESS;
 	adjust_screen_size(game, save_flag);
 	if (!save_flag)
 	{
@@ -49,7 +50,6 @@ int init(t_game *game, int *error, int save_flag)
 		if (!game->win)
 			return (set_error(error, ALLOCATION_ERROR));
 	}
-	*error = SUCCESS;
 	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
 	if (!game->img.img)
 		return (set_error(error, ALLOCATION_ERROR));

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 12:45:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:01:30 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <math.h>
+# include <stdio.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
 # define BUFFER_SIZE 64
@@ -35,7 +36,6 @@ void clean_exit(t_game *game, int error);
 void print_error(int code);
 t_bool init_rays(t_game *game);
 float normalize_angle(float angle);
-void cast_ray(t_game *game, t_ray *ray);
 void set_ray_direction(t_ray *ray);
 void cast_rays(t_game *game);
 void render_3d_walls(t_game *game);

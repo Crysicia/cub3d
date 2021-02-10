@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 23:58:25 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:03:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ t_bool get_colors(int *color, char **colors)
 	if (arr_len(colors) != 3 || !set_colors(color, ft_atoi(colors[0]),
 								ft_atoi(colors[1]), ft_atoi(colors[2])))
 	{
-		ft_free_matrix(colors, arr_len(colors));
+		ft_free_matrix((void **)colors, arr_len(colors));
 		return (false);
 	}
-	ft_free_matrix(colors, arr_len(colors));
+	ft_free_matrix((void **)colors, arr_len(colors));
 	return (true);
 }
 
