@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 16:35:55 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 12:45:17 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
 # define BUFFER_SIZE 64
+
+void            my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 char	*gnl_strdup(const char *s1);
 char	*gnl_strjoin(char const *s1, char const *s2);

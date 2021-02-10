@@ -112,37 +112,45 @@ t_bool has_wall_at(t_game *game, float x, float y)
 	return (game->map.matrix[iy][ix] == '1');
 }
 
-void move_strafe(t_game *game)
+void move_collisions(t_game *game, t_pos *coords)
 {
-	float hypotenus;
-	float x;
-	float y;
+	if (!has_wall_at(game, coords->x, game->map.player.pos.y))
+		set_pos(&game->map.player.pos, coords->x, game->map.player.pos.y);
+	if (!has_wall_at(game, game->map.player.pos.x, coords->y))
+		set_pos(&game->map.player.pos, game->map.player.pos.x, coords->y);
+}
 
-	hypotenus = game->map.player.current_strafing * game->map.player.move_speed;
-	x = game->map.player.pos.x + cos(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
-	y = game->map.player.pos.y + sin(game->map.player.facing_angle + (M_PI / 2)) * hypotenus;
-	if (!has_wall_at(game, x, game->map.player.pos.y))
-		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
-	if (!has_wall_at(game, game->map.player.pos.x, y))
-		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
+void get_next_player_pos(t_game *game, t_bool strafing, t_pos *coords)
+{
+	float strafing_angle;
+	float distance;
+
+	strafing_angle = M_PI / 2;
+	if (!strafing)
+	{
+		game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
+		distance = game->map.player.current_direction * game->map.player.move_speed;
+		strafing_angle = 0;
+	}
+	else
+		distance = game->map.player.current_strafing * game->map.player.move_speed;
+	coords->x = game->map.player.pos.x + cos(game->map.player.facing_angle + strafing_angle) * distance;
+	coords->y = game->map.player.pos.y + sin(game->map.player.facing_angle + strafing_angle) * distance;
+}
+
+void move_player(t_game *game)
+{
+	t_pos coords;
+
+	get_next_player_pos(game, true, &coords);
+	move_collisions(game, &coords);
+	get_next_player_pos(game, false, &coords);
+	move_collisions(game, &coords);
 }
 
 int main_loop(t_game *game)
 {
-	float hypotenus;
-	float x;
-	float y;
-	int i;
-
-	move_strafe(game);
-	game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
-	hypotenus = game->map.player.current_direction * game->map.player.move_speed;
-	x = game->map.player.pos.x + cos(game->map.player.facing_angle) * hypotenus;
-	y = game->map.player.pos.y + sin(game->map.player.facing_angle) * hypotenus;
-	if (!has_wall_at(game, x, game->map.player.pos.y))
-		set_pos(&game->map.player.pos, x, game->map.player.pos.y);
-	if (!has_wall_at(game, game->map.player.pos.x, y))
-		set_pos(&game->map.player.pos, game->map.player.pos.x, y);
+	move_player(game);
 	cast_rays(game);
 	render_3d_walls(game);
 	render_all_sprites(game);
