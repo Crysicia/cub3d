@@ -107,7 +107,7 @@ t_bool has_wall_at(t_game *game, float x, float y)
 
 	ix = floor(x);
 	iy = floor(y);
-	if (ix < 0 || iy < 0 || iy >= game->map.height || ix >= ft_strlen(game->map.matrix[iy]))
+	if (ix < 0 || iy < 0 || iy >= game->map.height || (unsigned int)ix >= ft_strlen(game->map.matrix[iy]))
 		return (true);
 	return (game->map.matrix[iy][ix] == '1');
 }

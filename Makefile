@@ -1,5 +1,5 @@
 CC			= gcc
-CFLAGS 		= -g -Wall #-Werror -Wextra
+CFLAGS 		= -g -Wall -Wextra -Werror
 RM 			= rm -f
 NAME 		= test
 HEADERS 	= -I./includes
@@ -67,7 +67,7 @@ re: fclean all
 # [✔] - Add close event on red cross
 # [✔] - Implement queue for floodfill
 # [✔] - Implement bitmap save
+# [✔] - Compile with errrors
 # [] - Fix sprites bug at angle 0
 # [] - Clean code
-# [] - Compile with errrors
 # [] - Code "a la norme"™️

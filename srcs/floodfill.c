@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 12:33:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 16:16:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/10 15:08:28 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int floodfill(t_pos *pos, char *targets, char fill, t_map *map)
 	{
 		x = (int)((t_pos *)queue->content)->x;
 		y = (int)((t_pos *)queue->content)->y;
-		if (x < 0 || y < 0 || y >= map->height || x >= ft_strlen(map->matrix[y]))
+		if (x < 0 || y < 0 || y >= map->height || (unsigned int)x >= ft_strlen(map->matrix[y]))
 			return (free_queue(queue, MALFORMED_MAP_ERROR));
 		if (ft_strchr(targets, map->matrix[y][x]))
 		{
