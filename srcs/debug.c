@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 14:58:51 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:20:57 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/debug.h"
 #include "../includes/cub3d.h"
 #include <stdio.h>
-
+/**
 void print_infos(t_game *game)
 {
 	int i;
@@ -92,3 +92,4 @@ void display_map(t_map *map)
 		i++;
 	}
 }
+**/

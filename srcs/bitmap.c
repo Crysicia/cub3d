@@ -6,13 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/04 12:50:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 13:37:49 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:20:22 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-t_bmp_pixel rgb_to_pixel(int rgb)
+t_bmp_pixel	rgb_to_pixel(int rgb)
 {
 	t_bmp_pixel pixel;
 
@@ -22,7 +22,7 @@ t_bmp_pixel rgb_to_pixel(int rgb)
 	return (pixel);
 }
 
-int pitch_correction(int bits)
+int			pitch_correction(int bits)
 {
 	int pitch;
 
@@ -32,14 +32,14 @@ int pitch_correction(int bits)
 	return (pitch);
 }
 
-void render_one_frame(t_game *game)
+void		render_one_frame(t_game *game)
 {
 	cast_rays(game);
 	render_3d_walls(game);
 	render_all_sprites(game);
 }
 
-int set_header(t_game *game, int fd, t_bmp_header *header)
+int			set_header(t_game *game, int fd, t_bmp_header *header)
 {
 	ft_bzero(header, sizeof(t_bmp_header));
 	header->signature[0] = 'B';
@@ -60,10 +60,10 @@ int set_header(t_game *game, int fd, t_bmp_header *header)
 	return (-1);
 }
 
-int set_image(t_game *game, int fd, t_bmp_header *header)
+int			set_image(t_game *game, int fd, t_bmp_header *header)
 {
-	t_pos coords;
-	t_bmp_pixel pixel;
+	t_pos		coords;
+	t_bmp_pixel	pixel;
 
 	set_pos(&coords, 0, game->resolution.height - 1);
 	while ((int)coords.y >= 0)
@@ -76,17 +76,18 @@ int set_image(t_game *game, int fd, t_bmp_header *header)
 				return (-1);
 			coords.x++;
 		}
-		if (write(fd, "\0\0\0", pitch_correction(header->dib_header.width)) == -1)
+		if (write(fd, "\0\0\0",
+				pitch_correction(header->dib_header.width)) == -1)
 			return (-1);
 		coords.y--;
 	}
 	return (1);
 }
 
-int save_image(t_game *game)
+int			save_image(t_game *game)
 {
-	t_bmp_header header;
-	int fd;
+	t_bmp_header	header;
+	int				fd;
 
 	render_one_frame(game);
 	fd = open(BMP_PATH, O_CREAT | O_WRONLY, S_IRWXU | S_IRWXG);

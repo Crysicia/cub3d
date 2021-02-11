@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 15:01:30 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:07:19 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ unsigned int get_texture_color(t_data *texture, t_pos *offset);
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall);
 void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, t_pos *offset, int x);
 
+t_bool is_in_screen(t_game *game, float x, float y);
 t_bool is_in_fov(double player_angle, double angle);
 void update_sprite_visibility(t_player *player, t_sprite *sprite);
 void render_all_sprites(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 18:27:06 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/03 13:17:18 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:13:52 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int		get_next_line(int fd, char **line, char **remaining)
 	*line = gnl_strdup(*remaining);
 	if (bytes_read == 0)
 		return (gnl_free(*line, remaining, 0));
-	*remaining = gnl_dup_free(*remaining, &(*remaining)[ft_strlen(*remaining) + 1]);
+	*remaining = gnl_dup_free(*remaining,
+					&(*remaining)[ft_strlen(*remaining) + 1]);
 	if (!*line || !*remaining || bytes_read == -1)
 		return (gnl_free(*line, remaining, -1));
 	return (1);

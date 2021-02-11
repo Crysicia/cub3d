@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 14:39:11 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:23:42 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "../includes/init.h"
 #include "../includes/cub3d.h"
 
-void adjust_screen_size(t_game *game, int save_flag)
+void	adjust_screen_size(t_game *game, int save_flag)
 {
 	t_resolution screen_size;
 
@@ -40,31 +40,34 @@ void adjust_screen_size(t_game *game, int save_flag)
 	}
 }
 
-int init(t_game *game, int *error, int save_flag)
+int		init(t_game *game, int *error, int save_flag)
 {
 	*error = SUCCESS;
 	adjust_screen_size(game, save_flag);
 	if (!save_flag)
 	{
-		game->win = mlx_new_window(game->mlx, game->resolution.width, game->resolution.height, "OOPS");
+		game->win = mlx_new_window(game->mlx, game->resolution.width,
+									game->resolution.height, WINDOW_TITLE);
 		if (!game->win)
 			return (set_error(error, ALLOCATION_ERROR));
 	}
-	game->img.img = mlx_new_image(game->mlx, game->resolution.width, game->resolution.height);
+	game->img.img = mlx_new_image(game->mlx,
+							game->resolution.width, game->resolution.height);
 	if (!game->img.img)
 		return (set_error(error, ALLOCATION_ERROR));
-	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bits_per_pixel,
-		&game->img.line_length, &game->img.endian);
+	game->img.addr = mlx_get_data_addr(game->img.img,
+		&game->img.bits_per_pixel, &game->img.line_length, &game->img.endian);
 	if (!game->img.addr)
 		return (set_error(error, ALLOCATION_ERROR));
 	game->projection_plane = (game->resolution.width / 2) / tan(FOV / 2);
-	game->sprite_alpha = get_texture_color(&game->sprite_texture, &(t_pos){0, 0});
+	game->sprite_alpha = get_texture_color(&game->sprite_texture,
+													&(t_pos){0, 0});
 	if (!init_rays(game))
 		return (set_error(error, ALLOCATION_ERROR));
 	return (SUCCESS);
 }
 
-void init_player(t_game *game)
+void	init_player(t_game *game)
 {
 	game->map.player.pos.x = -1;
 	game->map.player.pos.y = -1;
@@ -76,7 +79,7 @@ void init_player(t_game *game)
 	game->map.player.current_strafing = 0;
 }
 
-void init_ray(t_ray *ray, float angle)
+void	init_ray(t_ray *ray, float angle)
 {
 	ray->distance = 0;
 	set_pos(&ray->wall_hit, INT_MAX, INT_MAX);
@@ -93,7 +96,7 @@ void init_ray(t_ray *ray, float angle)
 	ray->hit_south = 0;
 }
 
-t_bool init_rays(t_game *game)
+t_bool	init_rays(t_game *game)
 {
 	game->rays = malloc(sizeof(t_ray) * game->resolution.width);
 	if (!game->rays)
@@ -101,7 +104,7 @@ t_bool init_rays(t_game *game)
 	return (true);
 }
 
-void init_sprite(t_sprite *sprite, float x, float y)
+void	init_sprite(t_sprite *sprite, float x, float y)
 {
 	set_pos(&sprite->pos, x, y);
 	sprite->is_visible = true;
