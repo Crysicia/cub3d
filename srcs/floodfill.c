@@ -6,21 +6,22 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 12:33:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 13:38:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 16:14:59 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-t_pos	*new_pos(float x, float y)
+t_point	*new_point(int x, int y)
 {
-	t_pos *pos;
+	t_point *point;
 
-	pos = malloc(sizeof(t_pos));
-	if (!pos)
+	point = malloc(sizeof(t_point));
+	if (!point)
 		return (NULL);
-	set_pos(pos, x, y);
-	return (pos);
+	point->x = x;
+	point->y = y;
+	return (point);
 }
 
 int		free_queue(t_list *queue, int error)
@@ -31,16 +32,16 @@ int		free_queue(t_list *queue, int error)
 
 t_bool	enqueue(t_list **queue, int x, int y)
 {
-	t_pos	*pos;
+	t_point	*point;
 	t_list	*node;
 
-	pos = new_pos(x, y);
-	if (!pos)
+	point = new_point(x, y);
+	if (!point)
 		return (false);
-	node = ft_lstnew(pos);
+	node = ft_lstnew(point);
 	if (!node)
 	{
-		free(pos);
+		free(point);
 		return (false);
 	}
 	ft_lstadd_back(queue, node);
@@ -58,31 +59,28 @@ void	dequeue(t_list **queue)
 
 int		floodfill(t_pos *pos, char *targets, char fill, t_map *map)
 {
-	t_list	*queue;
-	int		x;
-	int		y;
+	t_list	*q;
+	t_point p;
 
-	queue = NULL;
-	if (!enqueue(&queue, (int)pos->x, (int)pos->y))
-		return (free_queue(queue, ALLOCATION_ERROR));
-	while (queue)
+	q = NULL;
+	if (!enqueue(&q, pos->x, pos->y))
+		return (free_queue(q, ALLOCATION_ERROR));
+	while (q)
 	{
-		x = (int)((t_pos *)queue->content)->x;
-		y = (int)((t_pos *)queue->content)->y;
-		if (x < 0 || y < 0 || y >= map->height || (unsigned int)x >= ft_strlen(map->matrix[y]))
-			return (free_queue(queue, MALFORMED_MAP_ERROR));
-		if (ft_strchr(targets, map->matrix[y][x]))
+		p = *(t_point *)q->content;
+		if (p.x < 0 || p.y < 0 || p.y >= map->height
+			|| p.x >= (int)ft_strlen(map->matrix[p.y]))
+			return (free_queue(q, MALFORMED_MAP_ERROR));
+		if (ft_strchr(targets, map->matrix[p.y][p.x]))
 		{
-			map->matrix[y][x] = fill;
-			if (!enqueue(&queue, x + 1, y)
-				|| !enqueue(&queue, x - 1, y)
-				|| !enqueue(&queue, x, y + 1)
-				|| !enqueue(&queue, x, y - 1))
-				return (free_queue(queue, ALLOCATION_ERROR));
+			map->matrix[p.y][p.x] = fill;
+			if (!enqueue(&q, p.x + 1, p.y) || !enqueue(&q, p.x - 1, p.y)
+			|| !enqueue(&q, p.x, p.y + 1) || !enqueue(&q, p.x, p.y - 1))
+				return (free_queue(q, ALLOCATION_ERROR));
 		}
-		else if (map->matrix[y][x] != fill && map->matrix[y][x] != WALL)
-			return (free_queue(queue, MALFORMED_MAP_ERROR));
-		dequeue(&queue);
+		else if (map->matrix[p.y][p.x] != fill && map->matrix[p.y][p.x] != WALL)
+			return (free_queue(q, MALFORMED_MAP_ERROR));
+		dequeue(&q);
 	}
 	return (SUCCESS);
 }

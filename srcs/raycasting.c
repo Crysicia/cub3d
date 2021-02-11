@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:13:02 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:51:03 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	horizontal_intercept_loop(t_game *game, t_ray *ray,
 	}
 }
 
-void	ertical_intercept_loop(t_game *game, t_ray *ray,
+void	vertical_intercept_loop(t_game *game, t_ray *ray,
 								t_pos *intercept, t_pos *step)
 {
 	t_bool has_found_wall;

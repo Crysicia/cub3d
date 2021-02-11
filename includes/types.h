@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 15:59:46 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:55:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ typedef struct s_bmp_header
 	struct s_dib_header dib_header;
 }				t_bmp_header;
 
-
 typedef struct  s_data {
 	void        *img;
 	char        *addr;
@@ -112,6 +111,12 @@ typedef struct  s_data {
 	int			width;
 	int			height;
 }               t_data;
+
+typedef struct  s_point
+{
+	int x;
+	int y;
+}				t_point;
 
 typedef struct  s_pos
 {

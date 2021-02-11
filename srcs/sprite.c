@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 13:24:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 15:50:23 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "../includes/cub3d.h"
 
-void render_all_sprites(t_game *game)
+void	render_all_sprites(t_game *game)
 {
 	int i;
 
@@ -31,25 +31,26 @@ void render_all_sprites(t_game *game)
 			render_sprite(game, &game->map.sprites[i]);
 }
 
-t_bool is_in_fov(double player_angle, double angle)
+t_bool	is_in_fov(double player_angle, double angle)
 {
 	float fov_start;
 	float fov_end;
 
 	fov_start = player_angle - (80 * (M_PI / 180) / 2);
-	fov_end = player_angle + (80 *  (M_PI / 180) / 2);
+	fov_end = player_angle + (80 * (M_PI / 180) / 2);
 	// printf("Fov: %f-%f, Sprite angle: %f, Visible: %i\n", fov_start, fov_end, angle, (fov_start <= angle && fov_end >= angle));
 	if (fov_start <= angle && fov_end >= angle)
 		return (true);
 	return (false);
 }
 
-void update_sprite_visibility(t_player *player, t_sprite *sprite)
+void	update_sprite_visibility(t_player *player, t_sprite *sprite)
 {
-	double sprite_angle;
-	t_pos relative_pos;
+	double	sprite_angle;
+	t_pos	relative_pos;
 
-	set_pos(&relative_pos, sprite->pos.x - player->pos.x, sprite->pos.y - player->pos.y);
+	set_pos(&relative_pos, sprite->pos.x - player->pos.x,
+							sprite->pos.y - player->pos.y);
 	sprite_angle = normalize_angle(atan2(relative_pos.y, relative_pos.x));
 	sprite->angle = sprite_angle;
 	sprite->distance = pos_distance(&player->pos, &sprite->pos);
@@ -59,11 +60,11 @@ void update_sprite_visibility(t_player *player, t_sprite *sprite)
 		sprite->is_visible = false;
 }
 
-void sort_sprites(t_game *game)
+void	sort_sprites(t_game *game)
 {
-	t_sprite temp;
-	t_bool sorted;
-	int i;
+	t_sprite	current_sprite;
+	t_bool		sorted;
+	int			i;
 
 	sorted = false;
 	while (!sorted)
@@ -72,11 +73,11 @@ void sort_sprites(t_game *game)
 		i = 0;
 		while (i < game->map.sprites_count - 1)
 		{
-			if (game->map.sprites[i].distance < game->map.sprites[i + 1].distance)
+			current_sprite = game->map.sprites[i];
+			if (current_sprite.distance < game->map.sprites[i + 1].distance)
 			{
-				temp = game->map.sprites[i];
 				game->map.sprites[i] = game->map.sprites[i + 1];
-				game->map.sprites[i + 1] = temp;
+				game->map.sprites[i + 1] = current_sprite;
 				sorted = false;
 			}
 			i++;
@@ -84,17 +85,17 @@ void sort_sprites(t_game *game)
 	}
 }
 
-void render_sprite(t_game *game, t_sprite *sprite)
+void	render_sprite(t_game *game, t_sprite *sprite)
 {
-	int height;
-	int top;
-	int bottom;
-	int x;
-	int y;
-	int draw_x;
-	int draw_y;
-
-	t_pos offset;
+	int		height;
+	int		top;
+	int		bottom;
+	int		x;
+	int		y;
+	int		draw_x;
+	int		draw_y;
+	int		color;
+	t_pos	offset;
 
 	height = game->projection_plane / (cos(sprite->angle - game->map.player.facing_angle) * sprite->distance);
 	top = (game->resolution.height / 2) - (height / 2);
@@ -116,7 +117,7 @@ void render_sprite(t_game *game, t_sprite *sprite)
 		while (draw_y < height && draw_y + y < game->resolution.height)
 		{
 			offset.y = (draw_y + y + (height / 2) - (game->resolution.height / 2)) * ((float)game->sprite_texture.height / height);
-			int color = get_texture_color(&game->sprite_texture, &offset);
+			color = get_texture_color(&game->sprite_texture, &offset);
 			if (game->rays[draw_x + x].distance > sprite->distance && color != game->sprite_alpha)
 				my_mlx_pixel_put(&game->img, draw_x + x, draw_y + y, color);
 			draw_y++;

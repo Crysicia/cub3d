@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:07:19 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 16:03:08 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int map_get_positions(t_map *map);
 void set_player_pos(t_player *player, t_pos *pos, char angle);
 int set_sprites_pos(t_map *map);
 
-t_pos *new_pos(float x, float y);
+t_point *new_point(int x, int y);
 int free_queue(t_list *queue, int error);
 t_bool enqueue(t_list **queue, int x, int y);
 void dequeue(t_list **queue);
