@@ -6,13 +6,13 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 10:05:58 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 22:39:38 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:57:25 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int arr_len(char **arr)
+int		arr_len(char **arr)
 {
 	int len;
 
@@ -22,7 +22,7 @@ int arr_len(char **arr)
 	return (len);
 }
 
-t_bool has_extension(char *path, char *ext)
+t_bool	has_extension(char *path, char *ext)
 {
 	int ext_len;
 	int path_len;
@@ -34,7 +34,7 @@ t_bool has_extension(char *path, char *ext)
 	return (!ft_strncmp(&path[path_len - ext_len], ext, ext_len));
 }
 
-t_bool open_file(char *path, int *fd)
+t_bool	open_file(char *path, int *fd)
 {
 	*fd = open(path, O_RDONLY);
 	if (*fd == -1)
@@ -42,13 +42,13 @@ t_bool open_file(char *path, int *fd)
 	return (true);
 }
 
-int set_error(int *error, int code)
+int		set_error(int *error, int code)
 {
 	*error = code;
 	return (code);
 }
 
-t_bool settings_set(t_game *game)
+t_bool	settings_set(t_game *game)
 {
 	if (game->floor_color == NOT_SET
 		|| game->ceiling_color == NOT_SET

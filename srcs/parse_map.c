@@ -6,17 +6,17 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 00:22:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:52:47 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include "../includes/init.h"
 
-t_bool map_row_is_valid(char *line)
+t_bool	map_row_is_valid(char *line)
 {
-	char *charset;
-	size_t index;
+	char	*charset;
+	size_t	index;
 
 	charset = "012NSEW ";
 	index = -1;
@@ -26,7 +26,7 @@ t_bool map_row_is_valid(char *line)
 	return (true);
 }
 
-int parse_map(t_game *game, char *line)
+int		parse_map(t_game *game, char *line)
 {
 	char *row;
 
@@ -38,7 +38,7 @@ int parse_map(t_game *game, char *line)
 	return (SUCCESS);
 }
 
-int validate_map(t_map *map, int *error)
+int		validate_map(t_map *map, int *error)
 {
 	*error = map_get_positions(map);
 	if (*error != SUCCESS)

@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 15:03:17 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:51:07 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft/libft.h"
 #include "../includes/cub3d.h"
 
-t_bool set_colors(int *color, int red, int green, int blue)
+t_bool	set_colors(int *color, int red, int green, int blue)
 {
 	if (!ft_in_range(0, 255, red) || !ft_in_range(0, 255, green)
 		|| !ft_in_range(0, 255, blue))
@@ -22,7 +22,7 @@ t_bool set_colors(int *color, int red, int green, int blue)
 	return (true);
 }
 
-t_bool get_colors(int *color, char **colors)
+t_bool	get_colors(int *color, char **colors)
 {
 	if (arr_len(colors) != 3 || !set_colors(color, ft_atoi(colors[0]),
 								ft_atoi(colors[1]), ft_atoi(colors[2])))
@@ -34,12 +34,12 @@ t_bool get_colors(int *color, char **colors)
 	return (true);
 }
 
-t_bool color_is_valid(char *line)
+t_bool	color_is_valid(char *line)
 {
-	int commas;
-	t_bool prec_num;
-	char *charset;
-	size_t index;
+	int		commas;
+	t_bool	prec_num;
+	char	*charset;
+	size_t	index;
 
 	commas = 0;
 	charset = "0123456789, ";
@@ -63,7 +63,7 @@ t_bool color_is_valid(char *line)
 	return (true);
 }
 
-int parse_colors(int *color, char *line)
+int		parse_colors(int *color, char *line)
 {
 	char **color_arr;
 

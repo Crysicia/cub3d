@@ -6,18 +6,18 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 23:33:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/04 11:06:14 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:54:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include "../includes/init.h"
 
-int set_sprites_pos(t_map *map)
+int		set_sprites_pos(t_map *map)
 {
-	char tile;
-	int i;
-	t_pos coords;
+	char	tile;
+	int		i;
+	t_pos	coords;
 
 	set_pos(&coords, 0, 0);
 	i = 0;
@@ -42,23 +42,23 @@ int set_sprites_pos(t_map *map)
 	return (SUCCESS);
 }
 
-void set_player_pos(t_player *player, t_pos *pos, char angle)
+void	set_player_pos(t_player *player, t_pos *pos, char angle)
 {
 	set_pos(&player->pos, pos->x + 0.5, pos->y + 0.5);
 	if (angle == 'N')
-		player->facing_angle = 270 *(M_PI / 180);
+		player->facing_angle = 270 * (M_PI / 180);
 	else if (angle == 'E')
 		player->facing_angle = (M_PI / 180);
 	else if (angle == 'S')
 		player->facing_angle = 90 * (M_PI / 180);
-	else if (angle == 'W') 
+	else if (angle == 'W')
 		player->facing_angle = 180 * (M_PI / 180);
 }
 
-int map_get_positions(t_map *map)
+int		map_get_positions(t_map *map)
 {
-	t_pos coords;
-	char tile;
+	t_pos	coords;
+	char	tile;
 
 	set_pos(&coords, 0, 0);
 	while ((int)coords.y < map->height)
@@ -83,10 +83,10 @@ int map_get_positions(t_map *map)
 	return (set_sprites_pos(map));
 }
 
-t_bool add_row_to_map(t_map *map, char *row)
+t_bool	add_row_to_map(t_map *map, char *row)
 {
-	char **new_matrix;
-	int index;
+	char	**new_matrix;
+	int		index;
 
 	index = 0;
 	new_matrix = malloc(sizeof(char *) * (map->height + 1));

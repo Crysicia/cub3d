@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:27:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/01/28 12:24:36 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:55:49 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <stdio.h>
 
-int set_texture(void *mlx, t_data *texture, char *path)
+int	set_texture(void *mlx, t_data *texture, char *path)
 {
 	texture->img = mlx_xpm_file_to_image(mlx, path,
 							&texture->width, &texture->height);
@@ -31,7 +31,7 @@ int set_texture(void *mlx, t_data *texture, char *path)
 	return (SUCCESS);
 }
 
-int parse_texture(void *mlx, t_data *texture, char *line)
+int	parse_texture(void *mlx, t_data *texture, char *line)
 {
 	char *trimmed;
 

@@ -6,16 +6,16 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/09 14:37:40 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:36:27 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void print_error(int code)
+void	print_error(int code)
 {
 	char *message;
-		
+
 	if (code == EXTENSION_ERROR)
 		message = "Unsupported file extension";
 	else if (code == OPEN_ERROR)
@@ -45,7 +45,7 @@ void print_error(int code)
 	printf("Error\n%s\n", message);
 }
 
-void free_display(void *mlx, void *win)
+void	free_display(void *mlx, void *win)
 {
 	if (mlx && win)
 		mlx_destroy_window(mlx, win);
@@ -54,13 +54,13 @@ void free_display(void *mlx, void *win)
 	free(mlx);
 }
 
-void free_img(void *mlx, t_data *img)
+void	free_img(void *mlx, t_data *img)
 {
 	if (mlx && img && img->img)
 		mlx_destroy_image(mlx, img->img);
 }
 
-void clean_exit(t_game *game, int error)
+void	clean_exit(t_game *game, int error)
 {
 	if (error != SUCCESS)
 		print_error(error);

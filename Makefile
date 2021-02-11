@@ -9,7 +9,6 @@ LIBFT = libft.a
 
 SRCS 		= srcs/main.c \
 			  srcs/shapes.c \
-			  srcs/ft_math.c \
 			  srcs/init.c \
 			  srcs/debug.c \
 			  srcs/input.c \

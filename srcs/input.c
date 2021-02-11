@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 11:19:40 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 14:59:44 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:58:03 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "../includes/input.h"
 #include "../includes/cub3d.h"
 
-int key_released(int keycode, t_game *game)
+int	key_released(int keycode, t_game *game)
 {
 	if (keycode == UP || keycode == W || keycode == DOWN || keycode == S)
 		game->map.player.current_direction = 0;
@@ -26,8 +26,7 @@ int key_released(int keycode, t_game *game)
 	return (1);
 }
 
-
-int key_pressed(int keycode, t_game *game)
+int	key_pressed(int keycode, t_game *game)
 {
 	if (keycode == ESC)
 		clean_exit(game, SUCCESS);

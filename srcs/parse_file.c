@@ -6,14 +6,14 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/02 23:51:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 14:52:10 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 #include <stdio.h>
 
-t_bool line_is_blank(char *line)
+t_bool	line_is_blank(char *line)
 {
 	while (*line)
 	{
@@ -24,7 +24,7 @@ t_bool line_is_blank(char *line)
 	return (true);
 }
 
-int parse_setting(t_game *game, char *line)
+int		parse_setting(t_game *game, char *line)
 {
 	if (!ft_strncmp(line, "R ", 2))
 		return (parse_resolution(&game->resolution, &line[2]));
@@ -45,10 +45,10 @@ int parse_setting(t_game *game, char *line)
 	return (UNKNOWN_SETTING_ERROR);
 }
 
-int parse_settings_loop(t_game *game, int fd, int *error)
+int		parse_settings_loop(t_game *game, int fd, int *error)
 {
-	char *line;
-	int gnl_ret;
+	char	*line;
+	int		gnl_ret;
 
 	gnl_ret = 1;
 	while (*error == SUCCESS && gnl_ret == 1 && !settings_set(game))
@@ -58,7 +58,6 @@ int parse_settings_loop(t_game *game, int fd, int *error)
 			return (set_error(error, READ_ERROR));
 		if (!line_is_blank(line))
 			*error = parse_setting(game, line);
-		printf("Current line: %s\n", line);
 		free(line);
 	}
 	if (*error != SUCCESS)
@@ -66,11 +65,11 @@ int parse_settings_loop(t_game *game, int fd, int *error)
 	return (*error);
 }
 
-int parse_map_loop(t_game *game, int fd, int *error)
+int		parse_map_loop(t_game *game, int fd, int *error)
 {
-	char *line;
-	int gnl_ret;
-	t_bool map_reached;
+	char	*line;
+	int		gnl_ret;
+	t_bool	map_reached;
 
 	gnl_ret = 1;
 	map_reached = false;
@@ -90,7 +89,7 @@ int parse_map_loop(t_game *game, int fd, int *error)
 	return (*error);
 }
 
-int parse_file(t_game *game, char *path, int *error)
+int		parse_file(t_game *game, char *path, int *error)
 {
 	int fd;
 

@@ -6,16 +6,16 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 12:33:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 15:08:28 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:38:08 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-
-t_pos *new_pos(float x, float y)
+t_pos	*new_pos(float x, float y)
 {
 	t_pos *pos;
+
 	pos = malloc(sizeof(t_pos));
 	if (!pos)
 		return (NULL);
@@ -23,16 +23,16 @@ t_pos *new_pos(float x, float y)
 	return (pos);
 }
 
-int free_queue(t_list *queue, int error)
+int		free_queue(t_list *queue, int error)
 {
 	ft_lstclear(&queue, free);
 	return (error);
 }
 
-t_bool enqueue(t_list **queue, int x, int y)
+t_bool	enqueue(t_list **queue, int x, int y)
 {
-	t_pos *pos;
-	t_list *node;
+	t_pos	*pos;
+	t_list	*node;
 
 	pos = new_pos(x, y);
 	if (!pos)
@@ -47,7 +47,7 @@ t_bool enqueue(t_list **queue, int x, int y)
 	return (true);
 }
 
-void dequeue(t_list **queue)
+void	dequeue(t_list **queue)
 {
 	t_list *previous;
 
@@ -56,11 +56,11 @@ void dequeue(t_list **queue)
 	ft_lstdelone(previous, free);
 }
 
-int floodfill(t_pos *pos, char *targets, char fill, t_map *map)
+int		floodfill(t_pos *pos, char *targets, char fill, t_map *map)
 {
-	t_list *queue;
-	int x;
-	int y;
+	t_list	*queue;
+	int		x;
+	int		y;
 
 	queue = NULL;
 	if (!enqueue(&queue, (int)pos->x, (int)pos->y))

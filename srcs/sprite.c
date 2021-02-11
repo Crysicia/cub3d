@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/10 14:49:12 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 13:24:01 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void render_all_sprites(t_game *game)
 	sort_sprites(game);
 	i = -1;
 	while (++i < game->map.sprites_count)
-		if (game->map.sprites[i].is_visible)
+		if (game->map.sprites[i].is_visible
+			&& game->map.sprites[i].distance > 0.2f)
 			render_sprite(game, &game->map.sprites[i]);
 }
 
