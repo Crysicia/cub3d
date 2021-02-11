@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:07:58 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 16:17:51 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 t_bool	is_in_screen(t_game *game, float x, float y)
 {
-	return (x >= 0 && x <= game->resolution.width && y >= 0 && y <= game->resolution.height);
+	return (x >= 0 && x <= game->resolution.width
+		&& y >= 0 && y <= game->resolution.height);
 }
 
 float	normalize_angle(float angle)

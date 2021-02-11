@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:06:01 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 16:59:23 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ unsigned int	get_texture_color(t_data *texture, t_pos *offset)
 	return (*(unsigned int*)dst);
 }
 
-void			get_texture_offset(void)
-{
-}
+// void			get_texture_offset(t_game *game, t_ray *ray, t_data **texture, t_pos **offset)
+// {
+
+// }
 
 void			render_texture_strip(t_game *game, t_data *texture,
 										t_wall *wall, t_pos *offset, int x)

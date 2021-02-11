@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 16:03:08 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/11 16:58:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ float normalize_angle(float angle);
 void set_ray_direction(t_ray *ray);
 void cast_rays(t_game *game);
 void render_3d_walls(t_game *game);
+void	move_player(t_game *game);
+void	get_next_player_pos(t_game *game, t_bool strafing, t_pos *coords);
+void	move_collisions(t_game *game, t_pos *coords);
+
 t_bool has_wall_at(t_game *game, float x, float y);
 int main_loop(t_game *game);
 void set_pos(t_pos *pos, float x, float y);

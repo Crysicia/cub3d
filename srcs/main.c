@@ -13,13 +13,13 @@
 #include "../includes/input.h"
 #include "../includes/cub3d.h"
 
-void nullify_texture(t_data *texture)
+void	nullify_texture(t_data *texture)
 {
 	texture->img = NULL;
 	texture->addr = NULL;
 }
 
-void nullify_settings(t_game *game)
+void	nullify_settings(t_game *game)
 {
 	nullify_texture(&game->img);
 	nullify_texture(&game->texture[0]);
@@ -41,7 +41,7 @@ void nullify_settings(t_game *game)
 	game->gnl_remaining = NULL;
 }
 
-t_bool init_settings(t_game *game)
+t_bool	init_settings(t_game *game)
 {
 	nullify_settings(game);
 	init_player(game);
@@ -51,7 +51,7 @@ t_bool init_settings(t_game *game)
 	return (true);
 }
 
-void draw_column(t_data *img, int color, int column, int start, int end)
+void	draw_column(t_data *img, int color, int column, int start, int end)
 {
 	while (start <= end)
 	{
@@ -60,13 +60,13 @@ void draw_column(t_data *img, int color, int column, int start, int end)
 	}
 }
 
-void render_3d_walls(t_game *game)
+void	render_3d_walls(t_game *game)
 {
-	t_pos offset;
-	t_wall wall;
-	t_ray ray;
-	int i;
-	int t;
+	t_pos	offset;
+	t_wall	wall;
+	t_ray	ray;
+	int		i;
+	int		t;
 
 	i = 0;
 	while (i < game->resolution.width)
@@ -100,55 +100,7 @@ void render_3d_walls(t_game *game)
 	}
 }
 
-t_bool has_wall_at(t_game *game, float x, float y)
-{
-	int ix;
-	int iy;
-
-	ix = floor(x);
-	iy = floor(y);
-	if (ix < 0 || iy < 0 || iy >= game->map.height || (unsigned int)ix >= ft_strlen(game->map.matrix[iy]))
-		return (true);
-	return (game->map.matrix[iy][ix] == '1');
-}
-
-void move_collisions(t_game *game, t_pos *coords)
-{
-	if (!has_wall_at(game, coords->x, game->map.player.pos.y))
-		set_pos(&game->map.player.pos, coords->x, game->map.player.pos.y);
-	if (!has_wall_at(game, game->map.player.pos.x, coords->y))
-		set_pos(&game->map.player.pos, game->map.player.pos.x, coords->y);
-}
-
-void get_next_player_pos(t_game *game, t_bool strafing, t_pos *coords)
-{
-	float strafing_angle;
-	float distance;
-
-	strafing_angle = M_PI / 2;
-	if (!strafing)
-	{
-		game->map.player.facing_angle = normalize_angle(game->map.player.facing_angle + game->map.player.current_rotation * game->map.player.rotate_speed);
-		distance = game->map.player.current_direction * game->map.player.move_speed;
-		strafing_angle = 0;
-	}
-	else
-		distance = game->map.player.current_strafing * game->map.player.move_speed;
-	coords->x = game->map.player.pos.x + cos(game->map.player.facing_angle + strafing_angle) * distance;
-	coords->y = game->map.player.pos.y + sin(game->map.player.facing_angle + strafing_angle) * distance;
-}
-
-void move_player(t_game *game)
-{
-	t_pos coords;
-
-	get_next_player_pos(game, true, &coords);
-	move_collisions(game, &coords);
-	get_next_player_pos(game, false, &coords);
-	move_collisions(game, &coords);
-}
-
-int main_loop(t_game *game)
+int		main_loop(t_game *game)
 {
 	move_player(game);
 	cast_rays(game);
@@ -158,13 +110,13 @@ int main_loop(t_game *game)
 	return (1);
 }
 
-int close_window(t_game *game)
+int		close_window(t_game *game)
 {
 	clean_exit(game, SUCCESS);
 	return (1);
 }
 
-void bind_hooks(t_game *game)
+void	bind_hooks(t_game *game)
 {
 	mlx_hook(game->win, KeyPress, KeyPressMask, key_pressed, game);
 	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_released, game);
@@ -173,11 +125,11 @@ void bind_hooks(t_game *game)
 	mlx_loop(game->mlx);
 }
 
-int             main(int argc, char *argv[])
+int		main(int argc, char *argv[])
 {
-	t_game game;
-	int ret;
-	int save;
+	t_game	game;
+	int		ret;
+	int		save;
 
 	save = 0;
 	if (argc == 2 || argc == 3)
