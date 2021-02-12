@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/12 10:06:19 by lpassera          #+#    #+#             */
+/*   Updated: 2021/02/12 11:52:04 by lpassera         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../mlx/mlx.h"
 #include "../libft/libft.h"
 #include <math.h>
@@ -6,7 +18,6 @@
 #include <string.h>
 #include <limits.h>
 #include <float.h>
-#include <X11/X.h>
 
 #include "../includes/init.h"
 #include "../includes/debug.h"
@@ -62,39 +73,19 @@ void	draw_column(t_data *img, int color, int column, int start, int end)
 
 void	render_3d_walls(t_game *game)
 {
-	t_pos	offset;
 	t_wall	wall;
 	t_ray	ray;
 	int		i;
-	int		t;
+	t_data *texture;
 
 	i = 0;
 	while (i < game->resolution.width)
 	{
 		ray = game->rays[i];
+		texture = get_texture(game, &ray);
 		compute_wall_boundaries(game, &ray, &wall);
-		if (ray.hit_north)
-		{
-			t = 0;
-			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
-		}
-		else if (ray.hit_east)
-		{
-			t = 1;
-			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
-		}
-		else if (ray.hit_south)
-		{
-			t = 2;
-			offset.x = fmod(ray.wall_hit.x, 1.0f) * (float)game->texture[t].width;
-		}
-		else
-		{
-			t = 3;
-			offset.x = fmod(ray.wall_hit.y, 1.0f) * (float)game->texture[t].width;
-		}
 		draw_column(&game->img, game->ceiling_color, i, 0, wall.top);
-		render_texture_strip(game, &game->texture[t], &wall, &offset, i);
+		render_texture_strip(game, texture, &wall, i);
 		draw_column(&game->img, game->floor_color, i, wall.bottom, game->resolution.height);
 		i++;
 	}
@@ -110,20 +101,6 @@ int		main_loop(t_game *game)
 	return (1);
 }
 
-int		close_window(t_game *game)
-{
-	clean_exit(game, SUCCESS);
-	return (1);
-}
-
-void	bind_hooks(t_game *game)
-{
-	mlx_hook(game->win, KeyPress, KeyPressMask, key_pressed, game);
-	mlx_hook(game->win, KeyRelease, KeyReleaseMask, key_released, game);
-	mlx_hook(game->win, ClientMessage, StructureNotifyMask, close_window, game);
-	mlx_loop_hook(game->mlx, main_loop, game);
-	mlx_loop(game->mlx);
-}
 
 int		main(int argc, char *argv[])
 {

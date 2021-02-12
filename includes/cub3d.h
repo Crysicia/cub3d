@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 16:58:43 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 11:56:12 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include "../mlx/mlx.h"
 # include "../libft/libft.h"
+# include <X11/X.h>
+
 # define BUFFER_SIZE 64
 
 void            my_mlx_pixel_put(t_data *data, int x, int y, int color);
@@ -49,7 +51,7 @@ void set_pos(t_pos *pos, float x, float y);
 float pos_distance(t_pos *p1, t_pos *p2);
 unsigned int get_texture_color(t_data *texture, t_pos *offset);
 void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall);
-void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, t_pos *offset, int x);
+void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, int x);
 
 t_bool is_in_screen(t_game *game, float x, float y);
 t_bool is_in_fov(double player_angle, double angle);
@@ -98,5 +100,12 @@ int floodfill(t_pos *pos, char *targets, char fill, t_map *map);
 
 
 int save_image(t_game *game);
+void	bind_hooks(t_game *game);
+int		close_window(t_game *game);
+int		key_pressed(int keycode, t_game *game);
+int		key_released(int keycode, t_game *game);
+
+t_data *get_texture(t_game *game, t_ray *ray);
+void get_texture_offset(t_data *texture, t_ray *ray, t_pos *offset);
 
 #endif
