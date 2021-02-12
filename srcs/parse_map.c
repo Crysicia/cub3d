@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 14:39:46 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 14:52:47 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:57:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include "../includes/init.h"
 
 t_bool	map_row_is_valid(char *line)
 {

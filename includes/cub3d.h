@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 16:43:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:58:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,16 @@ void	set_sprite_draw(t_point *draw, t_point *coords);
 void	set_sprite_coords(t_game *game, t_sprite *sprite,
 						t_point *coords, t_bounds *bounds);
 void	sort_sprites(t_game *game);
+
+int init(t_game *game, int *error, int save_flag);
+void init_map(t_game *game);
+void init_player(t_game *game);
+void init_ray(t_ray *ray, float angle);
+void init_sprite(t_sprite *sprite, float x, float y);
+t_bool init_all_sprites(t_game *game);
+t_bool load_texture(void *mlx, t_data *texture, char *filepath);
+t_bool	init_settings(t_game *game);
+void	nullify_settings(t_game *game);
+void	nullify_texture(t_data *texture);
+
 #endif

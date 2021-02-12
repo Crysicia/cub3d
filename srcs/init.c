@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:23:42 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:58:38 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <stdio.h>
 #include <limits.h>
 
-#include "../includes/init.h"
 #include "../includes/cub3d.h"
 
 void	adjust_screen_size(t_game *game, int save_flag)
@@ -110,4 +109,42 @@ void	init_sprite(t_sprite *sprite, float x, float y)
 	sprite->is_visible = true;
 	sprite->distance = 0;
 	sprite->angle = 0;
+}
+
+void	nullify_texture(t_data *texture)
+{
+	texture->img = NULL;
+	texture->addr = NULL;
+}
+
+void	nullify_settings(t_game *game)
+{
+	nullify_texture(&game->img);
+	nullify_texture(&game->texture[0]);
+	nullify_texture(&game->texture[1]);
+	nullify_texture(&game->texture[2]);
+	nullify_texture(&game->texture[3]);
+	nullify_texture(&game->sprite_texture);
+	game->floor_color = NOT_SET;
+	game->ceiling_color = NOT_SET;
+	game->resolution.width = NOT_SET;
+	game->resolution.height = NOT_SET;
+	game->map.matrix = NULL;
+	game->map.width = 0;
+	game->map.height = 0;
+	game->map.sprites_count = 0;
+	game->map.sprites = NULL;
+	game->win = NULL;
+	game->rays = NULL;
+	game->gnl_remaining = NULL;
+}
+
+t_bool	init_settings(t_game *game)
+{
+	nullify_settings(game);
+	init_player(game);
+	game->mlx = mlx_init();
+	if (!game->mlx)
+		return (false);
+	return (true);
 }

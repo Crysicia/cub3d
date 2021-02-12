@@ -6,14 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:41:20 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:51:03 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:57:59 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-#include <math.h>
 #include "../includes/cub3d.h"
-#include "../includes/init.h"
 
 void	horizontal_intercept_loop(t_game *game, t_ray *ray,
 									t_pos *intercept, t_pos *step)

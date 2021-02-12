@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 23:33:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 14:54:43 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:57:50 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include "../includes/init.h"
 
 int		set_sprites_pos(t_map *map)
 {
