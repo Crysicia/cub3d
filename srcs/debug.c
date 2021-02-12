@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:50:18 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:20:57 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:43:07 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void print_ray(t_ray *ray)
 	printf("| Distance: %f\n", ray->distance);
 }
 
-void print_wall(t_wall *wall)
+void print_bounds(t_bounds *wall)
 {
 	printf("--- Wall ---\n| Height: %d\n| Top: %d\n| Bottom: %d\n",
 		wall->height,

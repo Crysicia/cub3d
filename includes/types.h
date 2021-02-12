@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 12:42:21 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 10:56:28 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:43:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,12 @@ typedef enum e_bool
 	true
 } 			t_bool;
 
-typedef struct s_wall
+typedef struct s_boundaries
 {
 	int height;
 	int top;
 	int bottom;
-}				t_wall;
+}				t_bounds;
 
 typedef struct s_sprite
 {

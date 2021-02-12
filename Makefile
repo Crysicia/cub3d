@@ -15,6 +15,7 @@ SRCS 		= srcs/main.c \
 			  srcs/utils.c \
 			  srcs/texture.c \
 			  srcs/sprite.c \
+			  srcs/sprite_utils.c \
 			  srcs/parse_color.c \
 			  srcs/parsing_utils.c \
 			  srcs/parse_resolution.c \

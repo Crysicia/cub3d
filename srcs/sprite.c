@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 15:50:23 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:46:43 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ t_bool	is_in_fov(double player_angle, double angle)
 
 	fov_start = player_angle - (80 * (M_PI / 180) / 2);
 	fov_end = player_angle + (80 * (M_PI / 180) / 2);
-	// printf("Fov: %f-%f, Sprite angle: %f, Visible: %i\n", fov_start, fov_end, angle, (fov_start <= angle && fov_end >= angle));
+	// printf("Fov: %f-%f, Sprite angle: %f, Visible: %i\n",
+	// fov_start, fov_end, angle,
+	// (fov_start <= angle && fov_end >= angle));
 	if (fov_start <= angle && fov_end >= angle)
 		return (true);
 	return (false);
@@ -60,68 +62,30 @@ void	update_sprite_visibility(t_player *player, t_sprite *sprite)
 		sprite->is_visible = false;
 }
 
-void	sort_sprites(t_game *game)
-{
-	t_sprite	current_sprite;
-	t_bool		sorted;
-	int			i;
-
-	sorted = false;
-	while (!sorted)
-	{
-		sorted = true;
-		i = 0;
-		while (i < game->map.sprites_count - 1)
-		{
-			current_sprite = game->map.sprites[i];
-			if (current_sprite.distance < game->map.sprites[i + 1].distance)
-			{
-				game->map.sprites[i] = game->map.sprites[i + 1];
-				game->map.sprites[i + 1] = current_sprite;
-				sorted = false;
-			}
-			i++;
-		}
-	}
-}
-
 void	render_sprite(t_game *game, t_sprite *sprite)
 {
-	int		height;
-	int		top;
-	int		bottom;
-	int		x;
-	int		y;
-	int		draw_x;
-	int		draw_y;
-	int		color;
-	t_pos	offset;
+	t_point			c;
+	t_point			d;
+	t_bounds		bounds;
+	int				color;
+	t_pos			offset;
 
-	height = game->projection_plane / (cos(sprite->angle - game->map.player.facing_angle) * sprite->distance);
-	top = (game->resolution.height / 2) - (height / 2);
-	if (top < 0)
-		top = 0;
-	bottom = (game->resolution.height / 2) + (height / 2);
-	if (bottom > game->resolution.height)
-		bottom = game->resolution.height;
-	x = game->projection_plane * tan(sprite->angle - game->map.player.facing_angle) + ((game->resolution.width / 2.0) - (height / 2));
-	if (x > game->resolution.width)
-		x = game->resolution.width;
-	y = top;
-	// printf("Sprite: x:%i, y:%i, distance:%f, height:%i, angle:%f\n", x, y, sprite->distance, height, sprite->angle);
-	draw_x = x < 0 ? -x : 0;
-	while (draw_x < height && draw_x + x < game->resolution.width)
+	compute_boundaries(game, sprite->angle, sprite->distance, &bounds);
+	set_sprite_coords(game, sprite, &c, &bounds);
+	set_sprite_draw(&d, &c);
+	while (++d.x < bounds.height && d.x + c.x < game->resolution.width)
 	{
-		offset.x = draw_x * (float)game->sprite_texture.width / height;
-		draw_y = 0;
-		while (draw_y < height && draw_y + y < game->resolution.height)
+		offset.x = d.x * (float)game->sprite_texture.width / bounds.height;
+		d.y = -1;
+		while (++d.y < bounds.height && d.y + c.y < game->resolution.height)
 		{
-			offset.y = (draw_y + y + (height / 2) - (game->resolution.height / 2)) * ((float)game->sprite_texture.height / height);
+			offset.y = (d.y + c.y + (bounds.height / 2)
+				- (game->resolution.height / 2))
+				* ((float)game->sprite_texture.height / bounds.height);
 			color = get_texture_color(&game->sprite_texture, &offset);
-			if (game->rays[draw_x + x].distance > sprite->distance && color != game->sprite_alpha)
-				my_mlx_pixel_put(&game->img, draw_x + x, draw_y + y, color);
-			draw_y++;
+			if (game->rays[d.x + c.x].distance > sprite->distance
+										&& color != game->sprite_alpha)
+				my_mlx_pixel_put(&game->img, d.x + c.x, d.y + c.y, color);
 		}
-		draw_x++;
 	}
 }

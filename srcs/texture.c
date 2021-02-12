@@ -6,22 +6,23 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 17:46:05 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 11:55:05 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:44:53 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void			compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall)
+void			compute_boundaries(t_game *game, float angle,
+									float distance, t_bounds *bounds)
 {
-	wall->height = game->projection_plane /
-			(ray->distance * cos(ray->angle - game->map.player.facing_angle));
-	wall->top = (game->resolution.height / 2.0) - (wall->height / 2);
-	if (wall->top < 0)
-		wall->top = 0;
-	wall->bottom = (game->resolution.height / 2.0) + (wall->height / 2);
-	if (wall->bottom > game->resolution.height)
-		wall->bottom = game->resolution.height;
+	bounds->height = game->projection_plane /
+			(distance * cos(angle - game->map.player.facing_angle));
+	bounds->top = (game->resolution.height / 2.0) - (bounds->height / 2);
+	if (bounds->top < 0)
+		bounds->top = 0;
+	bounds->bottom = (game->resolution.height / 2.0) + (bounds->height / 2);
+	if (bounds->bottom > game->resolution.height)
+		bounds->bottom = game->resolution.height;
 }
 
 unsigned int	get_texture_color(t_data *texture, t_pos *offset)
@@ -54,7 +55,7 @@ void			get_texture_offset(t_data *texture, t_ray *ray, t_pos *offset)
 }
 
 void			render_texture_strip(t_game *game, t_data *texture,
-													t_wall *wall, int x)
+													t_bounds *wall, int x)
 {
 	int		y;
 	int		top_distance;

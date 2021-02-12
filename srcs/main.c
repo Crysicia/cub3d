@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 10:06:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 11:52:04 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:43:04 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	draw_column(t_data *img, int color, int column, int start, int end)
 
 void	render_3d_walls(t_game *game)
 {
-	t_wall	wall;
+	t_bounds	wall;
 	t_ray	ray;
 	int		i;
 	t_data *texture;
@@ -83,7 +83,7 @@ void	render_3d_walls(t_game *game)
 	{
 		ray = game->rays[i];
 		texture = get_texture(game, &ray);
-		compute_wall_boundaries(game, &ray, &wall);
+		compute_boundaries(game, ray.angle, ray.distance, &wall);
 		draw_column(&game->img, game->ceiling_color, i, 0, wall.top);
 		render_texture_strip(game, texture, &wall, i);
 		draw_column(&game->img, game->floor_color, i, wall.bottom, game->resolution.height);

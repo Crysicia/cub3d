@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 11:56:12 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/12 16:43:06 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int main_loop(t_game *game);
 void set_pos(t_pos *pos, float x, float y);
 float pos_distance(t_pos *p1, t_pos *p2);
 unsigned int get_texture_color(t_data *texture, t_pos *offset);
-void compute_wall_boundaries(t_game *game, t_ray *ray, t_wall *wall);
-void render_texture_strip(t_game *game, t_data *texture, t_wall *wall, int x);
+void compute_boundaries(t_game *game, float angle, float distance, t_bounds *wall);
+void render_texture_strip(t_game *game, t_data *texture, t_bounds *wall, int x);
 
 t_bool is_in_screen(t_game *game, float x, float y);
 t_bool is_in_fov(double player_angle, double angle);
@@ -107,5 +107,8 @@ int		key_released(int keycode, t_game *game);
 
 t_data *get_texture(t_game *game, t_ray *ray);
 void get_texture_offset(t_data *texture, t_ray *ray, t_pos *offset);
-
+void	set_sprite_draw(t_point *draw, t_point *coords);
+void	set_sprite_coords(t_game *game, t_sprite *sprite,
+						t_point *coords, t_bounds *bounds);
+void	sort_sprites(t_game *game);
 #endif
