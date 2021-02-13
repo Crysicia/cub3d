@@ -6,29 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 10:06:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 17:05:20 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 10:13:14 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mlx/mlx.h"
-#include "../libft/libft.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
-#include <float.h>
-
-#include "../includes/input.h"
 #include "../includes/cub3d.h"
-
-void	draw_column(t_data *img, int color, int column, int start, int end)
-{
-	while (start <= end)
-	{
-		my_mlx_pixel_put(img, column, start, color);
-		start++;
-	}
-}
 
 void	render_3d_walls(t_game *game)
 {
@@ -36,17 +18,21 @@ void	render_3d_walls(t_game *game)
 	t_ray		ray;
 	int			i;
 	t_data		*texture;
+	int			x;
 
 	i = 0;
 	while (i < game->resolution.width)
 	{
+		x = -1;
 		ray = game->rays[i];
 		texture = get_texture(game, &ray);
 		compute_boundaries(game, ray.angle, ray.distance, &wall);
-		draw_column(&game->img, game->ceiling_color, i, 0, wall.top);
+		while (++x <= wall.top)
+			my_mlx_pixel_put(&game->img, i, x, game->ceiling_color);
 		render_texture_strip(game, texture, &wall, i);
-		draw_column(&game->img, game->floor_color, i,
-				wall.bottom, game->resolution.height);
+		x = wall.bottom - 1;
+		while (++x < game->resolution.height)
+			my_mlx_pixel_put(&game->img, i, x, game->floor_color);
 		i++;
 	}
 }
