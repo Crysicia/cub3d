@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:27:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 14:55:49 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 11:54:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	set_texture(void *mlx, t_data *texture, char *path)
 		if (texture->img)
 			mlx_destroy_image(mlx, texture->img);
 		free(texture->addr);
-		return (GENERIC_ERROR);
+		return (OPEN_ERROR);
 	}
 	return (SUCCESS);
 }

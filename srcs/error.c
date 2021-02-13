@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 13:36:27 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 11:37:41 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	print_error(int code)
 		message = "¯\\_(ツ)_/¯";
 	else if (code == ALREADY_SET_ERROR)
 		message = "Setting already set";
-	else if (code == MAP_ERROR)
+	else if (code == MALFORMED_MAP_ERROR)
 		message = "Open map";
 	else if (code == STARTING_POINT_ERROR)
 		message = "Multiples starting points";
-	else if (code == MALFORMED_MAP_ERROR)
+	else if (code == MAP_ERROR)
 		message = "Invalid map";
 	else if (code == ARG_ERROR)
 		message = "Invalid arguments\nUsage: ./Cub3D [--save] path_to_map";

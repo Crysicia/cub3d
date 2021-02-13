@@ -1,7 +1,7 @@
 CC			= gcc
 CFLAGS 		= -g -Wall -Wextra -Werror
 RM 			= rm -f
-NAME 		= test
+NAME 		= cub3D
 HEADERS 	= -I./includes
 LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm -Llibft -lft
 MLX = libmlx.a
