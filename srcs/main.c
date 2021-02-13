@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 10:06:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 10:13:14 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 14:46:39 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,12 @@ int		main(int argc, char *argv[])
 	if (argc == 2 || argc == 3)
 	{
 		if (argc == 3)
+			save = (ft_strncmp(argv[1], "--save", 6) == 0);
+		if (argc == 3 && !save)
 		{
-			if (ft_strncmp(argv[1], "--save", 6) == 0)
-				save = 1;
-			else
-			{
-				print_error(ARG_ERROR);
-				exit(0);
-			}
+			printf("Error\
+				\nInvalid arguments\nUsage: ./Cub3D [--save] path_to_map\n");
+			exit(0);
 		}
 		if (!init_settings(&game)
 			|| parse_file(&game, argv[1 + save], &ret) != SUCCESS
@@ -74,7 +72,6 @@ int		main(int argc, char *argv[])
 			clean_exit(&game, save_image(&game));
 		bind_hooks(&game);
 	}
-	else
-		print_error(ARG_ERROR);
+	printf("Error\nInvalid arguments\nUsage: ./Cub3D [--save] path_to_map\n");
 	exit(0);
 }

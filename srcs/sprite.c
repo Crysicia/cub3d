@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 10:02:52 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 10:11:29 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 15:21:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,12 @@ void	render_all_sprites(t_game *game)
 
 t_bool	is_in_fov(double player_angle, double angle)
 {
-	float fov_start;
-	float fov_end;
-
-	fov_start = player_angle - (80 * (M_PI / 180) / 2);
-	fov_end = player_angle + (80 * (M_PI / 180) / 2);
-	// printf("Fov: %f-%f, Sprite angle: %f, Visible: %i\n",
-	// fov_start, fov_end, angle,
-	// (fov_start <= angle && fov_end >= angle));
-	if (fov_start <= angle && fov_end >= angle)
+	angle = angle - player_angle;
+	if (angle < -M_PI)
+		angle += 2 * M_PI;
+	if (angle >= M_PI)
+		angle -= 2 * M_PI;
+	if (fabs(angle) < FOV / 1.5)
 		return (true);
 	return (false);
 }

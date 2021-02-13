@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 16:43:53 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 11:37:41 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 14:26:14 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	print_error(int code)
 		message = "Unknown setting";
 	else if (code == INVALID_SETTING_ERROR)
 		message = "Invalid setting";
-	else if (code == GENERIC_ERROR)
-		message = "¯\\_(ツ)_/¯";
 	else if (code == ALREADY_SET_ERROR)
 		message = "Setting already set";
 	else if (code == MALFORMED_MAP_ERROR)
@@ -38,8 +36,6 @@ void	print_error(int code)
 		message = "Multiples starting points";
 	else if (code == MAP_ERROR)
 		message = "Invalid map";
-	else if (code == ARG_ERROR)
-		message = "Invalid arguments\nUsage: ./Cub3D [--save] path_to_map";
 	else if (code == WRITE_ERROR)
 		message = "Could not write file to disk";
 	printf("Error\n%s\n", message);
