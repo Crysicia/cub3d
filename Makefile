@@ -1,11 +1,11 @@
 CC			= gcc
-CFLAGS 		= -g -Wall -Wextra -Werror
+CFLAGS 		= -Wall -Wextra -Werror
 RM 			= rm -f
 NAME 		= cub3D
 HEADERS 	= -I./includes
 LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm -Llibft -lft
-MLX = libmlx.a
-LIBFT = libft.a
+MLX = mlx/libmlx.a
+LIBFT = libft/libft.a
 
 SRCS 		= srcs/main.c \
 			  srcs/shapes.c \
@@ -59,17 +59,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-#-------------------------------#
-# TODO :
-# [✔] - Add clean exit (free everything)
-# [✔] - Fix GNL leak
-# [✔] - Add east and west textures
-# [✔] - Implement strafing
-# [✔] - Add close event on red cross
-# [✔] - Implement queue for floodfill
-# [✔] - Implement bitmap save
-# [✔] - Compile with errrors
-# [] - Fix sprites bug at angle 0
-# [] - Clean code
-# [] - Code "a la norme"™️
