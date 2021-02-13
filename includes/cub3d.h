@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 15:06:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/12 16:58:37 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/13 10:44:24 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,9 @@ t_bool load_texture(void *mlx, t_data *texture, char *filepath);
 t_bool	init_settings(t_game *game);
 void	nullify_settings(t_game *game);
 void	nullify_texture(t_data *texture);
+void	adjust_screen_size(t_game *game, int save_flag);
 
+int			pitch_correction(int bits);
+t_bmp_pixel	rgb_to_pixel(int rgb);
+void		render_one_frame(t_game *game);
 #endif

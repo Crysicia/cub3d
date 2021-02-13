@@ -10,6 +10,7 @@ LIBFT = libft.a
 SRCS 		= srcs/main.c \
 			  srcs/shapes.c \
 			  srcs/init.c \
+			  srcs/init_utils.c \
 			  srcs/input.c \
 			  srcs/raycasting.c \
 			  srcs/utils.c \
@@ -28,6 +29,7 @@ SRCS 		= srcs/main.c \
 			  srcs/floodfill.c \
 			  srcs/error.c \
 			  srcs/bitmap.c \
+			  srcs/bitmap_utils.c \
 			  srcs/movement.c \
 
 OBJS 		= $(SRCS:.c=.o)
