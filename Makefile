@@ -3,10 +3,9 @@ CFLAGS 		= -Wall -Wextra -Werror
 RM 			= rm -f
 NAME 		= cub3D
 HEADERS 	= -I./includes
-LIBS = -Lmlx -lmlx -Imlx_linux -lXext -lX11 -lm -Llibft -lft
-MLX = mlx/libmlx.a
-LIBFT = libft/libft.a
-
+LIBS 		= -Lmlx -lmlx -lXext -lX11 -lm -Llibft -lft
+MLX 		= mlx/libmlx.a
+LIBFT 		= libft/libft.a
 SRCS 		= srcs/main.c \
 			  srcs/shapes.c \
 			  srcs/init.c \
@@ -51,10 +50,13 @@ $(LIBFT):
 clean:
 	$(RM) $(OBJS)
 	@$(MAKE) clean -C libft
+	@$(MAKE) clean -C mlx
 
 fclean: clean
 	$(RM) $(NAME)
-	@$(MAKE) fclean -C libft
+	$(RM) $(MLX)
+	$(RM) mlx/libmlx_Linux.a
+	$(RM) $(LIBFT)
 
 re: fclean all
 
