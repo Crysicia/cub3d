@@ -4,9 +4,9 @@ SO ./textures/redbrick.xpm
 EA ./textures/wood.xpm
 WE ./textures/colorstone.xpm
 S ./textures/pillar.xpm
-C 135,206,235
-F 122,122,122
+F 122,122,122  
 
+C 0,0,0
                                         111111
                                         11000111111111
 11111111111111111                       11000000000001
