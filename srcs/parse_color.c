@@ -6,11 +6,10 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/25 15:25:24 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 14:51:07 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:45:33 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/libft.h"
 #include "../includes/cub3d.h"
 
 t_bool	set_colors(int *color, int red, int green, int blue)

@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/16 09:44:48 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 16:17:51 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:47:48 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include <math.h>
 
 t_bool	is_in_screen(t_game *game, float x, float y)
 {

@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 12:53:51 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/11 14:52:10 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:45:37 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include <stdio.h>
 
 t_bool	line_is_blank(char *line)
 {

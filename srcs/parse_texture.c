@@ -6,12 +6,11 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 12:27:26 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 11:54:24 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:45:51 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-#include <stdio.h>
 
 int	set_texture(void *mlx, t_data *texture, char *path)
 {

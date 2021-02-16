@@ -6,15 +6,9 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:43:44 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 10:39:06 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 10:45:26 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../mlx/mlx.h"
-#include <math.h>
-#include <string.h>
-#include <stdio.h>
-#include <limits.h>
 
 #include "../includes/cub3d.h"
 
