@@ -6,7 +6,7 @@
 /*   By: lpassera <lpassera@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 10:06:19 by lpassera          #+#    #+#             */
-/*   Updated: 2021/02/13 14:46:39 by lpassera         ###   ########.fr       */
+/*   Updated: 2021/02/16 11:05:21 by lpassera         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,21 @@ int		main(int argc, char *argv[])
 	if (argc == 2 || argc == 3)
 	{
 		if (argc == 3)
-			save = (ft_strncmp(argv[1], "--save", 6) == 0);
+			save = (ft_strncmp(argv[2], "--save", 6) == 0);
 		if (argc == 3 && !save)
 		{
 			printf("Error\
-				\nInvalid arguments\nUsage: ./Cub3D [--save] path_to_map\n");
+				\nInvalid arguments\nUsage: ./Cub3D path_to_map [--save]\n");
 			exit(0);
 		}
 		if (!init_settings(&game)
-			|| parse_file(&game, argv[1 + save], &ret) != SUCCESS
+			|| parse_file(&game, argv[1], &ret) != SUCCESS
 			|| init(&game, &ret, save) != SUCCESS)
 			clean_exit(&game, ret);
 		if (save)
 			clean_exit(&game, save_image(&game));
 		bind_hooks(&game);
 	}
-	printf("Error\nInvalid arguments\nUsage: ./Cub3D [--save] path_to_map\n");
+	printf("Error\nInvalid arguments\nUsage: ./Cub3D path_to_map [--save]\n");
 	exit(0);
 }
